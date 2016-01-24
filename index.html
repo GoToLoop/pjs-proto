@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<meta charset=UTF-8>
+<meta name=viewport content=width=device-width,user-scalable=no,initial-scale=1>
+<style>body { border: 3px solid black; padding: 0; margin: 0; }</style>
+<title>Pjs</title>
+
+<script src=api/PConstants.js></script>
+<script src=api/Maths.js></script>
+<script src=classes/PVector.js></script>
+<script src=api/Processing.js></script>
+
+<!-- <script src=main.js></script> -->
+
+<!-- ntsc -t ES5 --out main.js Maths PVector Processing -->
+<!-- "out": "main.js" -->
+
+<script>
+
+console.log(Processing.random())
+console.log(new Processing().random())
+console.log(new Processing().PVector.random2D(new Processing))
+console.log(Processing.prototype.PVector.random3D())
+
+</script>
+
+<h1>☺  PJS  ☻</h1>
