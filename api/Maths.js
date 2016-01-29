@@ -17,3 +17,4 @@ var Maths = (function (_super) {
     return Maths;
 }(PConstants));
 Object.freeze(Object.freeze(Maths).prototype);
+var StrictMath = Maths;

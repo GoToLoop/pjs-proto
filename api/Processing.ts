@@ -43,7 +43,7 @@ type callback = () => void
 
 class Processing extends Maths {
   constructor() { super() }
-  static PVector = pjs.classes.PVector
+  static readonly PVector = pjs.classes.PVector
 }
 
 interface Processing extends Processing.prototype {}
