@@ -41,6 +41,11 @@ type whd = [size, size, size]
 
 type callback = () => void
 
+interface PseudoArray<T> {
+  length: number
+  [idx: number]: T
+}
+
 class Processing extends Maths {
   constructor() { super() }
   static readonly PVector = pjs.classes.PVector

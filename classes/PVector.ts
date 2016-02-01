@@ -1,7 +1,7 @@
 namespace pjs.classes {
   "use strict"//; "use strong"
 
-  const TAU = 2 * Math.PI,
+  const TAU = PConstants.TAU,
         lerp = Maths.lerp,
         sq = Maths.sq,
         argsErr = (mtd: string, len: number, min: number) => {
@@ -18,19 +18,19 @@ namespace pjs.classes {
 
     static random2D(target?: PVector | Processing, parent?: Processing) {
       const isPjs = target && 'random' in target,
-            rnd = parent? parent : isPjs? <Processing> target : Math
-      return PVector.fromAngle(TAU * rnd.random(), isPjs? undefined : <PVector> target)
+            rnd = parent? parent : isPjs? target as Processing : Math
+      return PVector.fromAngle(TAU * rnd.random(), isPjs? undefined : target as PVector)
     }
 
     static random3D(target?: PVector | Processing, parent?: Processing) {
       const isPjs = target && 'random' in target,
-            rnd = parent? parent : isPjs? <Processing> target : Math,
+            rnd = parent? parent : isPjs? target as Processing : Math,
             ang = TAU * rnd.random(),
             vz  = 2 * rnd.random() - 1,
             vzr = Math.sqrt(1 - vz*vz),
             vx  = vzr * Math.cos(ang),
             vy  = vzr * Math.sin(ang)
-      return target && !isPjs? (<PVector> target).set(vx, vy, vz) : new PVector(vx, vy, vz)
+      return target && !isPjs? (target as PVector).set(vx, vy, vz) : new PVector(vx, vy, vz)
     }
 
     static dist(v1: PVector, v2: PVector) {
@@ -52,244 +52,214 @@ namespace pjs.classes {
       return target? target.set(cx, cy, cz) : new PVector(cx, cy, cz)
     }
 
-    static angleBetween(v1, v2) {
-      if (!v1.x && !v1.y && !v1.z || !v2.x && !v2.y && !v2.z) { return 0; }
-      const amt = PVector.dot(v1, v2) / Math.sqrt(v1.magSq() * v2.magSq());
-      return amt <= -1? Math.PI : amt >= 1? 0 : Math.acos(amt);
+    static angleBetween(v1: PVector, v2: PVector) {
+      if (!v1.x && !v1.y && !v1.z || !v2.x && !v2.y && !v2.z)  return 0
+      const amt = PVector.dot(v1, v2) / Math.sqrt(v1.magSq() * v2.magSq())
+      return amt <= -1? Math.PI : amt >= 1? 0 : Math.acos(amt)
     }
 
-    static lerp(v1, v2, amt) {
-      return v1.copy().lerp(v2, amt);
+    static lerp(v1: PVector, v2: PVector, amt: number) {
+      return v1.copy().lerp(v2, amt)
     }
 
-    static add(v1, v2, target) {
-      return target? target.set(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
-      : new PVector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+    static add(v1: PVector, v2: PVector, target?: PVector) {
+      return target? target.set (v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
+                   : new PVector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
     }
 
-    static sub(v1, v2, target) {
-      return target? target.set(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
-      : new PVector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+    static sub(v1: PVector, v2: PVector, target?: PVector) {
+      return target? target.set (v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
+                   : new PVector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
     }
 
-    static mult(v, n, target) {
-      if (typeof n === 'number') {
-        return target? target.set(v.x*n, v.y*n, v.z*n)
-        : new PVector(v.x*n, v.y*n, v.z*n);
-      }
-      return target? target.set(v.x*n.x, v.y*n.y, v.z*n.z)
-      : new PVector(v.x*n.x, v.y*n.y, v.z*n.z);
+    static mult(v: PVector, n: PVector | number, target?: PVector) {
+      if (typeof n === 'number')  return target? target.set (v.x*n,   v.y*n,   v.z*n)
+                                               : new PVector(v.x*n,   v.y*n,   v.z*n)
+
+      else                        return target? target.set (v.x*n.x, v.y*n.y, v.z*n.z)
+                                               : new PVector(v.x*n.x, v.y*n.y, v.z*n.z)
     }
 
-    static div(v, n, target) {
-      if (typeof n === 'number') {
-        return target? target.set(v.x/n, v.y/n, v.z/n)
-        : new PVector(v.x/n, v.y/n, v.z/n);
-      }
-      return target? target.set(v.x/n.x, v.y/n.y, v.z/n.z)
-      : new PVector(v.x/n.x, v.y/n.y, v.z/n.z);
+    static div(v: PVector, n: PVector | number, target?: PVector) {
+      if (typeof n === 'number')  return target? target.set (v.x/n,   v.y/n,   v.z/n)
+                                               : new PVector(v.x/n,   v.y/n,   v.z/n)
+      else                        return target? target.set (v.x/n.x, v.y/n.y, v.z/n.z)
+                                               : new PVector(v.x/n.x, v.y/n.y, v.z/n.z)
+    }
+
+    array() {
+      return [this.x, this.y, this.z]
     }
 
     copy() {
-      return new PVector(this.x, this.y, this.z);
+      return new PVector(this.x, this.y, this.z)
     }
 
-    get(target) {
-      if (!arguments.length) { return this.copy(); } // @Deprecated
-      if (typeof target !== 'object') { return this.array(); }
-      target[0] = this.x;
-      target[1] = this.y;
-      target[2] = this.z;
-      return target;
+    get(): PVector
+    get(target:  PseudoArray<number>): PseudoArray<number>
+    get(target?: PseudoArray<number>): PseudoArray<number> | PVector {
+      if (!arguments.length)  return this.copy() // @Deprecated
+      if (typeof target !== 'object')  return this.array()
+      target[0] = this.x, target[1] = this.y, target[2] = this.z
+      return target
     }
 
-    set(v, y?, z?) {
-      const len = arguments.length;
-      if (len > 1) {
-        this.x = v;
-        this.y = y;
-        if (len > 2) { this.z = z; }
-      } else if (len === 1) {
-        this.set(v.x || v[0] || 0,
-          v.y || v[1] || 0,
-          v.z || v[2] || 0);
-        } else { argsErr('set', len, 1); }
-        return this;
+    set(v: PseudoArray<number> | PVector | number, y?: number, z?: number) {
+      const len = arguments.length
+      if (len > 1)         this.x = v as number, this.y = y, len > 2 && (this.z = z)
+      else if (len === 1)  this.set(v[0] || (v as PVector).x || undefined,
+                                    v[1] || (v as PVector).y || undefined,
+                                    v[2] || (v as PVector).z || undefined)
+      else                 argsErr('set', len, 1)
+      return this
+    }
+
+    normalize(target?: PVector) {
+      const m = this.mag(),
+            canDivide = m !== 0 && m !== 1
+      if (!arguments.length)  return canDivide? this.div(m) : this
+      return canDivide? PVector.div(this, m, target)
+                      : target? target.set(this) : this.copy()
+    }
+
+    limit(max: number) {
+      return this.magSq() > max*max? this.normalize().mult(max) : this
+    }
+
+    heading() {
+      //return -Math.atan2(-this.y, this.x)
+      return Math.atan2(this.y, this.x)
+    }
+
+    heading2D() { // @Deprecated
+       return this.heading()
+    }
+
+    mag() {
+      return Math.sqrt(this.magSq())
+    }
+
+    magSq() {
+      return sq(this.x) + sq(this.y) + sq(this.z)
+    }
+
+    setMag(target: PVector | number, length?: number) {
+      const len = arguments.length
+      return len === 1? this.normalize().mult(target as number) :
+             len >   1? this.normalize(target as PVector).mult(length) :
+                        argsErr('setMag', len, 1)
+    }
+
+    rotate(angle: number) {
+      const prev_x = this.x,
+            c = Math.cos(angle),
+            s = Math.sin(angle)
+      this.x = c*prev_x - s*this.y
+      this.y = s*prev_x + c*this.y
+      return this
+    }
+
+    dist(v1: PVector, v2?: PVector) {
+      return v2? PVector.dist(v1, v2) : PVector.dist(this, v1)
+    }
+
+    distSq(v1: PVector, v2?: PVector) {
+      return v2? PVector.distSq(v1, v2) : PVector.distSq(this, v1)
+    }
+
+    dot(v: PVector | number, y?: PVector | number, z?: number) {
+      const len = arguments.length
+      return len === 1? PVector.dot(this, v as PVector) :
+             len === 2? PVector.dot(v as PVector, y as PVector) :
+             len >   2? this.x*(v as number) + this.y*(y as number) + this.z*z :
+                        argsErr('dot', len, 1)
+    }
+
+    cross(v1: PVector, v2?: PVector, target?: PVector) {
+      return target? PVector.cross(v1, v2, target) : PVector.cross(this, v1, v2)
+    }
+
+    lerp(a: PVector | number, b: PVector | number, c?: number, d?: number): PVector {
+      let x: number, y: number, z: number, amt: number
+      const len = arguments.length
+      if ((len | 1) === 1)  argsErr('lerp', len, 2)
+      if (len === 2) { // given vector and amt
+        const v = a as PVector
+        x = v.x, y = v.y, z = v.z
+        amt = b as number
+      } else if (len === 3) { // given vector 1, vector 2 and amt
+        return PVector.lerp(a as PVector, b as PVector, c)
+      } else { // given x, y, z and amt
+        x = a as number, y = b as number, z = c, amt = d
       }
+      this.x = lerp(this.x, x, amt)
+      this.y = lerp(this.y, y, amt)
+      this.z = lerp(this.z, z, amt)
+      return this
+    }
 
-      array() {
-        return [this.x, this.y, this.z];
-      }
-
-      normalize(target?) {
-        const m = this.mag(),
-        canDivide = m !== 0 && m !== 1;
-        if (!arguments.length) { return canDivide? this.div(m) : this; }
-        return canDivide? PVector.div(this, m, target)
-        : target? target.set(this) : this.copy();
-      }
-
-      limit(max) {
-        return this.magSq() > max*max? this.normalize().mult(max) : this;
-      }
-
-      heading() {
-        //return -Math.atan2(-this.y, this.x);
-        return Math.atan2(this.y, this.x);
-      }
-
-      heading2D() { return this.heading() } // @Deprecated
-
-      mag() {
-        return Math.sqrt(this.magSq());
-      }
-
-      magSq() {
-        return sq(this.x) + sq(this.y) + sq(this.z);
-      }
-
-      setMag(target, length) {
-        const len = arguments.length;
-        return len === 1? this.normalize().mult(target) :
-        len > 1? this.normalize(target).mult(length) :
-        argsErr('setMag', len, 1);
-      }
-
-      rotate(angle) {
-        const prev_x = this.x,
-        c = Math.cos(angle),
-        s = Math.sin(angle);
-        this.x = c*this.x - s*this.y;
-        this.y = s*prev_x + c*this.y;
-        return this;
-      }
-
-      dist(v1, v2) {
-        return v2? PVector.dist(v1, v2) : PVector.dist(this, v1);
-      }
-
-      distSq(v1, v2) {
-        return v2? PVector.distSq(v1, v2) : PVector.distSq(this, v1);
-      }
-
-      dot(v, y, z) {
-        const len = arguments.length;
-        return len === 1? PVector.dot(this, v) :
-        len === 2? PVector.dot(v, y) :
-        len > 2? this.x*v + this.y*y + this.z*z :
-        argsErr('dot', len, 1);
-      }
-
-      cross(v1, v2, target) {
-        return target? PVector.cross(v1, v2, target)
-        : PVector.cross(this, v1, v2);
-      }
-
-      lerp() {
-        var x, y, z, amt;
-        const len = arguments.length;
-        if ((len | 1) === 1) { argsErr('lerp', len, 2); }
-        if (len === 2) { // given vector and amt
-          const v = arguments[0];
-          x = v.x;
-          y = v.y;
-          z = v.z;
-          amt = arguments[1];
-        } else if (len === 3) { // given vector 1, vector 2 and amt
-          return PVector.lerp(arguments[0], arguments[1], arguments[2]);
-        } else { // given x, y, z and amt
-          x = arguments[0];
-          y = arguments[1];
-          z = arguments[2];
-          amt = arguments[3];
-        }
-        this.x = lerp(this.x, x, amt);
-        this.y = lerp(this.y, y, amt);
-        this.z = lerp(this.z, z, amt);
-        return this;
-      }
-
-      add(v, y, z) {
-        if (y instanceof PVector) { return PVector.add(v, y, z); }
-        const len = arguments.length;
-        if (len === 1) {
-          //PVector.add(this, v, this);
-          this.x += v.x;
-          this.y += v.y;
-          this.z += v.z;
+    add(v: PVector | number, y?: PVector | number, z?: PVector | number) {
+      if (y instanceof PVector)  return PVector.add(v as PVector, y, z as PVector)
+      else {
+        const len = arguments.length
+        if (len === 1) { // PVector.add(this, v as PVector, this)
+          this.x += (v as PVector).x, this.y += (v as PVector).y, this.z += (v as PVector).z
         } else if (len > 1) {
-          this.x += v;
-          this.y += y;
-          if (len > 2) { this.z += z };
-        } else { argsErr('add', len, 1); }
-        return this;
-      }
-
-      sub(v, y, z) {
-        if (y instanceof PVector) { return PVector.sub(v, y, z); }
-        const len = arguments.length;
-        if (len === 1) {
-          this.x -= v.x;
-          this.y -= v.y;
-          this.z -= v.z;
-        } else if (len > 1) {
-          this.x -= v;
-          this.y -= y;
-          if (len > 2) { this.z -= z; }
-        } else { argsErr('sub', len, 1); }
-        return this;
-      }
-
-      mult(v, n, target) {
-        const len = arguments.length;
-        if (len === 1) {
-          if (typeof v === 'number') {
-            this.x *= v;
-            this.y *= v;
-            this.z *= v;
-          } else {
-            this.x *= v.x;
-            this.y *= v.y;
-            this.z *= v.z;
-          }
-          return this;
-        } else if (len > 1) { return PVector.mult(v, n, target); }
-        argsErr('mult', len, 1);
-      }
-
-      div(v, n?, target?) {
-        const len = arguments.length;
-        if (len === 1) {
-          if (typeof v === 'number') {
-            this.x /= v;
-            this.y /= v;
-            this.z /= v;
-          } else {
-            this.x /= v.x;
-            this.y /= v.y;
-            this.z /= v.z;
-          }
-          return this;
-        } else if (len > 1) { return PVector.div(v, n, target); }
-        argsErr('div', len, 1);
-      }
-
-      toString() {
-        return '[' + this.x + ', ' + this.y + ', ' + this.z + ']';
-      }
-
-      equals(o) {
-        return o === this? true : o instanceof PVector?
-        o.x === this.x && o.y === this.y && o.z === this.z : false;
-      }
-
-      hashCode() {
-        var hash = 1;
-        hash = 31*hash + this.x;
-        hash = 31*hash + this.y;
-        return 31*hash + this.z;
+          this.x += v as number, this.y += y, len > 2 && (this.z += z as number)
+        } else argsErr('add', len, 1)
+        return this
       }
     }
 
-    Object.freeze(Object.freeze(PVector).prototype)
+    sub(v: PVector | number, y?: PVector | number, z?: PVector | number) {
+      if (y instanceof PVector)  return PVector.sub(v as PVector, y, z as PVector)
+      else {
+        const len = arguments.length
+        if (len === 1) { // PVector.sub(this, v as PVector, this)
+          this.x -= (v as PVector).x, this.y -= (v as PVector).y, this.z -= (v as PVector).z
+        } else if (len > 1) {
+          this.x -= v as number, this.y -= y, len > 2 && (this.z -= z as number)
+        } else argsErr('sub', len, 1)
+        return this
+      }
+    }
+
+    mult(v: PVector | number, n?: number, target?: PVector) {
+      const len = arguments.length
+      if (len === 1) {
+        if (typeof v === 'number')  this.x *= v,   this.y *= v,   this.z *= v
+        else                        this.x *= v.x, this.y *= v.y, this.z *= v.z
+        return this
+      } else if (len > 1)  return PVector.mult(v as PVector, n, target)
+      argsErr('mult', len, 1)
+    }
+
+    div(v: PVector | number, n?: number, target?: PVector) {
+      const len = arguments.length
+      if (len === 1) {
+        if (typeof v === 'number')  this.x /= v,   this.y /= v,   this.z /= v
+        else                        this.x /= v.x, this.y /= v.y, this.z /= v.z
+        return this
+      } else if (len > 1)  return PVector.div(v as PVector, n, target)
+      argsErr('div', len, 1)
+    }
+
+    toString() {
+      return `[ ${this.x}, ${this.y}, ${this.z} ]`
+    }
+
+    equals(o: Object) {
+      return o === this? true : o instanceof PVector?
+             o.x === this.x && o.y === this.y && o.z === this.z : false
+    }
+
+    hashCode() {
+      let hash = 1
+      hash = 31*hash + this.x
+      hash = 31*hash + this.y
+      return 31*hash + this.z
+    }
   }
+
+  Object.freeze(Object.freeze(PVector).prototype)
+}
