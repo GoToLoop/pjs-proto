@@ -5,7 +5,7 @@ namespace pjs.classes {
         lerp = Maths.lerp,
         sq = Maths.sq,
         argsErr = (mtd: string, len: number, min: number) => {
-          throw 'Too few args passed to ' + mtd + '() [' + len + ' < ' + min + '].'
+          throw `Too few args passed to ${mtd}() [${len} < ${min}].`
         }
 
   export class PVector {
@@ -122,8 +122,8 @@ namespace pjs.classes {
                       : target? target.set(this) : this.copy()
     }
 
-    limit(max: number) {
-      return this.magSq() > max*max? this.normalize().mult(max) : this
+    limit(max: number, target?: PVector) {
+      return this.magSq() > max*max? this.normalize(target).mult(max) : this
     }
 
     heading() {
@@ -177,6 +177,10 @@ namespace pjs.classes {
 
     cross(v1: PVector, v2?: PVector, target?: PVector) {
       return target? PVector.cross(v1, v2, target) : PVector.cross(this, v1, v2)
+    }
+
+    angleBetween(v: PVector) {
+      return PVector.angleBetween(this, v)
     }
 
     lerp(a: PVector | number, b: PVector | number, c?: number, d?: number): PVector {

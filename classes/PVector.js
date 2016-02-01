@@ -4,7 +4,7 @@ var pjs;
     (function (classes) {
         "use strict";
         var TAU = PConstants.TAU, lerp = Maths.lerp, sq = Maths.sq, argsErr = function (mtd, len, min) {
-            throw 'Too few args passed to ' + mtd + '() [' + len + ' < ' + min + '].';
+            throw "Too few args passed to " + mtd + "() [" + len + " < " + min + "].";
         };
         var PVector = (function () {
             function PVector(x, y, z) {
@@ -104,8 +104,8 @@ var pjs;
                 return canDivide ? PVector.div(this, m, target)
                     : target ? target.set(this) : this.copy();
             };
-            PVector.prototype.limit = function (max) {
-                return this.magSq() > max * max ? this.normalize().mult(max) : this;
+            PVector.prototype.limit = function (max, target) {
+                return this.magSq() > max * max ? this.normalize(target).mult(max) : this;
             };
             PVector.prototype.heading = function () {
                 return Math.atan2(this.y, this.x);
@@ -146,6 +146,9 @@ var pjs;
             };
             PVector.prototype.cross = function (v1, v2, target) {
                 return target ? PVector.cross(v1, v2, target) : PVector.cross(this, v1, v2);
+            };
+            PVector.prototype.angleBetween = function (v) {
+                return PVector.angleBetween(this, v);
             };
             PVector.prototype.lerp = function (a, b, c, d) {
                 var x, y, z, amt;
