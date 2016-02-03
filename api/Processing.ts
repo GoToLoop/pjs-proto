@@ -41,8 +41,8 @@ type whd = [size, size, size]
 
 type callback = () => void
 
-interface PseudoArray<T> {
-  length: number
+type PseudoArray<T> = {
+  readonly length: number
   [idx: number]: T
 }
 

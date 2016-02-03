@@ -88,7 +88,7 @@ namespace pjs.classes {
     }
 
     array() {
-      return [this.x, this.y, this.z]
+      return [this.x, this.y, this.z] as xyz
     }
 
     copy() {
@@ -96,19 +96,20 @@ namespace pjs.classes {
     }
 
     get(): PVector
-    get(target:  PseudoArray<number>): PseudoArray<number>
-    get(target?: PseudoArray<number>): PseudoArray<number> | PVector {
+    get(target: number[]): xyz
+    get(target: ArrayLike<number>): PseudoArray<number>
+    get(target?: PseudoArray<number>): PVector | ArrayLike<number> {
       if (!arguments.length)  return this.copy() // @Deprecated
       if (typeof target !== 'object')  return this.array()
       target[0] = this.x, target[1] = this.y, target[2] = this.z
       return target
     }
 
-    set(v: PseudoArray<number> | PVector | number, y?: number, z?: number) {
+    set(v: ArrayLike<number> | PVector | number, y?: number, z?: number) {
       const len = arguments.length
       if (len > 1)         this.x = v as number, this.y = y, len > 2 && (this.z = z)
-      else if (len === 1)  this.set(v[0] || (v as PVector).x || undefined,
-                                    v[1] || (v as PVector).y || undefined,
+      else if (len === 1)  this.set(v[0] || (v as PVector).x || 0,
+                                    v[1] || (v as PVector).y || 0,
                                     v[2] || (v as PVector).z || undefined)
       else                 argsErr('set', len, 1)
       return this

@@ -25,7 +25,8 @@
         "api/Maths.ts",
         "api/PConstants.ts",
         "api/Processing.ts",
-        "classes/PVector.ts"
+        "classes/PVector.ts",
+        "test.ts"
     ],
     "atom": {
         "rewriteTsconfig": true

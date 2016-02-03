@@ -92,7 +92,7 @@ var pjs;
                 if (len > 1)
                     this.x = v, this.y = y, len > 2 && (this.z = z);
                 else if (len === 1)
-                    this.set(v[0] || v.x || undefined, v[1] || v.y || undefined, v[2] || v.z || undefined);
+                    this.set(v[0] || v.x || 0, v[1] || v.y || 0, v[2] || v.z || undefined);
                 else
                     argsErr('set', len, 1);
                 return this;

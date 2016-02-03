@@ -6,7 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var Maths = (function (_super) {
     __extends(Maths, _super);
     function Maths() {
-        _super.call(this);
+        _super.apply(this, arguments);
     }
     Maths.prototype.random = function () { return Math.random(); };
     Maths.prototype.lerp = function (start, stop, amt) { return amt * (stop - start) + start; };

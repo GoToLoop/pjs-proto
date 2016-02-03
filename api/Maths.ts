@@ -1,6 +1,4 @@
-class Maths extends PConstants {
-  constructor() { super() }
-
+abstract class Maths extends PConstants {
   random() { return Math.random() }
   static readonly random = Maths.prototype.random
 
