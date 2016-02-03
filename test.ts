@@ -8,3 +8,5 @@ console.log(Processing.PROJECT)
 var arr = new Processing().PVector.random3D().get([4, 3, 6, 6])
 arr[13] = 7
 console.info(arr)
+
+function q() {const t = new Processing().PVector.random3D().get(new Float32Array(10)), h: Uint8ClampedArray = t}

@@ -33,6 +33,7 @@ declare const enum pct {}
 declare const enum ang {}
 declare const enum rad {}
 declare const enum deg {}
+declare const enum norm {}
 
 type xy  = [coord, coord]
 type xyz = [coord, coord, coord]
@@ -40,6 +41,11 @@ type wh  = [size, size]
 type whd = [size, size, size]
 
 type callback = () => void
+
+type TypedArray = Int8Array    | Uint8Array  | Uint8ClampedArray |
+                  Int16Array   | Uint16Array |
+                  Int32Array   | Uint32Array |
+                  Float32Array | Float64Array
 
 type PseudoArray<T> = {
   readonly length: number

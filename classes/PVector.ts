@@ -9,9 +9,9 @@ namespace pjs.classes {
         }
 
   export class PVector {
-    constructor (public x = 0, public y = 0, public z = 0) {}
+    constructor (public x: coord = 0, public y: coord = 0, public z: coord = 0) {}
 
-    static fromAngle(angle: number, target?: PVector) {
+    static fromAngle(angle: rad, target?: PVector) {
       return target? target.set (Math.cos(angle), Math.sin(angle))
                    : new PVector(Math.cos(angle), Math.sin(angle))
     }
@@ -58,7 +58,7 @@ namespace pjs.classes {
       return amt <= -1? Math.PI : amt >= 1? 0 : Math.acos(amt)
     }
 
-    static lerp(v1: PVector, v2: PVector, amt: number) {
+    static lerp(v1: PVector, v2: PVector, amt: norm) {
       return v1.copy().lerp(v2, amt)
     }
 
@@ -97,6 +97,7 @@ namespace pjs.classes {
 
     get(): PVector
     get(target: number[]): xyz
+    get(target: TypedArray): TypedArray
     get(target: ArrayLike<number>): PseudoArray<number>
     get(target?: PseudoArray<number>): PVector | ArrayLike<number> {
       if (!arguments.length)  return this.copy() // @Deprecated
@@ -105,9 +106,9 @@ namespace pjs.classes {
       return target
     }
 
-    set(v: ArrayLike<number> | PVector | number, y?: number, z?: number) {
+    set(v: ArrayLike<number> | PVector | coord, y?: coord, z?: coord) {
       const len = arguments.length
-      if (len > 1)         this.x = v as number, this.y = y, len > 2 && (this.z = z)
+      if (len > 1)         this.x = v as coord, this.y = y, len > 2 && (this.z = z)
       else if (len === 1)  this.set(v[0] || (v as PVector).x || 0,
                                     v[1] || (v as PVector).y || 0,
                                     v[2] || (v as PVector).z || undefined)
@@ -151,7 +152,7 @@ namespace pjs.classes {
                         argsErr('setMag', len, 1)
     }
 
-    rotate(angle: number) {
+    rotate(angle: rad) {
       const prev_x = this.x,
             c = Math.cos(angle),
             s = Math.sin(angle)
@@ -184,14 +185,14 @@ namespace pjs.classes {
       return PVector.angleBetween(this, v)
     }
 
-    lerp(a: PVector | number, b: PVector | number, c?: number, d?: number): PVector {
-      let x: number, y: number, z: number, amt: number
+    lerp(a: PVector | number, b: PVector | number, c?: number, d?: norm): PVector {
+      let x: number, y: number, z: number, amt: norm
       const len = arguments.length
       if ((len | 1) === 1)  argsErr('lerp', len, 2)
       if (len === 2) { // given vector and amt
         const v = a as PVector
         x = v.x, y = v.y, z = v.z
-        amt = b as number
+        amt = b as norm
       } else if (len === 3) { // given vector 1, vector 2 and amt
         return PVector.lerp(a as PVector, b as PVector, c)
       } else { // given x, y, z and amt
