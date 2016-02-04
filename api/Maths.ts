@@ -10,4 +10,4 @@ abstract class Maths extends PConstants {
 }
 
 Object.freeze(Object.freeze(Maths).prototype)
-const StrictMath = Maths;
+const StrictMath = Maths

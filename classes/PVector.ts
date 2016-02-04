@@ -46,9 +46,9 @@ namespace pjs.classes {
     }
 
     static cross(v1: PVector, v2: PVector, target?: PVector) {
-      const cx = v1.y*v2.z - v2.y*v1.z,
-            cy = v1.z*v2.x - v2.z*v1.x,
-            cz = v1.x*v2.y - v2.x*v1.y
+      const cx: coord = v1.y*v2.z - v2.y*v1.z,
+            cy: coord = v1.z*v2.x - v2.z*v1.x,
+            cz: coord = v1.x*v2.y - v2.x*v1.y
       return target? target.set(cx, cy, cz) : new PVector(cx, cy, cz)
     }
 
@@ -125,7 +125,8 @@ namespace pjs.classes {
     }
 
     limit(max: number, target?: PVector) {
-      return this.magSq() > max*max? this.normalize(target).mult(max) : this
+      return this.magSq() > max*max? this.normalize(target).mult(max)
+                                   : target? target.set(this) : this
     }
 
     heading() {

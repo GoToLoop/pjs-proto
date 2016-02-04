@@ -105,7 +105,8 @@ var pjs;
                     : target ? target.set(this) : this.copy();
             };
             PVector.prototype.limit = function (max, target) {
-                return this.magSq() > max * max ? this.normalize(target).mult(max) : this;
+                return this.magSq() > max * max ? this.normalize(target).mult(max)
+                    : target ? target.set(this) : this;
             };
             PVector.prototype.heading = function () {
                 return Math.atan2(this.y, this.x);

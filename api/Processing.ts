@@ -48,21 +48,19 @@ type TypedArray = Int8Array    | Uint8Array  | Uint8ClampedArray |
                   Float32Array | Float64Array
 
 type PseudoArray<T> = {
-  readonly length: number
+  readonly length: uint
   [idx: number]: T
 }
 
 class Processing extends Maths {
   constructor() { super() }
-  static readonly PVector = pjs.classes.PVector
+  @ProtoAssign static readonly PVector = pjs.classes.PVector
 }
 
 interface Processing extends Processing.prototype {}
 
 namespace Processing {
   export interface prototype {
-    PVector: typeof pjs.classes.PVector
+    readonly PVector: typeof Processing.PVector
   }
 }
-
-Processing.prototype.PVector = Processing.PVector

@@ -1,3 +1,15 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+function ProtoAssign(clazz, prop) {
+    clazz.prototype[prop] = clazz[prop];
+}
 var PConstants = (function () {
     function PConstants() {
     }
@@ -219,226 +231,878 @@ var PConstants = (function () {
     PConstants.NORMAL_MODE_SHAPE = 1;
     PConstants.NORMAL_MODE_VERTEX = 2;
     PConstants.MAX_LIGHTS = 8;
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "X", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "Y", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "Z", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "R", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "G", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "B", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "A", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "U", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "V", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "NX", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "NY", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "NZ", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "EDGE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SR", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SG", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SB", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SA", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SW", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TX", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TY", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TZ", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "VX", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "VY", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "VZ", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "VW", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "AR", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "AG", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "AB", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DR", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DG", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DB", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DA", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SPR", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SPG", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SPB", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SHINE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ER", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "EG", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "EB", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "BEEN_LIT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "VERTEX_FIELD_COUNT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "P2D", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "JAVA2D", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "WEBGL", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "P3D", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "OPENGL", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PDF", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DXF", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "OTHER", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "WINDOWS", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "MAXOSX", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "LINUX", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "EPSILON", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "MAX_FLOAT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "MIN_FLOAT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "MAX_INT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "MIN_INT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PI", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TWO_PI", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TAU", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "HALF_PI", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "THIRD_PI", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "QUARTER_PI", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DEG_TO_RAD", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "RAD_TO_DEG", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "WHITESPACE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "RGB", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ARGB", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "HSB", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ALPHA", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "CMYK", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TIFF", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TARGA", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "JPEG", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "GIF", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "BLUR", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "GRAY", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "INVERT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "OPAQUE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "POSTERIZE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "THRESHOLD", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ERODE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DILATE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "REPLACE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "BLEND", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ADD", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SUBTRACT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "LIGHTEST", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DARKEST", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DIFFERENCE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "EXCLUSION", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "MULTIPLY", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SCREEN", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "OVERLAY", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "HARD_LIGHT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SOFT_LIGHT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DODGE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "BURN", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ALPHA_MASK", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "RED_MASK", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "GREEN_MASK", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "BLUE_MASK", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "CUSTOM", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ORTHOGRAPHIC", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PERSPECTIVE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "POINT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "POINTS", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "LINE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "LINES", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TRIANGLE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TRIANGLES", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TRIANGLE_STRIP", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TRIANGLE_FAN", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "QUAD", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "QUADS", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "QUAD_STRIP", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "POLYGON", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PATH", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "RECT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ELLIPSE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ARC", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SPHERE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "BOX", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "GROUP", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PRIMITIVE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "GEOMETRY", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "VERTEX", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "BEZIER_VERTEX", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "CURVE_VERTEX", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "BREAK", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "CLOSESHAPE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "OPEN", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "CLOSE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "CORNER", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "CORNERS", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "RADIUS", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "CENTER", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DIAMETER", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "BASELINE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TOP", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "BOTTOM", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "NORMAL", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "NORMALIZED", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "IMAGE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "MODEL", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SHAPE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', String)
+    ], PConstants, "SQUARE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', String)
+    ], PConstants, "ROUND", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', String)
+    ], PConstants, "PROJECT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', String)
+    ], PConstants, "MITER", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', String)
+    ], PConstants, "BEVEL", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "AMBIENT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DIRECTIONAL", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SPOT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "BACKSPACE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "TAB", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ENTER", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "RETURN", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ESC", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DELETE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "CODED", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SHIFT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "CONTROL", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ALT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "CAPSLK", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PGUP", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PGDN", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "END", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "HOME", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "LEFT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "UP", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "RIGHT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DOWN", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F1", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F2", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F3", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F4", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F5", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F6", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F7", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F8", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F9", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F10", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F11", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "F12", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "NUMLK", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "META", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "INSERT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', String)
+    ], PConstants, "ARROW", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', String)
+    ], PConstants, "CROSS", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', String)
+    ], PConstants, "HAND", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', String)
+    ], PConstants, "MOVE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', String)
+    ], PConstants, "TEXT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', String)
+    ], PConstants, "WAIT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "NOCURSOR", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DISABLE_OPENGL_2X_SMOOTH", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ENABLE_OPENGL_2X_SMOOTH", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ENABLE_OPENGL_4X_SMOOTH", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ENABLE_NATIVE_FONTS", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DISABLE_DEPTH_TEST", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ENABLE_DEPTH_TEST", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ENABLE_DEPTH_SORT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DISABLE_DEPTH_SORT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DISABLE_OPENGL_ERROR_REPORT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ENABLE_OPENGL_ERROR_REPORT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "ENABLE_ACCURATE_TEXTURES", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "DISABLE_ACCURATE_TEXTURES", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "HINT_COUNT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "SINCOS_LENGTH", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PRECISIONB", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PRECISIONF", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PREC_MAXVAL", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PREC_ALPHA_SHIFT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "PREC_RED_SHIFT", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "NORMAL_MODE_AUTO", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "NORMAL_MODE_SHAPE", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "NORMAL_MODE_VERTEX", void 0);
+    __decorate([
+        ProtoAssign, 
+        __metadata('design:type', Object)
+    ], PConstants, "MAX_LIGHTS", void 0);
     return PConstants;
 }());
-PConstants.prototype = {
-    X: 0,
-    Y: 1,
-    Z: 2,
-    R: 3,
-    G: 4,
-    B: 5,
-    A: 6,
-    U: 7,
-    V: 8,
-    NX: 9,
-    NY: 10,
-    NZ: 11,
-    EDGE: 12,
-    SR: 13,
-    SG: 14,
-    SB: 15,
-    SA: 16,
-    SW: 17,
-    TX: 18,
-    TY: 19,
-    TZ: 20,
-    VX: 21,
-    VY: 22,
-    VZ: 23,
-    VW: 24,
-    AR: 25,
-    AG: 26,
-    AB: 27,
-    DR: 3,
-    DG: 4,
-    DB: 5,
-    DA: 6,
-    SPR: 28,
-    SPG: 29,
-    SPB: 30,
-    SHINE: 31,
-    ER: 32,
-    EG: 33,
-    EB: 34,
-    BEEN_LIT: 35,
-    VERTEX_FIELD_COUNT: 36,
-    P2D: 1,
-    JAVA2D: 1,
-    WEBGL: 2,
-    P3D: 2,
-    OPENGL: 2,
-    PDF: 0,
-    DXF: 0,
-    OTHER: 0,
-    WINDOWS: 1,
-    MAXOSX: 2,
-    LINUX: 3,
-    EPSILON: 1e-4,
-    MAX_FLOAT: 3.4028235e+38,
-    MIN_FLOAT: -3.4028235e+38,
-    MAX_INT: 2147483647,
-    MIN_INT: -2147483648,
-    PI: Math.PI,
-    TWO_PI: 2 * Math.PI,
-    TAU: 2 * Math.PI,
-    HALF_PI: Math.PI / 2,
-    THIRD_PI: Math.PI / 3,
-    QUARTER_PI: Math.PI / 4,
-    DEG_TO_RAD: Math.PI / 180,
-    RAD_TO_DEG: 180 / Math.PI,
-    WHITESPACE: PConstants.WHITESPACE,
-    RGB: 1,
-    ARGB: 2,
-    HSB: 3,
-    ALPHA: 4,
-    CMYK: 5,
-    TIFF: 0,
-    TARGA: 1,
-    JPEG: 2,
-    GIF: 3,
-    BLUR: 11,
-    GRAY: 12,
-    INVERT: 13,
-    OPAQUE: 14,
-    POSTERIZE: 15,
-    THRESHOLD: 16,
-    ERODE: 17,
-    DILATE: 18,
-    REPLACE: 0,
-    BLEND: 1 << 0,
-    ADD: 1 << 1,
-    SUBTRACT: 1 << 2,
-    LIGHTEST: 1 << 3,
-    DARKEST: 1 << 4,
-    DIFFERENCE: 1 << 5,
-    EXCLUSION: 1 << 6,
-    MULTIPLY: 1 << 7,
-    SCREEN: 1 << 8,
-    OVERLAY: 1 << 9,
-    HARD_LIGHT: 1 << 10,
-    SOFT_LIGHT: 1 << 11,
-    DODGE: 1 << 12,
-    BURN: 1 << 13,
-    ALPHA_MASK: 0xff000000,
-    RED_MASK: 0x00ff0000,
-    GREEN_MASK: 0x0000ff00,
-    BLUE_MASK: 0x000000ff,
-    CUSTOM: 0,
-    ORTHOGRAPHIC: 2,
-    PERSPECTIVE: 3,
-    POINT: 2,
-    POINTS: 2,
-    LINE: 4,
-    LINES: 4,
-    TRIANGLE: 8,
-    TRIANGLES: 9,
-    TRIANGLE_STRIP: 10,
-    TRIANGLE_FAN: 11,
-    QUAD: 16,
-    QUADS: 16,
-    QUAD_STRIP: 17,
-    POLYGON: 20,
-    PATH: 21,
-    RECT: 30,
-    ELLIPSE: 31,
-    ARC: 32,
-    SPHERE: 40,
-    BOX: 41,
-    GROUP: 0,
-    PRIMITIVE: 1,
-    GEOMETRY: 3,
-    VERTEX: 0,
-    BEZIER_VERTEX: 1,
-    CURVE_VERTEX: 2,
-    BREAK: 3,
-    CLOSESHAPE: 4,
-    OPEN: 1,
-    CLOSE: 2,
-    CORNER: 0,
-    CORNERS: 1,
-    RADIUS: 2,
-    CENTER: 3,
-    DIAMETER: 3,
-    BASELINE: 0,
-    TOP: 101,
-    BOTTOM: 102,
-    NORMAL: 1,
-    NORMALIZED: 1,
-    IMAGE: 2,
-    MODEL: 4,
-    SHAPE: 5,
-    SQUARE: PConstants.SQUARE,
-    ROUND: PConstants.ROUND,
-    PROJECT: PConstants.PROJECT,
-    MITER: PConstants.MITER,
-    BEVEL: PConstants.BEVEL,
-    AMBIENT: 0,
-    DIRECTIONAL: 1,
-    SPOT: 3,
-    BACKSPACE: 8,
-    TAB: 9,
-    ENTER: 10,
-    RETURN: 13,
-    ESC: 27,
-    DELETE: 127,
-    CODED: 0xffff,
-    SHIFT: 16,
-    CONTROL: 17,
-    ALT: 18,
-    CAPSLK: 20,
-    PGUP: 33,
-    PGDN: 34,
-    END: 35,
-    HOME: 36,
-    LEFT: 37,
-    UP: 38,
-    RIGHT: 39,
-    DOWN: 40,
-    F1: 112,
-    F2: 113,
-    F3: 114,
-    F4: 115,
-    F5: 116,
-    F6: 117,
-    F7: 118,
-    F8: 119,
-    F9: 120,
-    F10: 121,
-    F11: 122,
-    F12: 123,
-    NUMLK: 144,
-    META: 157,
-    INSERT: 155,
-    ARROW: PConstants.ARROW,
-    CROSS: PConstants.CROSS,
-    HAND: PConstants.HAND,
-    MOVE: PConstants.MOVE,
-    TEXT: PConstants.TEXT,
-    WAIT: PConstants.WAIT,
-    NOCURSOR: PConstants.NOCURSOR,
-    DISABLE_OPENGL_2X_SMOOTH: 1,
-    ENABLE_OPENGL_2X_SMOOTH: -1,
-    ENABLE_OPENGL_4X_SMOOTH: 2,
-    ENABLE_NATIVE_FONTS: 3,
-    DISABLE_DEPTH_TEST: 4,
-    ENABLE_DEPTH_TEST: -4,
-    ENABLE_DEPTH_SORT: 5,
-    DISABLE_DEPTH_SORT: -5,
-    DISABLE_OPENGL_ERROR_REPORT: 6,
-    ENABLE_OPENGL_ERROR_REPORT: -6,
-    ENABLE_ACCURATE_TEXTURES: 7,
-    DISABLE_ACCURATE_TEXTURES: -7,
-    HINT_COUNT: 10,
-    SINCOS_LENGTH: 720,
-    PRECISIONB: 15,
-    PRECISIONF: 1 << 15,
-    PREC_MAXVAL: (1 << 15) - 1,
-    PREC_ALPHA_SHIFT: 24 - 15,
-    PREC_RED_SHIFT: 16 - 15,
-    NORMAL_MODE_AUTO: 0,
-    NORMAL_MODE_SHAPE: 1,
-    NORMAL_MODE_VERTEX: 2,
-    MAX_LIGHTS: 8
-};
 Object.freeze(Object.freeze(PConstants).prototype);
