@@ -1,4 +1,5 @@
 /// <reference path="../api/Maths.ts"/>
+/// <reference path="../api/Processing.ts"/>
 
 namespace pjs.classes {
   "use strict"//; "use strong"

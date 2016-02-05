@@ -1,14 +1,15 @@
+/// <reference path="Types.d.ts"/>
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-function ProtoAssign(clazz, prop) {
-    clazz.prototype[prop] = clazz[prop];
-}
+/**
+ * Decorator Functions
+ */
 function Frozen(clazz, prop) {
-    //prop? Object.freeze(clazz[prop]) : Object.freeze(Object.freeze(clazz)['prototype'])
+    "use strict";
     if (prop) {
         var value = clazz[prop];
         Object.freeze(value) && Object.freeze(value.prototype);
@@ -16,6 +17,19 @@ function Frozen(clazz, prop) {
     else
         Object.freeze(Object.freeze(clazz)['prototype']);
 }
+function ProtoAssign(clazz, prop) {
+    "use strict";
+    "use strong";
+    clazz.prototype[prop] = clazz[prop];
+}
+function ProtoInit(props) {
+    "use strict";
+    return function (clazz) {
+        for (var prop in props)
+            clazz.prototype[prop] = props[prop];
+    };
+}
+//------------------------------------------------------------------------------------------------
 var PConstants = (function () {
     function PConstants() {
     }
@@ -934,6 +948,7 @@ var PConstants = (function () {
     ], PConstants);
     return PConstants;
 }());
+/// <reference path="PConstants.ts"/>
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -960,11 +975,14 @@ var Maths = (function (_super) {
         Frozen
     ], Maths.prototype, "sq", null);
     Maths = __decorate([
+        /// <reference path="PConstants.ts"/>
         Frozen
     ], Maths);
     return Maths;
 }(PConstants));
 var StrictMath = Maths;
+/// <reference path="../api/Maths.ts"/>
+/// <reference path="../api/Processing.ts"/>
 var pjs;
 (function (pjs) {
     var classes;
@@ -1292,6 +1310,12 @@ var pjs;
             ], PVector, "fromAngle", null);
             __decorate([
                 Frozen
+            ], PVector, "random2D", null);
+            __decorate([
+                Frozen
+            ], PVector, "random3D", null);
+            __decorate([
+                Frozen
             ], PVector, "dist", null);
             __decorate([
                 Frozen
@@ -1326,10 +1350,10 @@ var pjs;
             return PVector;
         }());
         classes.PVector = PVector;
-        Object.freeze(Object.freeze(PVector.random2D).prototype);
-        Object.freeze(Object.freeze(PVector.random3D).prototype);
     })(classes = pjs.classes || (pjs.classes = {}));
 })(pjs || (pjs = {}));
+/// <reference path="Maths.ts"/>
+/// <reference path="../classes/PVector.ts"/>
 var Processing = (function (_super) {
     __extends(Processing, _super);
     function Processing() {
