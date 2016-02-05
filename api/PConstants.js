@@ -7,16 +7,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-function ProtoAssign(clazz, prop) {
-    clazz.prototype[prop] = clazz[prop];
-}
 function Frozen(clazz, prop) {
+    "use strict";
     if (prop) {
         var value = clazz[prop];
         Object.freeze(value) && Object.freeze(value.prototype);
     }
     else
         Object.freeze(Object.freeze(clazz)['prototype']);
+}
+function ProtoAssign(clazz, prop) {
+    "use strict";
+    "use strong";
+    clazz.prototype[prop] = clazz[prop];
+}
+function ProtoInit(props) {
+    "use strict";
+    return function (clazz) {
+        for (var prop in props)
+            clazz.prototype[prop] = props[prop];
+    };
 }
 var PConstants = (function () {
     function PConstants() {
