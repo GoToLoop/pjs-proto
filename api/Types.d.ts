@@ -26,14 +26,14 @@ type ulong   = uint64
 type float   = float32
 type double  = float64
 
-declare const enum coord {}
-declare const enum size {}
-declare const enum pct {}
+declare const enum coord {} // Coordinates
+declare const enum size {}  // Dimensions like length, diameter & radius
+declare const enum pct {}   // Percentage %
+declare const enum norm {}  // Normalized range from 0.0 to 1.0
 
-declare const enum ang {}
-declare const enum rad {}
-declare const enum deg {}
-declare const enum norm {}
+declare const enum rad {}   // Radians
+declare const enum deg {}   // Degrees
+type ang = rad | deg
 
 type xy  = [coord, coord]
 type xyz = [coord, coord, coord]

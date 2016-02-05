@@ -1,3 +1,9 @@
+/// <reference path="Types.d.ts"/>
+
+/**
+ * Decorator Functions
+ */
+
 function Frozen(clazz: Function | Object, prop?: string | symbol) { // Class, Method, Prop
   "use strict"
   if (prop) {
@@ -17,6 +23,8 @@ function ProtoInit(props: Object) { // Class only
     for (const prop in props)  clazz.prototype[prop] = props[prop]
   }
 }
+
+//------------------------------------------------------------------------------------------------
 
 @Frozen abstract class PConstants {
   @ProtoAssign static readonly X = 0
