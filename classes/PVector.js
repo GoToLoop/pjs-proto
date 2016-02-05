@@ -476,5 +476,7 @@ var pjs;
             return PVector;
         }());
         classes.PVector = PVector;
+        Object.freeze(Object.freeze(PVector.random2D).prototype);
+        Object.freeze(Object.freeze(PVector.random3D).prototype);
     })(classes = pjs.classes || (pjs.classes = {}));
 })(pjs || (pjs = {}));

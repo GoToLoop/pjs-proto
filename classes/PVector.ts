@@ -268,4 +268,7 @@ namespace pjs.classes {
       return 31*hash + this.z
     }
   }
+
+  Object.freeze(Object.freeze(PVector.random2D).prototype)
+  Object.freeze(Object.freeze(PVector.random3D).prototype)
 }

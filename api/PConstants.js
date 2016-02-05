@@ -11,7 +11,12 @@ function ProtoAssign(clazz, prop) {
     clazz.prototype[prop] = clazz[prop];
 }
 function Frozen(clazz, prop) {
-    prop ? Object.freeze(clazz[prop]) : Object.freeze(Object.freeze(clazz)['prototype']);
+    if (prop) {
+        var value = clazz[prop];
+        Object.freeze(value) && Object.freeze(value.prototype);
+    }
+    else
+        Object.freeze(Object.freeze(clazz)['prototype']);
 }
 var PConstants = (function () {
     function PConstants() {

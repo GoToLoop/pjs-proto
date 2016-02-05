@@ -3,7 +3,11 @@ function ProtoAssign(clazz: Function, prop: string | symbol) {
 }
 
 function Frozen(clazz: Function | Object, prop?: string | symbol) {
-  prop? Object.freeze(clazz[prop]) : Object.freeze(Object.freeze(clazz)['prototype'])
+  //prop? Object.freeze(clazz[prop]) : Object.freeze(Object.freeze(clazz)['prototype'])
+  if (prop) {
+    const value: any = clazz[prop]
+    Object.freeze(value) && Object.freeze(value.prototype)
+  } else Object.freeze(Object.freeze(clazz)['prototype'])
 }
 
 @Frozen abstract class PConstants {
