@@ -1,3 +1,12 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var pjs;
 (function (pjs) {
     var classes;
@@ -97,15 +106,16 @@ var pjs;
                     argsErr('set', len, 1);
                 return this;
             };
-            PVector.prototype.normalize = function (target) {
-                var m = this.mag(), canDivide = m !== 0 && m !== 1;
+            PVector.prototype.normalize = function (target, mag) {
+                var m = mag || this.mag(), canDivide = m !== 0 && m !== 1;
                 if (!arguments.length)
                     return canDivide ? this.div(m) : this;
                 return canDivide ? PVector.div(this, m, target)
                     : target ? target.set(this) : this.copy();
             };
             PVector.prototype.limit = function (max, target) {
-                return this.magSq() > max * max ? this.normalize(target).mult(max)
+                var magSq = this.magSq();
+                return magSq > max * max ? this.normalize(target, Math.sqrt(magSq)).mult(max)
                     : target ? target.set(this) : this;
             };
             PVector.prototype.heading = function () {
@@ -243,9 +253,228 @@ var pjs;
                 hash = 31 * hash + this.y;
                 return 31 * hash + this.z;
             };
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', []), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "array", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', []), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "copy", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object]), 
+                __metadata('design:returntype', Object)
+            ], PVector.prototype, "get", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object, Number, Number]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "set", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, Number]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "normalize", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Number, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "limit", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', []), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "heading", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', []), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "heading2D", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', []), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "mag", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', []), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "magSq", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object, Number]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "setMag", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Number]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "rotate", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "dist", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "distSq", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object, Object, Number]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "dot", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, PVector, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "cross", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "angleBetween", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object, Object, Number, Number]), 
+                __metadata('design:returntype', PVector)
+            ], PVector.prototype, "lerp", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object, Object, Object]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "add", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object, Object, Object]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "sub", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object, Number, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "mult", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object, Number, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "div", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', []), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "toString", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object]), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "equals", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', []), 
+                __metadata('design:returntype', void 0)
+            ], PVector.prototype, "hashCode", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Number, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "fromAngle", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "dist", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "distSq", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "dot", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, PVector, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "cross", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "angleBetween", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, PVector, Number]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "lerp", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, PVector, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "add", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, PVector, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "sub", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, Object, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "mult", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [PVector, Object, PVector]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "div", null);
+            PVector = __decorate([
+                Frozen, 
+                __metadata('design:paramtypes', [Number, Number, Number])
+            ], PVector);
             return PVector;
         }());
         classes.PVector = PVector;
-        Object.freeze(Object.freeze(PVector).prototype);
     })(classes = pjs.classes || (pjs.classes = {}));
 })(pjs || (pjs = {}));

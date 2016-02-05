@@ -25,6 +25,7 @@
         "api/Maths.ts",
         "api/PConstants.ts",
         "api/Processing.ts",
+        "api/Types.d.ts",
         "classes/PVector.ts",
         "test.ts"
     ],

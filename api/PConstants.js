@@ -10,6 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 function ProtoAssign(clazz, prop) {
     clazz.prototype[prop] = clazz[prop];
 }
+function Frozen(clazz, prop) {
+    prop ? Object.freeze(clazz[prop]) : Object.freeze(Object.freeze(clazz)['prototype']);
+}
 var PConstants = (function () {
     function PConstants() {
     }
@@ -1103,6 +1106,9 @@ var PConstants = (function () {
         ProtoAssign, 
         __metadata('design:type', Object)
     ], PConstants, "MAX_LIGHTS", void 0);
+    PConstants = __decorate([
+        Frozen, 
+        __metadata('design:paramtypes', [])
+    ], PConstants);
     return PConstants;
 }());
-Object.freeze(Object.freeze(PConstants).prototype);

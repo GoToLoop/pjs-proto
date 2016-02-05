@@ -2,7 +2,11 @@ function ProtoAssign(clazz: Function, prop: string | symbol) {
   clazz.prototype[prop] = clazz[prop]
 }
 
-class PConstants {
+function Frozen(clazz: Function | Object, prop?: string | symbol) {
+  prop? Object.freeze(clazz[prop]) : Object.freeze(Object.freeze(clazz)['prototype'])
+}
+
+@Frozen abstract class PConstants {
   @ProtoAssign static readonly X = 0
   @ProtoAssign static readonly Y = 1
   @ProtoAssign static readonly Z = 2
@@ -592,5 +596,3 @@ namespace PConstants {
     readonly MAX_LIGHTS: number
   }
 }
-
-Object.freeze(Object.freeze(PConstants).prototype)
