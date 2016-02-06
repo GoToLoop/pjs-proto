@@ -1006,7 +1006,7 @@ var pjs;
 (function (pjs) {
     var classes;
     (function (classes) {
-        "use strict"; //; "use strong"
+        "use strict";
         var TAU = PConstants.TAU, lerp = Maths.lerp, sq = Maths.sq, argsErr = function (mtd, len, min) {
             throw "Too few args passed to " + mtd + "() [" + len + " < " + min + "].";
         };
