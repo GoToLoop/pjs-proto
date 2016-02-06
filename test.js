@@ -17,3 +17,5 @@ function q() {
     console.info(t);
 }
 q('tdfgfdgfd', 'tdfgfdgfd', 'tdfgfdgfd', 'tdfgfdgfd');
+pjs.classes.PVector.random2D();
+Processing.PVector.random3D();

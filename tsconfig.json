@@ -23,11 +23,13 @@
     "compileOnSave": true,
     "buildOnSave": false,
     "files": [
+        "api/Decorators.ts",
         "api/Maths.ts",
         "api/PConstants.ts",
         "api/Processing.ts",
         "api/Types.d.ts",
         "classes/PVector.ts",
+        "main.d.ts",
         "test.ts"
     ],
     "atom": {

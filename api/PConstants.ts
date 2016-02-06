@@ -1,30 +1,5 @@
 /// <reference path="Types.d.ts"/>
-
-/**
- * Decorator Functions
- */
-
-function Frozen(clazz: Function | Object, prop?: string | symbol) { // Class, Method, Prop
-  "use strict"
-  if (prop) {
-    const value: any = clazz[prop]
-    Object.freeze(value) && Object.freeze(value.prototype)
-  } else Object.freeze(Object.freeze(clazz)['prototype'])
-}
-
-function ProtoAssign(clazz: Function, prop: string | symbol) { // Static Method & Prop
-  "use strict"; "use strong"
-  clazz.prototype[prop] = clazz[prop]
-}
-
-function ProtoInit(props: Object) { // Class only
-  "use strict"
-  return <TFn extends Function>(clazz: TFn) => {
-    for (const prop in props)  clazz.prototype[prop] = props[prop]
-  }
-}
-
-//------------------------------------------------------------------------------------------------
+/// <reference path="Decorators.ts"/>
 
 @Frozen abstract class PConstants {
   @ProtoAssign static readonly X = 0

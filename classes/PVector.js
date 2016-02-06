@@ -412,6 +412,18 @@ var pjs;
             __decorate([
                 Frozen, 
                 __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object, Processing]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "random2D", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
+                __metadata('design:paramtypes', [Object, Processing]), 
+                __metadata('design:returntype', void 0)
+            ], PVector, "random3D", null);
+            __decorate([
+                Frozen, 
+                __metadata('design:type', Function), 
                 __metadata('design:paramtypes', [PVector, PVector]), 
                 __metadata('design:returntype', void 0)
             ], PVector, "dist", null);
@@ -470,13 +482,12 @@ var pjs;
                 __metadata('design:returntype', void 0)
             ], PVector, "div", null);
             PVector = __decorate([
-                Frozen, 
+                Frozen,
+                InjectInto(Processing), 
                 __metadata('design:paramtypes', [Number, Number, Number])
             ], PVector);
             return PVector;
         }());
         classes.PVector = PVector;
-        Object.freeze(Object.freeze(PVector.random2D).prototype);
-        Object.freeze(Object.freeze(PVector.random3D).prototype);
     })(classes = pjs.classes || (pjs.classes = {}));
 })(pjs || (pjs = {}));

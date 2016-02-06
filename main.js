@@ -1,13 +1,3 @@
-/// <reference path="Types.d.ts"/>
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-/**
- * Decorator Functions
- */
 function Frozen(clazz, prop) {
     "use strict";
     if (prop) {
@@ -29,7 +19,26 @@ function ProtoInit(props) {
             clazz.prototype[prop] = props[prop];
     };
 }
-//------------------------------------------------------------------------------------------------
+function InjectInto(target) {
+    "use strict";
+    return function (clazz) {
+        var name = clazz['name'];
+        if (!name) {
+            name = clazz.toString();
+            var start = name.indexOf(' ') + 1, stop = name.indexOf('(', start);
+            name = name.substring(start, ~stop ? stop : name.lastIndexOf(' \x7b')).trim();
+        }
+        name && (target[name] = target.prototype[name] = clazz);
+    };
+}
+/// <reference path="Types.d.ts"/>
+/// <reference path="Decorators.ts"/>
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var PConstants = (function () {
     function PConstants() {
     }
@@ -944,6 +953,7 @@ var PConstants = (function () {
         ProtoAssign
     ], PConstants, "MAX_LIGHTS", void 0);
     PConstants = __decorate([
+        /// <reference path="Types.d.ts"/>
         Frozen
     ], PConstants);
     return PConstants;
@@ -981,6 +991,15 @@ var Maths = (function (_super) {
     return Maths;
 }(PConstants));
 var StrictMath = Maths;
+/// <reference path="Maths.ts"/>
+var Processing = (function (_super) {
+    __extends(Processing, _super);
+    function Processing() {
+        _super.call(this);
+    }
+    Processing.PVector = typeof pjs !== 'undefined' && pjs.classes.PVector;
+    return Processing;
+}(Maths));
 /// <reference path="../api/Maths.ts"/>
 /// <reference path="../api/Processing.ts"/>
 var pjs;
@@ -1345,23 +1364,11 @@ var pjs;
                 Frozen
             ], PVector, "div", null);
             PVector = __decorate([
-                Frozen
+                Frozen,
+                InjectInto(Processing)
             ], PVector);
             return PVector;
         }());
         classes.PVector = PVector;
     })(classes = pjs.classes || (pjs.classes = {}));
 })(pjs || (pjs = {}));
-/// <reference path="Maths.ts"/>
-/// <reference path="../classes/PVector.ts"/>
-var Processing = (function (_super) {
-    __extends(Processing, _super);
-    function Processing() {
-        _super.call(this);
-    }
-    Processing.PVector = pjs.classes.PVector;
-    __decorate([
-        ProtoAssign
-    ], Processing, "PVector", void 0);
-    return Processing;
-}(Maths));

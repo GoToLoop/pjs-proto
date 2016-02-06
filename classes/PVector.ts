@@ -11,7 +11,7 @@ namespace pjs.classes {
           throw `Too few args passed to ${mtd}() [${len} < ${min}].`
         }
 
-  @Frozen export class PVector {
+  @Frozen @InjectInto(Processing) export class PVector {
     constructor (public x: coord = 0, public y: coord = 0, public z: coord = 0) {}
 
     @Frozen static fromAngle(angle: rad, target?: PVector) {
@@ -19,13 +19,13 @@ namespace pjs.classes {
                    : new PVector(Math.cos(angle), Math.sin(angle))
     }
 
-    static random2D(target?: PVector | Processing, parent?: Processing) {
+    @Frozen static random2D(target?: PVector | Processing, parent?: Processing) {
       const isPjs = target && 'random' in target,
             rnd = parent? parent : isPjs? target as Processing : Math
       return PVector.fromAngle(TAU * rnd.random(), isPjs? undefined : target as PVector)
     }
 
-    static random3D(target?: PVector | Processing, parent?: Processing) {
+    @Frozen static random3D(target?: PVector | Processing, parent?: Processing) {
       const isPjs = target && 'random' in target,
             rnd = parent? parent : isPjs? target as Processing : Math,
             ang = TAU * rnd.random(),
@@ -271,7 +271,4 @@ namespace pjs.classes {
       return 31*hash + this.z
     }
   }
-
-  Object.freeze(Object.freeze(PVector.random2D).prototype)
-  Object.freeze(Object.freeze(PVector.random3D).prototype)
 }
