@@ -103,7 +103,7 @@ namespace pjs.classes {
     get(target: TypedArray): TypedArray
     get(target: ArrayLike<number>): PseudoArray<number>
     @Frozen get(target?: PseudoArray<number>): PVector | ArrayLike<number> {
-      if (!arguments.length)  return this.copy() // @Deprecated
+      if (arguments.length < 0)  return this.copy() // @Deprecated
       if (typeof target !== 'object')  return this.array()
       target[0] = this.x, target[1] = this.y, target[2] = this.z
       return target

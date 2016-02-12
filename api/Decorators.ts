@@ -6,12 +6,12 @@ function Frozen(clazz: Function | Object, prop?: string | symbol) { // Class, Me
   } else Object.freeze(Object.freeze(clazz)['prototype'])
 }
 
-function ProtoAssign(clazz: Function, prop: string | symbol) { // Static Method & Prop
+function ProtoAssign(clazz: Function, prop: string | symbol) { // Must be static Method or Prop
   "use strict"; "use strong"
   clazz.prototype[prop] = clazz[prop]
 }
 
-function ProtoInit(props: Object) { // Class only
+function ProtoAdditions(props: Object) { // Class only
   "use strict"
   return <TFn extends Function>(clazz: TFn) => {
     for (const prop in props)  clazz.prototype[prop] = props[prop]

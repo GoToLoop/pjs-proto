@@ -29,7 +29,7 @@
         "api/Processing.ts",
         "api/Types.d.ts",
         "classes/PVector.ts",
-        "main.d.ts",
+        "p5.d.ts",
         "test.ts"
     ],
     "atom": {
