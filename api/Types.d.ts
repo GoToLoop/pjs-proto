@@ -33,12 +33,18 @@ declare const enum norm {}  // Normalized range from 0.0 to 1.0
 
 declare const enum rad {}   // Radians
 declare const enum deg {}   // Degrees
+
 type ang = rad | deg
 
 type xy  = [coord, coord]
 type xyz = [coord, coord, coord]
 type wh  = [size, size]
 type whd = [size, size, size]
+
+type xyObj  = { x: coord, y: coord }
+type xyzObj = { x: coord, y: coord, z: coord }
+type whObj  = { width: size, height: size }
+type whdObj = { width: size, height: size, depth: size }
 
 type callback = () => void
 

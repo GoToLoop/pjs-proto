@@ -9,6 +9,12 @@
 
   @Frozen sq(n: number) { return n*n }
   static readonly sq = Maths.prototype.sq
+
+  @Frozen isZero(n: number, tolerance?: norm) {
+    const epsilon = Math.abs(tolerance) || Maths.EPSILON_ZERO
+    return n !== n || (n >= -epsilon && n <= epsilon)
+  }
+  static readonly isZero = Maths.prototype.isZero
 }
 
 const StrictMath = Maths

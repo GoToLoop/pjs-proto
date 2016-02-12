@@ -78,6 +78,7 @@
   @ProtoAssign static readonly LINUX = 3
 
   @ProtoAssign static readonly EPSILON = 1e-4
+  @ProtoAssign static readonly EPSILON_ZERO = 1e-12
 
   @ProtoAssign static readonly MAX_FLOAT = 3.4028235e+38
   @ProtoAssign static readonly MIN_FLOAT = -3.4028235e+38
@@ -375,6 +376,7 @@ namespace PConstants {
     readonly LINUX: number
 
     readonly EPSILON: number
+    readonly EPSILON_ZERO: number
 
     readonly MAX_FLOAT: number
     readonly MIN_FLOAT: number
