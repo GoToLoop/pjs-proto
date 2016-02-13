@@ -170,13 +170,32 @@ namespace pjs.classes {
                         argsErr('setMag', len, 1)
     }
 
-    @Frozen rotate(angle: rad) {
-      const prev_x = this.x,
-            c = Math.cos(angle),
-            s = Math.sin(angle)
-      this.x = c*prev_x - s*this.y
-      this.y = s*prev_x + c*this.y
-      return this
+    @Frozen rotate(angle: rad, target?: PVector) {
+      const c = Math.cos(angle),
+            s = Math.sin(angle),
+            x = c*this.x - s*this.y,
+            y = s*this.x + c*this.y
+      return target? target.set(x, y) : this.set(x, y)
+    }
+
+    @Frozen rotateX(angle: rad, target?: PVector) {
+      const c = Math.cos(angle),
+            s = Math.sin(angle),
+            y = c*this.y - s*this.z,
+            z = s*this.y + c*this.z
+      return target? target.set(this.x, y, z) : this.set(this.x, y, z)
+    }
+
+    @Frozen rotateY(angle: rad, target?: PVector) {
+      const c = Math.cos(angle),
+            s = Math.sin(angle),
+            x = s*this.z + c*this.x,
+            z = c*this.z - s*this.x
+      return target? target.set(x, this.y, z) : this.set(x, this.y, z)
+    }
+
+    @Frozen rotateZ(angle: rad, target?: PVector) {
+      return this.rotate(angle, target)
     }
 
     @Frozen dist(v1: xyzObj, v2?: xyzObj) {
@@ -216,10 +235,7 @@ namespace pjs.classes {
       } else { // given x, y, z and amt
         x = a as number, y = b as number, z = c, amt = d
       }
-      this.x = lerp(this.x, x, amt)
-      this.y = lerp(this.y, y, amt)
-      this.z = lerp(this.z, z, amt)
-      return this
+      return this.set(lerp(this.x, x, amt), lerp(this.y, y, amt), lerp(this.z, z, amt))
     }
 
     @Frozen add(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number) {
@@ -276,6 +292,16 @@ namespace pjs.classes {
         return this
       } else if (len > 1)  return PVector.mod(v as xyzObj, n, target)
       argsErr('mod', len, 1)
+    }
+
+    @Frozen negate() {
+      this.x *= -1, this.y *= -1, this.z *= -1
+      return this
+    }
+
+    @Frozen clear() {
+      this.x = this.y = this.z = 0
+      return this
     }
 
     @Frozen isZero(tolerance?: norm) {
