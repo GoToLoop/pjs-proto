@@ -56,10 +56,14 @@ namespace pjs.classes {
       return target? target.set(cx, cy, cz) : new PVector(cx, cy, cz)
     }
 
-    @Frozen static angleBetween(v1: PVector, v2: PVector) {
+    @Frozen static angleBetween(v1: PVector, v2: PVector,
+                                magSq1?: number, magSq2?: number, dot?: number) {
       if (v1.isZero() || v2.isZero())  return 0
       //if (!v1.x && !v1.y && !v1.z || !v2.x && !v2.y && !v2.z)  return 0
-      const amt = PVector.dot(v1, v2) / Math.sqrt(v1.magSq() * v2.magSq())
+      magSq1 = magSq1 || v1.magSq()
+      magSq2 = magSq2 || v2.magSq()
+      dot = dot || PVector.dot(v1, v2)
+      const amt = dot / Math.sqrt(magSq1 * magSq2)
       return amt <= -1? Math.PI : amt >= 1? 0 : Math.acos(amt)
     }
 
@@ -140,8 +144,8 @@ namespace pjs.classes {
                       : target? target.set(this) : this.copy()
     }
 
-    @Frozen limit(max: number, target?: PVector) {
-      const magSq = this.magSq()
+    @Frozen limit(max: number, target?: PVector, magSq?: number) {
+      magSq = magSq || this.magSq()
       return magSq > max*max? this.normalize(target, Math.sqrt(magSq)).mult(max)
                             : target? target.set(this) : this
     }
@@ -163,10 +167,10 @@ namespace pjs.classes {
       return sq(this.x) + sq(this.y) + sq(this.z)
     }
 
-    @Frozen setMag(target: PVector | number, length?: number) {
+    @Frozen setMag(target: PVector | number, length?: number, mag?: number) {
       const len = arguments.length
       return len === 1? this.normalize().mult(target as number) :
-             len >   1? this.normalize(target as PVector).mult(length) :
+             len >   1? this.normalize(target as PVector, mag).mult(length) :
                         argsErr('setMag', len, 1)
     }
 
@@ -218,8 +222,8 @@ namespace pjs.classes {
       return target? PVector.cross(v1, v2, target) : PVector.cross(this, v1, v2)
     }
 
-    @Frozen angleBetween(v: PVector) {
-      return PVector.angleBetween(this, v)
+    @Frozen angleBetween(v: PVector, magSq1?: number, magSq2?: number, dot?: number) {
+      return PVector.angleBetween(this, v, magSq1, magSq2, dot)
     }
 
     @Frozen lerp(a: PVector | number, b: PVector | number, c?: number, d?: norm): PVector {
