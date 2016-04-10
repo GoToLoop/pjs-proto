@@ -1,8 +1,8 @@
 /// <reference path="Maths.ts"/>
 
 class Processing extends Maths {
-  constructor() { super() }
-  static readonly PVector = typeof pjs !== 'undefined' && pjs.classes.PVector
+  constructor() { super(); /* this.random = () => 10 */ }
+  static readonly PVector = pjs.classes.PVector
 }
 
 interface Processing extends Processing.prototype {}

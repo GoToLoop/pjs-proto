@@ -19,3 +19,8 @@ function q() {
 q('tdfgfdgfd', 'tdfgfdgfd', 'tdfgfdgfd', 'tdfgfdgfd');
 pjs.classes.PVector.random2D();
 Processing.PVector.random3D();
+var pa = new Processing;
+pa.random = function () { return 10; };
+pa.sq = function (n) { return n * n * n; };
+var prop = 'PVector';
+pa[prop] = Processing.PVector;

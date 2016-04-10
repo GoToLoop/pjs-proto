@@ -13,7 +13,8 @@
         "noLib": false,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
-        "newLine": "LF"
+        "newLine": "LF",
+        "allowJs": true
     },
     "filesGlob": [
         "**/*.ts",

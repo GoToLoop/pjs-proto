@@ -1,7 +1,7 @@
 function Frozen(clazz: Function | Object, prop?: string | symbol) { // Class, Method, Prop
   "use strict"
   if (prop) {
-    const value: any = clazz[prop]
+    const value = clazz[prop]
     Object.freeze(value) && Object.freeze(value.prototype)
   } else Object.freeze(Object.freeze(clazz)['prototype'])
 }

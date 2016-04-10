@@ -2,7 +2,7 @@
 /// <reference path="../api/Processing.ts"/>
 
 namespace pjs.classes {
-  "use strict"//; "use strong"
+  "use strict"
 
   const TAU = PConstants.TAU,
         lerp = Maths.lerp,
@@ -103,17 +103,9 @@ namespace pjs.classes {
                                                : new PVector(v.x%n.x, v.y%n.y, v.z%n.z)
     }
 
-    @Frozen array() {
-      return [this.x, this.y, this.z] as xyz
-    }
-
-    @Frozen object() {
-      return { x: this.x, y: this.y, z: this.z }
-    }
-
-    @Frozen copy() {
-      return new PVector(this.x, this.y, this.z)
-    }
+    @Frozen array() { return [this.x, this.y, this.z] as xyz }
+    @Frozen object() { return { x: this.x, y: this.y, z: this.z } }
+    @Frozen copy() { return new PVector(this.x, this.y, this.z) }
 
     get(): PVector
     get(target: number[]): xyz
@@ -200,6 +192,18 @@ namespace pjs.classes {
 
     @Frozen rotateZ(angle: rad, target?: PVector) {
       return this.rotate(angle, target)
+    }
+
+    @Frozen fromAngle(angle: rad, target?: PVector) {
+      return PVector.fromAngle(angle, target)
+    }
+
+    @Frozen random2D(target?: PVector | Processing, parent?: Processing) {
+      return PVector.random2D(target, parent)
+    }
+
+    @Frozen random3D(target?: PVector | Processing, parent?: Processing) {
+      return PVector.random3D(target, parent)
     }
 
     @Frozen dist(v1: xyzObj, v2?: xyzObj) {

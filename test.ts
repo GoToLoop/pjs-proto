@@ -12,8 +12,15 @@ var arr = new Processing().PVector.random3D().get([4, 3, 6, 6])
 arr[13] = 7
 console.info(arr)
 
-function q(...a) {const t = new Processing().PVector.random3D().get(arguments); console.info(t)}
+function q(...a: string[]) {const t = new Processing().PVector.random3D().get(arguments); console.info(t)}
 q('tdfgfdgfd', 'tdfgfdgfd','tdfgfdgfd','tdfgfdgfd')
 
 pjs.classes.PVector.random2D()
 Processing.PVector.random3D()
+
+const pa = new Processing
+pa.random = () => 10
+pa.sq = n => n*n*n
+
+let prop = 'PVector'
+pa[prop] = Processing.PVector

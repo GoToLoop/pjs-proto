@@ -1,3 +1,5 @@
+type undef   = undefined | null
+
 type falsy   = boolean
 type truthy  = boolean
 

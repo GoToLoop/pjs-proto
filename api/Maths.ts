@@ -17,4 +17,4 @@
   static readonly isZero = Maths.prototype.isZero
 }
 
-const StrictMath = Maths
+const StrictMath = Math
