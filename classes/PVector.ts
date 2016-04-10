@@ -336,4 +336,6 @@ namespace pjs.classes {
       return 31*hash + this.z
     }
   }
+
+  export class PVectorAlt extends PVector {}
 }

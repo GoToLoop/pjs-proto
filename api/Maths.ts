@@ -1,7 +1,7 @@
 /// <reference path="PConstants.ts"/>
 
 @Frozen abstract class Maths extends PConstants {
-  @Frozen random() { return Math.random() as norm }
+  @Frozen random(low?: number, high?: number) { return Math.random() as norm }
   static readonly random = Maths.prototype.random
 
   @Frozen lerp(start: number, stop: number, amt: norm) { return amt * (stop - start) + start }

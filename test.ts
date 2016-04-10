@@ -17,6 +17,7 @@ q('tdfgfdgfd', 'tdfgfdgfd','tdfgfdgfd','tdfgfdgfd')
 
 pjs.classes.PVector.random2D()
 Processing.PVector.random3D()
+Processing.sq(6)
 
 const pa = new Processing
 pa.random = () => 10
