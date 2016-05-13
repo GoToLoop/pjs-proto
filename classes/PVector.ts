@@ -4,10 +4,8 @@
 namespace pjs.classes {
   "use strict"
 
-  const TAU = PConstants.TAU,
-        lerp = Maths.lerp,
-        sq = Maths.sq,
-        isZero = Maths.isZero,
+  const {lerp, sq, isZero} = Maths,
+        TAU = PConstants.TAU,
         argsErr = (mtd: string, len: number, min: number) => {
           throw `Too few args passed to ${mtd}() [${len} < ${min}].`
         }
@@ -16,8 +14,8 @@ namespace pjs.classes {
     constructor (public x: coord = 0, public y: coord = 0, public z: coord = 0) {}
 
     @Frozen static fromAngle(angle: rad, target?: PVector) {
-      return target? target.set (Math.cos(angle), Math.sin(angle))
-                   : new PVector(Math.cos(angle), Math.sin(angle))
+      return target && target.set (Math.cos(angle), Math.sin(angle))
+                    || new PVector(Math.cos(angle), Math.sin(angle))
     }
 
     @Frozen static random2D(target?: PVector | Processing, parent?: Processing) {
@@ -53,7 +51,7 @@ namespace pjs.classes {
       const cx: coord = v1.y*v2.z - v2.y*v1.z,
             cy: coord = v1.z*v2.x - v2.z*v1.x,
             cz: coord = v1.x*v2.y - v2.x*v1.y
-      return target? target.set(cx, cy, cz) : new PVector(cx, cy, cz)
+      return target && target.set(cx, cy, cz) || new PVector(cx, cy, cz)
     }
 
     @Frozen static angleBetween(v1: PVector, v2: PVector,
@@ -72,35 +70,35 @@ namespace pjs.classes {
     }
 
     @Frozen static add(v1: xyzObj, v2: xyzObj, target?: PVector) {
-      return target? target.set (v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
-                   : new PVector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
+      return target && target.set (v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
+                    || new PVector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
     }
 
     @Frozen static sub(v1: xyzObj, v2: xyzObj, target?: PVector) {
-      return target? target.set (v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
-                   : new PVector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
+      return target && target.set (v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
+                    || new PVector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
     }
 
     @Frozen static mult(v: xyzObj, n: xyzObj | number, target?: PVector) {
-      if (typeof n === 'number')  return target? target.set (v.x*n,   v.y*n,   v.z*n)
-                                               : new PVector(v.x*n,   v.y*n,   v.z*n)
+      if (typeof n === 'number')  return target && target.set (v.x*n,   v.y*n,   v.z*n)
+                                                || new PVector(v.x*n,   v.y*n,   v.z*n)
 
-      else                        return target? target.set (v.x*n.x, v.y*n.y, v.z*n.z)
-                                               : new PVector(v.x*n.x, v.y*n.y, v.z*n.z)
+      else                        return target && target.set (v.x*n.x, v.y*n.y, v.z*n.z)
+                                                || new PVector(v.x*n.x, v.y*n.y, v.z*n.z)
     }
 
     @Frozen static div(v: xyzObj, n: xyzObj | number, target?: PVector) {
-      if (typeof n === 'number')  return target? target.set (v.x/n,   v.y/n,   v.z/n)
-                                               : new PVector(v.x/n,   v.y/n,   v.z/n)
-      else                        return target? target.set (v.x/n.x, v.y/n.y, v.z/n.z)
-                                               : new PVector(v.x/n.x, v.y/n.y, v.z/n.z)
+      if (typeof n === 'number')  return target && target.set (v.x/n,   v.y/n,   v.z/n)
+                                                || new PVector(v.x/n,   v.y/n,   v.z/n)
+      else                        return target && target.set (v.x/n.x, v.y/n.y, v.z/n.z)
+                                                || new PVector(v.x/n.x, v.y/n.y, v.z/n.z)
     }
 
     @Frozen static mod(v: xyzObj, n: xyzObj | number, target?: PVector) {
-      if (typeof n === 'number')  return target? target.set (v.x%n,   v.y%n,   v.z%n)
-                                               : new PVector(v.x%n,   v.y%n,   v.z%n)
-      else                        return target? target.set (v.x%n.x, v.y%n.y, v.z%n.z)
-                                               : new PVector(v.x%n.x, v.y%n.y, v.z%n.z)
+      if (typeof n === 'number')  return target && target.set (v.x%n,   v.y%n,   v.z%n)
+                                                || new PVector(v.x%n,   v.y%n,   v.z%n)
+      else                        return target && target.set (v.x%n.x, v.y%n.y, v.z%n.z)
+                                                || new PVector(v.x%n.x, v.y%n.y, v.z%n.z)
     }
 
     @Frozen array() { return [this.x, this.y, this.z] as xyz }
@@ -131,15 +129,15 @@ namespace pjs.classes {
     @Frozen normalize(target?: PVector, mag?: number) {
       const m = mag || this.mag(),
             canDivide = m !== 0 && m !== 1
-      if (!arguments.length)  return canDivide? this.div(m) : this
+      if (!arguments.length)  return canDivide && this.div(m) || this
       return canDivide? PVector.div(this, m, target)
-                      : target? target.set(this) : this.copy()
+                      : target && target.set(this) || this.copy()
     }
 
     @Frozen limit(max: number, target?: PVector, magSq?: number) {
       magSq = magSq || this.magSq()
       return magSq > max*max? this.normalize(target, Math.sqrt(magSq)).mult(max)
-                            : target? target.set(this) : this
+                            : target && target.set(this) || this
     }
 
     @Frozen heading() {
@@ -171,7 +169,7 @@ namespace pjs.classes {
             s = Math.sin(angle),
             x = c*this.x - s*this.y,
             y = s*this.x + c*this.y
-      return target? target.set(x, y) : this.set(x, y)
+      return target && target.set(x, y) || this.set(x, y)
     }
 
     @Frozen rotateX(angle: rad, target?: PVector) {
@@ -179,7 +177,7 @@ namespace pjs.classes {
             s = Math.sin(angle),
             y = c*this.y - s*this.z,
             z = s*this.y + c*this.z
-      return target? target.set(this.x, y, z) : this.set(this.x, y, z)
+      return target && target.set(this.x, y, z) || this.set(this.x, y, z)
     }
 
     @Frozen rotateY(angle: rad, target?: PVector) {
@@ -187,7 +185,7 @@ namespace pjs.classes {
             s = Math.sin(angle),
             x = s*this.z + c*this.x,
             z = c*this.z - s*this.x
-      return target? target.set(x, this.y, z) : this.set(x, this.y, z)
+      return target && target.set(x, this.y, z) || this.set(x, this.y, z)
     }
 
     @Frozen rotateZ(angle: rad, target?: PVector) {
@@ -195,23 +193,27 @@ namespace pjs.classes {
     }
 
     @Frozen fromAngle(angle: rad, target?: PVector) {
-      return PVector.fromAngle(angle, target)
+      return PVector.fromAngle(angle, target || this)
     }
 
     @Frozen random2D(target?: PVector | Processing, parent?: Processing) {
-      return PVector.random2D(target, parent)
+      const isPjs = target && 'random' in target
+      return isPjs && PVector.random2D(this, target as Processing)
+                   || PVector.random2D(target || this, parent)
     }
 
     @Frozen random3D(target?: PVector | Processing, parent?: Processing) {
-      return PVector.random3D(target, parent)
+      const isPjs = target && 'random' in target
+      return isPjs && PVector.random3D(this, target as Processing)
+                   || PVector.random3D(target || this, parent)
     }
 
     @Frozen dist(v1: xyzObj, v2?: xyzObj) {
-      return v2? PVector.dist(v1, v2) : PVector.dist(this, v1)
+      return v2 && PVector.dist(v1, v2) || PVector.dist(this, v1)
     }
 
     @Frozen distSq(v1: xyzObj, v2?: xyzObj) {
-      return v2? PVector.distSq(v1, v2) : PVector.distSq(this, v1)
+      return v2 && PVector.distSq(v1, v2) || PVector.distSq(this, v1)
     }
 
     @Frozen dot(v: xyzObj | number, y?: xyzObj | number, z?: number) {
@@ -223,7 +225,7 @@ namespace pjs.classes {
     }
 
     @Frozen cross(v1: xyzObj, v2?: PVector, target?: PVector) {
-      return target? PVector.cross(v1, v2, target) : PVector.cross(this, v1, v2)
+      return target && PVector.cross(v1, v2, target) || PVector.cross(this, v1, v2)
     }
 
     @Frozen angleBetween(v: PVector, magSq1?: number, magSq2?: number, dot?: number) {

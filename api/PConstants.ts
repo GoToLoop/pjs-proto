@@ -77,6 +77,7 @@
   @ProtoAssign static readonly MAXOSX = 2
   @ProtoAssign static readonly LINUX = 3
 
+  // Math Constants
   @ProtoAssign static readonly EPSILON = 1e-4
   @ProtoAssign static readonly EPSILON_ZERO = 1e-12
 
@@ -85,15 +86,21 @@
   @ProtoAssign static readonly MAX_INT = 2147483647
   @ProtoAssign static readonly MIN_INT = -2147483648
 
-  @ProtoAssign static readonly PI = Math.PI
-  @ProtoAssign static readonly TWO_PI = 2 * Math.PI
-  @ProtoAssign static readonly TAU = 2 * Math.PI
-  @ProtoAssign static readonly HALF_PI = Math.PI / 2
-  @ProtoAssign static readonly THIRD_PI = Math.PI / 3
-  @ProtoAssign static readonly QUARTER_PI = Math.PI / 4
+  @ProtoAssign static readonly PI = Math.PI               // 180°
+  @ProtoAssign static readonly TWO_PI = Math.PI * 2       // 360°
+  @ProtoAssign static readonly TAU = Math.PI * 2          // 360°
+  @ProtoAssign static readonly HALF_PI = Math.PI / 2      // 90°
+  @ProtoAssign static readonly THIRD_PI = Math.PI / 3     // 60°
+  @ProtoAssign static readonly QUARTER_PI = Math.PI / 4   // 45°
+  @ProtoAssign static readonly SIXTH_PI = Math.PI / 6     // 30°
+  @ProtoAssign static readonly EIGHTH_PI = Math.PI / 8    // 22.5°
+  @ProtoAssign static readonly TWELFTH_PI = Math.PI / 12  // 15°
 
   @ProtoAssign static readonly DEG_TO_RAD = Math.PI / 180
   @ProtoAssign static readonly RAD_TO_DEG = 180 / Math.PI
+
+  @ProtoAssign static readonly RADIANS = 0
+  @ProtoAssign static readonly DEGREES = 1
 
   @ProtoAssign static readonly WHITESPACE = ' \t\n\r\f\u00A0'
 
@@ -375,6 +382,7 @@ namespace PConstants {
     readonly MAXOSX: number
     readonly LINUX: number
 
+    // Math Constants
     readonly EPSILON: number
     readonly EPSILON_ZERO: number
 
@@ -383,15 +391,21 @@ namespace PConstants {
     readonly MAX_INT: number
     readonly MIN_INT: number
 
-    readonly PI: number
-    readonly TWO_PI: number
-    readonly TAU: number
-    readonly HALF_PI: number
-    readonly THIRD_PI: number
-    readonly QUARTER_PI: number
+    readonly PI: number           // 180°
+    readonly TWO_PI: number       // 360°
+    readonly TAU: number          // 360°
+    readonly HALF_PI: number      // 90°
+    readonly THIRD_PI: number     // 60°
+    readonly QUARTER_PI: number   // 45°
+    readonly SIXTH_PI: number     // 30°
+    readonly EIGHTH_PI: number    // 22.5°
+    readonly TWELFTH_PI: number   // 15°
 
     readonly DEG_TO_RAD: number
     readonly RAD_TO_DEG: number
+
+    readonly RADIANS: number
+    readonly DEGREES: number
 
     readonly WHITESPACE: typeof PConstants.WHITESPACE
 
