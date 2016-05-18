@@ -1,6 +1,6 @@
 /// <reference path="PConstants.ts"/>
 
-@Frozen abstract class Maths extends PConstants {
+abstract class Maths extends PConstants {
   @Frozen random(low?: number, high?: number) { return Math.random() as norm }
   static readonly random = Maths.prototype.random
 

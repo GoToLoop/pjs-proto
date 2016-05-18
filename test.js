@@ -23,5 +23,6 @@ Processing.sq(6);
 var pa = new Processing;
 pa.random = function () { return 10; };
 pa.sq = function (n) { return n * n * n; };
+console.log(new pa.PVector(pa.PI, pa.TAU).fromAngle(90));
 var prop = 'PVector';
 pa[prop] = Processing.PVector;

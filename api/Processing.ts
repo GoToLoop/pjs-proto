@@ -1,8 +1,18 @@
 /// <reference path="Maths.ts"/>
 
 class Processing extends Maths {
-  constructor() { super(); /* this.random = () => 10 */  this.PVector = pjs.classes.PVectorAlt }
-  static readonly PVector = pjs.classes.PVector
+  degreeInput = true
+  degreeOutput = false
+
+  constructor () {
+     super(); /* this.random = () => 10 */
+     this.init()
+  }
+
+  init() { this.PVector = pjs.classes.PVectorAltBuilder(this) }
+
+  static readonly PVector = 'pjs' in window && pjs.classes.PVector
+
   random(low?: number, high?: number) { return Math.random() as norm }
 }
 

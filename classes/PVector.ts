@@ -12,7 +12,7 @@ namespace pjs.classes {
         xyzObjCheck = (obj: {}): obj is xyzObj => 'x' in obj,
         pjsCheck = (obj: {}): obj is Processing => obj && 'random' in obj
 
-  @Frozen @InjectInto(Processing) export class PVector {
+  @InjectInto(Processing) export class PVector {
     constructor (public x: coord = 0, public y: coord = 0, public z: coord = 0) {}
 
     @Frozen static fromAngle(angle: rad, target?: PVector) {
@@ -117,7 +117,7 @@ namespace pjs.classes {
     get(target: ArrayLike<number>): PseudoArray<number>
     get(target: xyzObj): xyzObj
     @Frozen get(target?: PseudoArray<number> | xyzObj): PVector | ArrayLike<number> | xyzObj {
-      if (arguments.length === 0)      return this.copy() // @Deprecated
+      if (!arguments.length)           return this.copy() // @Deprecated
       if (typeof target !== 'object')  return this.array()
       if (xyzObjCheck(target))  target.x  = this.x, target.y  = this.y, target.z  = this.z
       else                      target[0] = this.x, target[1] = this.y, target[2] = this.z
@@ -362,5 +362,17 @@ namespace pjs.classes {
     }
   }
 
-  export class PVectorAlt extends PVector {}
+  export function PVectorAltBuilder(p: Processing) {
+    return class PVectorAlt extends PVector {
+      static fromAngle(angle: rad, target?: PVector) {
+        p.degreeInput && (angle *= PConstants.DEG_TO_RAD)
+        return target && target.set (Math.cos(angle), Math.sin(angle))
+                      || new PVector(Math.cos(angle), Math.sin(angle))
+      }
+
+      fromAngle(angle: rad, target?: PVector) {
+        return PVectorAlt.fromAngle(angle, target || this)
+      }
+    }
+  }
 }
