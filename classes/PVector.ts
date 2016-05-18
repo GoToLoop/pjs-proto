@@ -57,18 +57,17 @@ namespace pjs.classes {
     }
 
     @Frozen static angleBetween(v1: PVector, v2: PVector,
-                                magSq1?: number, magSq2?: number, dot?: number) {
+                                magSq1?: number, magSq2?: number, dot?: number): rad {
       if (v1.isZero() || v2.isZero())  return 0
       //if (!v1.x && !v1.y && !v1.z || !v2.x && !v2.y && !v2.z)  return 0
-      magSq1 = magSq1 || v1.magSq()
-      magSq2 = magSq2 || v2.magSq()
+      magSq1 = magSq1 || v1.magSq(), magSq2 = magSq2 || v2.magSq()
       dot = dot || PVector.dot(v1, v2)
       const amt = dot / Math.sqrt(magSq1 * magSq2)
       return amt <= -1? Math.PI : amt >= 1? 0 : Math.acos(amt)
     }
 
-    @Frozen static lerp(v1: PVector, v2: PVector, amt: norm) {
-      return v1.copy().lerp(v2, amt)
+    @Frozen static lerp(v1: PVector, v2: PVector, amt: norm, target?: PVector) {
+      return (target && target.set(v1) || v1.copy()).lerp(v2, amt)
     }
 
     @Frozen static add(v1: xyzObj, v2: xyzObj, target?: PVector) {
@@ -89,7 +88,6 @@ namespace pjs.classes {
     @Frozen static mult(v: xyzObj, n: xyzObj | number, target?: PVector) {
       if (typeof n === 'number')  return target && target.set (v.x*n,   v.y*n,   v.z*n)
                                                 || new PVector(v.x*n,   v.y*n,   v.z*n)
-
       else                        return target && target.set (v.x*n.x, v.y*n.y, v.z*n.z)
                                                 || new PVector(v.x*n.x, v.y*n.y, v.z*n.z)
     }
@@ -119,7 +117,7 @@ namespace pjs.classes {
     get(target: ArrayLike<number>): PseudoArray<number>
     get(target: xyzObj): xyzObj
     @Frozen get(target?: PseudoArray<number> | xyzObj): PVector | ArrayLike<number> | xyzObj {
-      if (arguments.length === 0)  return this.copy() // @Deprecated
+      if (arguments.length === 0)      return this.copy() // @Deprecated
       if (typeof target !== 'object')  return this.array()
       if (xyzObjCheck(target))  target.x  = this.x, target.y  = this.y, target.z  = this.z
       else                      target[0] = this.x, target[1] = this.y, target[2] = this.z
@@ -128,10 +126,10 @@ namespace pjs.classes {
 
     @Frozen set(v: ArrayLike<number> | xyzObj | coord, y?: coord, z?: coord) {
       const len = arguments.length
-      if (len > 1)         this.x = +v, this.y = +y, len > 2 && (this.z = +z)
+      if (len > 1)         this.x = +v, this.y = +y, z != null && (this.z = +z)
       else if (len === 1)  this.set(v[0] || (v as xyzObj).x || 0,
                                     v[1] || (v as xyzObj).y || 0,
-                                    v[2] || (v as xyzObj).z || undefined)
+                                    v[2] || (v as xyzObj).z)
       else                 argsErr('set', len, 1)
       return this
     }
@@ -150,7 +148,7 @@ namespace pjs.classes {
                             : target && target.set(this) || this
     }
 
-    @Frozen heading() {
+    @Frozen heading(): rad {
       //return -Math.atan2(-this.y, this.x)
       return Math.atan2(this.y, this.x)
     }
@@ -265,7 +263,7 @@ namespace pjs.classes {
           if (typeof v === 'number')  this.x += v,   this.y += v,   this.z += v
           else                        this.x += v.x, this.y += v.y, this.z += v.z
         } else if (len > 1) {
-          this.x += +v, this.y += y, len > 2 && (this.z += +z)
+          this.x += +v, this.y += y, z != null && (this.z += +z)
         } else argsErr('add', len, 1)
       }
       return this
@@ -279,7 +277,7 @@ namespace pjs.classes {
           if (typeof v === 'number')  this.x -= v,   this.y -= v,   this.z -= v
           else                        this.x -= v.x, this.y -= v.y, this.z -= v.z
         } else if (len > 1) {
-          this.x -= +v, this.y -= y, len > 2 && (this.z -= +z)
+          this.x -= +v, this.y -= y, z != null && (this.z -= +z)
         } else argsErr('sub', len, 1)
       }
       return this
@@ -293,7 +291,7 @@ namespace pjs.classes {
           if (typeof v === 'number')  this.x += -v,   this.y += -v,   this.z += -v
           else                        this.x += -v.x, this.y += -v.y, this.z += -v.z
         } else if (len > 1) {
-          this.x += -v, this.y += -y, len > 2 && (this.z += -z)
+          this.x += -v, this.y += -y, z != null && (this.z += -z)
         } else argsErr('sub', len, 1)
       }
       return this
