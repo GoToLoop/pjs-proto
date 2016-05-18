@@ -8,7 +8,9 @@ namespace pjs.classes {
         TAU = PConstants.TAU,
         argsErr = (mtd: string, len: number, min: number) => {
           throw `Too few args passed to ${mtd}() [${len} < ${min}].`
-        }
+        },
+        xyzObjCheck = (obj: {}): obj is xyzObj => 'x' in obj,
+        pjsCheck = (obj: {}): obj is Processing => obj && 'random' in obj
 
   @Frozen @InjectInto(Processing) export class PVector {
     constructor (public x: coord = 0, public y: coord = 0, public z: coord = 0) {}
@@ -19,13 +21,13 @@ namespace pjs.classes {
     }
 
     @Frozen static random2D(target?: PVector | Processing, parent?: Processing) {
-      const isPjs = target && 'random' in target,
+      const isPjs = pjsCheck(target),
             rnd = parent? parent : isPjs? target as Processing : Math
       return PVector.fromAngle(TAU * rnd.random(), isPjs? undefined : target as PVector)
     }
 
     @Frozen static random3D(target?: PVector | Processing, parent?: Processing) {
-      const isPjs = target && 'random' in target,
+      const isPjs = pjsCheck(target),
             rnd = parent? parent : isPjs? target as Processing : Math,
             ang = TAU * rnd.random(),
             vz  = 2 * rnd.random() - 1,
@@ -79,6 +81,11 @@ namespace pjs.classes {
                     || new PVector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
     }
 
+    @Frozen static subInv(v1: xyzObj, v2: xyzObj, target?: PVector) {
+      return target && target.set (v2.x - v1.x, v2.y - v1.y, v2.z - v1.z)
+                    || new PVector(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z)
+    }
+
     @Frozen static mult(v: xyzObj, n: xyzObj | number, target?: PVector) {
       if (typeof n === 'number')  return target && target.set (v.x*n,   v.y*n,   v.z*n)
                                                 || new PVector(v.x*n,   v.y*n,   v.z*n)
@@ -104,15 +111,18 @@ namespace pjs.classes {
     @Frozen array() { return [this.x, this.y, this.z] as xyz }
     @Frozen object() { return { x: this.x, y: this.y, z: this.z } }
     @Frozen copy() { return new PVector(this.x, this.y, this.z) }
+    @Frozen clone() { return this.copy() }
 
     get(): PVector
     get(target: number[]): xyz
     get(target: TypedArray): TypedArray
     get(target: ArrayLike<number>): PseudoArray<number>
-    @Frozen get(target?: PseudoArray<number>): PVector | ArrayLike<number> {
-      if (arguments.length < 0)  return this.copy() // @Deprecated
+    get(target: xyzObj): xyzObj
+    @Frozen get(target?: PseudoArray<number> | xyzObj): PVector | ArrayLike<number> | xyzObj {
+      if (arguments.length === 0)  return this.copy() // @Deprecated
       if (typeof target !== 'object')  return this.array()
-      target[0] = this.x, target[1] = this.y, target[2] = this.z
+      if (xyzObjCheck(target))  target.x  = this.x, target.y  = this.y, target.z  = this.z
+      else                      target[0] = this.x, target[1] = this.y, target[2] = this.z
       return target
     }
 
@@ -154,7 +164,8 @@ namespace pjs.classes {
     }
 
     @Frozen magSq() {
-      return sq(this.x) + sq(this.y) + sq(this.z)
+      //return sq(this.x) + sq(this.y) + sq(this.z)
+      return this.x*this.x + this.y*this.y + this.z*this.z
     }
 
     @Frozen setMag(target: PVector | number, length?: number, mag?: number) {
@@ -197,15 +208,13 @@ namespace pjs.classes {
     }
 
     @Frozen random2D(target?: PVector | Processing, parent?: Processing) {
-      const isPjs = target && 'random' in target
-      return isPjs && PVector.random2D(this, target as Processing)
-                   || PVector.random2D(target || this, parent)
+      return pjsCheck(target) && PVector.random2D(this, target)
+                              || PVector.random2D(target || this, parent)
     }
 
     @Frozen random3D(target?: PVector | Processing, parent?: Processing) {
-      const isPjs = target && 'random' in target
-      return isPjs && PVector.random3D(this, target as Processing)
-                   || PVector.random3D(target || this, parent)
+      return pjsCheck(target) && PVector.random3D(this, target)
+                              || PVector.random3D(target || this, parent)
     }
 
     @Frozen dist(v1: xyzObj, v2?: xyzObj) {
@@ -253,12 +262,13 @@ namespace pjs.classes {
       else {
         const len = arguments.length
         if (len === 1) { // PVector.add(this, v as xyzObj, this)
-          this.x += (v as xyzObj).x, this.y += (v as xyzObj).y, this.z += (v as xyzObj).z
+          if (typeof v === 'number')  this.x += v,   this.y += v,   this.z += v
+          else                        this.x += v.x, this.y += v.y, this.z += v.z
         } else if (len > 1) {
           this.x += +v, this.y += y, len > 2 && (this.z += +z)
         } else argsErr('add', len, 1)
-        return this
       }
+      return this
     }
 
     @Frozen sub(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number) {
@@ -266,12 +276,27 @@ namespace pjs.classes {
       else {
         const len = arguments.length
         if (len === 1) { // PVector.sub(this, v as xyzObj, this)
-          this.x -= (v as xyzObj).x, this.y -= (v as xyzObj).y, this.z -= (v as xyzObj).z
+          if (typeof v === 'number')  this.x -= v,   this.y -= v,   this.z -= v
+          else                        this.x -= v.x, this.y -= v.y, this.z -= v.z
         } else if (len > 1) {
-          this.x -= v as number, this.y -= y, len > 2 && (this.z -= z as number)
+          this.x -= +v, this.y -= y, len > 2 && (this.z -= +z)
         } else argsErr('sub', len, 1)
-        return this
       }
+      return this
+    }
+
+    @Frozen subInv(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number) {
+      if (typeof y !== 'number')  return PVector.subInv(v as xyzObj, y, z as PVector)
+      else {
+        const len = arguments.length
+        if (len === 1) { // PVector.subInv(this, v as xyzObj, this)
+          if (typeof v === 'number')  this.x += -v,   this.y += -v,   this.z += -v
+          else                        this.x += -v.x, this.y += -v.y, this.z += -v.z
+        } else if (len > 1) {
+          this.x += -v, this.y += -y, len > 2 && (this.z += -z)
+        } else argsErr('sub', len, 1)
+      }
+      return this
     }
 
     @Frozen mult(v: xyzObj | number, n?: number, target?: PVector) {

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "module": "commonjs",
+        "module": "es2015",
         "moduleResolution": "node",
         "isolatedModules": false,
         "jsx": "react",
@@ -14,7 +14,8 @@
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
         "newLine": "LF",
-        "allowJs": true
+        "allowJs": true,
+        "strictNullChecks": false
     },
     "filesGlob": [
         "**/*.ts",

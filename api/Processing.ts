@@ -13,3 +13,5 @@ namespace Processing {
     PVector: typeof Processing.PVector
   }
 }
+
+const PApplet = Processing
