@@ -1,4 +1,5 @@
 *.DS_STORE
 *.db
+test.js
 api/*.js
 classes/*.js
