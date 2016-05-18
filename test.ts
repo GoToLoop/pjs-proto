@@ -23,7 +23,10 @@ const pa = new Processing
 pa.random = () => 10
 pa.sq = n => n*n*n
 
-console.log(new pa.PVector(pa.PI, pa.TAU).fromAngle(90))
+var vec1 = new pa.PVector(pa.PI, pa.TAU).fromAngle(90)
+var vec2 = pa.PVector.fromAngle(180)
+
+console.log(vec1, vec2)
 
 let prop = 'PVector'
-pa[prop] = Processing.PVector
+//pa[prop] = Processing.PVector

@@ -349,6 +349,8 @@ namespace pjs.classes {
       return `[ ${this.x}, ${this.y}, ${this.z} ]`
     }
 
+    valueOf() {return this.hashCode()}
+
     @Frozen equals(o: Object) {
       return o === this? true : o instanceof PVector?
              o.x === this.x && o.y === this.y && o.z === this.z : false
@@ -363,14 +365,16 @@ namespace pjs.classes {
   }
 
   export function PVectorAltBuilder(p: Processing) {
+    const {DEG_TO_RAD, RAD_TO_DEG} = PConstants
+
     return class PVectorAlt extends PVector {
       static fromAngle(angle: rad, target?: PVector) {
-        p.degreeInput && (angle *= PConstants.DEG_TO_RAD)
-        return target && target.set (Math.cos(angle), Math.sin(angle))
-                      || new PVector(Math.cos(angle), Math.sin(angle))
+        p._degreeIn && (angle *= DEG_TO_RAD)
+        return target && target.set(Math.cos(angle), Math.sin(angle))
+                      || new PVectorAlt(Math.cos(angle), Math.sin(angle))
       }
 
-      fromAngle(angle: rad, target?: PVector) {
+      fromAngle(angle: rad, target?: PVector): PVector {
         return PVectorAlt.fromAngle(angle, target || this)
       }
     }

@@ -1,15 +1,15 @@
 /// <reference path="Maths.ts"/>
 
 class Processing extends Maths {
-  degreeInput = true
-  degreeOutput = false
+  _degreeIn:  boolean
+  _degreeOut: boolean
 
   constructor () {
      super(); /* this.random = () => 10 */
      this.init()
   }
 
-  init() { this.PVector = pjs.classes.PVectorAltBuilder(this) }
+  init() { this.PVector = pjs.classes.PVectorAltBuilder(this), this._degreeIn = true }
 
   static readonly PVector = 'pjs' in window && pjs.classes.PVector
 
