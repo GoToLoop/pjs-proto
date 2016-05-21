@@ -1,3 +1,14 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 function Frozen(clazz, prop) {
     "use strict";
     if (prop) {
@@ -12,7 +23,7 @@ function ProtoAssign(clazz, prop) {
     "use strong";
     clazz.prototype[prop] = clazz[prop];
 }
-function ProtoInit(props) {
+function ProtoAdditions(props) {
     "use strict";
     return function (clazz) {
         for (var prop in props)
@@ -33,12 +44,6 @@ function InjectInto(target) {
 }
 /// <reference path="Types.d.ts"/>
 /// <reference path="Decorators.ts"/>
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 var PConstants = (function () {
     function PConstants() {
     }
@@ -99,19 +104,26 @@ var PConstants = (function () {
     PConstants.WINDOWS = 1;
     PConstants.MAXOSX = 2;
     PConstants.LINUX = 3;
+    // Math Constants
     PConstants.EPSILON = 1e-4;
+    PConstants.EPSILON_ZERO = 1e-12;
     PConstants.MAX_FLOAT = 3.4028235e+38;
     PConstants.MIN_FLOAT = -3.4028235e+38;
     PConstants.MAX_INT = 2147483647;
     PConstants.MIN_INT = -2147483648;
-    PConstants.PI = Math.PI;
-    PConstants.TWO_PI = 2 * Math.PI;
-    PConstants.TAU = 2 * Math.PI;
-    PConstants.HALF_PI = Math.PI / 2;
-    PConstants.THIRD_PI = Math.PI / 3;
-    PConstants.QUARTER_PI = Math.PI / 4;
+    PConstants.PI = Math.PI; // 180°
+    PConstants.TWO_PI = Math.PI * 2; // 360°
+    PConstants.TAU = Math.PI * 2; // 360°
+    PConstants.HALF_PI = Math.PI / 2; // 90°
+    PConstants.THIRD_PI = Math.PI / 3; // 60°
+    PConstants.QUARTER_PI = Math.PI / 4; // 45°
+    PConstants.SIXTH_PI = Math.PI / 6; // 30°
+    PConstants.EIGHTH_PI = Math.PI / 8; // 22.5°
+    PConstants.TWELFTH_PI = Math.PI / 12; // 15°
     PConstants.DEG_TO_RAD = Math.PI / 180;
     PConstants.RAD_TO_DEG = 180 / Math.PI;
+    PConstants.RADIANS = 0;
+    PConstants.DEGREES = 1;
     PConstants.WHITESPACE = ' \t\n\r\f\u00A0';
     // Color modes
     PConstants.RGB = 1;
@@ -449,6 +461,9 @@ var PConstants = (function () {
     ], PConstants, "EPSILON", void 0);
     __decorate([
         ProtoAssign
+    ], PConstants, "EPSILON_ZERO", void 0);
+    __decorate([
+        ProtoAssign
     ], PConstants, "MAX_FLOAT", void 0);
     __decorate([
         ProtoAssign
@@ -463,26 +478,50 @@ var PConstants = (function () {
         ProtoAssign
     ], PConstants, "PI", void 0);
     __decorate([
+        // 180°
         ProtoAssign
     ], PConstants, "TWO_PI", void 0);
     __decorate([
+        // 360°
         ProtoAssign
     ], PConstants, "TAU", void 0);
     __decorate([
+        // 360°
         ProtoAssign
     ], PConstants, "HALF_PI", void 0);
     __decorate([
+        // 90°
         ProtoAssign
     ], PConstants, "THIRD_PI", void 0);
     __decorate([
+        // 60°
         ProtoAssign
     ], PConstants, "QUARTER_PI", void 0);
     __decorate([
+        // 45°
+        ProtoAssign
+    ], PConstants, "SIXTH_PI", void 0);
+    __decorate([
+        // 30°
+        ProtoAssign
+    ], PConstants, "EIGHTH_PI", void 0);
+    __decorate([
+        // 22.5°
+        ProtoAssign
+    ], PConstants, "TWELFTH_PI", void 0);
+    __decorate([
+        // 15°
         ProtoAssign
     ], PConstants, "DEG_TO_RAD", void 0);
     __decorate([
         ProtoAssign
     ], PConstants, "RAD_TO_DEG", void 0);
+    __decorate([
+        ProtoAssign
+    ], PConstants, "RADIANS", void 0);
+    __decorate([
+        ProtoAssign
+    ], PConstants, "DEGREES", void 0);
     __decorate([
         ProtoAssign
     ], PConstants, "WHITESPACE", void 0);
@@ -959,22 +998,22 @@ var PConstants = (function () {
     return PConstants;
 }());
 /// <reference path="PConstants.ts"/>
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var Maths = (function (_super) {
     __extends(Maths, _super);
     function Maths() {
         _super.apply(this, arguments);
     }
-    Maths.prototype.random = function () { return Math.random(); };
+    Maths.prototype.random = function (low, high) { return Math.random(); };
     Maths.prototype.lerp = function (start, stop, amt) { return amt * (stop - start) + start; };
     Maths.prototype.sq = function (n) { return n * n; };
+    Maths.prototype.isZero = function (n, tolerance) {
+        var epsilon = Math.abs(tolerance) || Maths.EPSILON_ZERO;
+        return n !== n || (n >= -epsilon && n <= epsilon);
+    };
     Maths.random = Maths.prototype.random;
     Maths.lerp = Maths.prototype.lerp;
     Maths.sq = Maths.prototype.sq;
+    Maths.isZero = Maths.prototype.isZero;
     __decorate([
         Frozen
     ], Maths.prototype, "random", null);
@@ -984,22 +1023,24 @@ var Maths = (function (_super) {
     __decorate([
         Frozen
     ], Maths.prototype, "sq", null);
-    Maths = __decorate([
-        /// <reference path="PConstants.ts"/>
+    __decorate([
         Frozen
-    ], Maths);
+    ], Maths.prototype, "isZero", null);
     return Maths;
 }(PConstants));
-var StrictMath = Maths;
+var StrictMath = Math;
 /// <reference path="Maths.ts"/>
 var Processing = (function (_super) {
     __extends(Processing, _super);
     function Processing() {
-        _super.call(this);
+        _super.call(this); /* this.random = () => 10 */
+        this.init();
     }
-    Processing.PVector = typeof pjs !== 'undefined' && pjs.classes.PVector;
+    Processing.prototype.init = function () { this.PVector = pjs.classes.PVectorAltBuilder(this), this._degreeIn = true; };
+    Processing.prototype.random = function (low, high) { return Math.random(); };
     return Processing;
 }(Maths));
+var PApplet = Processing;
 /// <reference path="../api/Maths.ts"/>
 /// <reference path="../api/Processing.ts"/>
 var pjs;
@@ -1007,9 +1048,9 @@ var pjs;
     var classes;
     (function (classes) {
         "use strict";
-        var TAU = PConstants.TAU, lerp = Maths.lerp, sq = Maths.sq, argsErr = function (mtd, len, min) {
+        var lerp = Maths.lerp, sq = Maths.sq, isZero = Maths.isZero, TAU = PConstants.TAU, argsErr = function (mtd, len, min) {
             throw "Too few args passed to " + mtd + "() [" + len + " < " + min + "].";
-        };
+        }, xyzObjCheck = function (obj) { return 'x' in obj; }, pjsCheck = function (obj) { return obj && 'random' in obj; };
         var PVector = (function () {
             function PVector(x, y, z) {
                 if (x === void 0) { x = 0; }
@@ -1020,15 +1061,15 @@ var pjs;
                 this.z = z;
             }
             PVector.fromAngle = function (angle, target) {
-                return target ? target.set(Math.cos(angle), Math.sin(angle))
-                    : new PVector(Math.cos(angle), Math.sin(angle));
+                return target && target.set(Math.cos(angle), Math.sin(angle))
+                    || new PVector(Math.cos(angle), Math.sin(angle));
             };
             PVector.random2D = function (target, parent) {
-                var isPjs = target && 'random' in target, rnd = parent ? parent : isPjs ? target : Math;
+                var isPjs = pjsCheck(target), rnd = parent ? parent : isPjs ? target : Math;
                 return PVector.fromAngle(TAU * rnd.random(), isPjs ? undefined : target);
             };
             PVector.random3D = function (target, parent) {
-                var isPjs = target && 'random' in target, rnd = parent ? parent : isPjs ? target : Math, ang = TAU * rnd.random(), vz = 2 * rnd.random() - 1, vzr = Math.sqrt(1 - vz * vz), vx = vzr * Math.cos(ang), vy = vzr * Math.sin(ang);
+                var isPjs = pjsCheck(target), rnd = parent ? parent : isPjs ? target : Math, ang = TAU * rnd.random(), vz = 2 * rnd.random() - 1, vzr = Math.sqrt(1 - vz * vz), vx = vzr * Math.cos(ang), vy = vzr * Math.sin(ang);
                 return target && !isPjs ? target.set(vx, vy, vz) : new PVector(vx, vy, vz);
             };
             PVector.dist = function (v1, v2) {
@@ -1042,61 +1083,77 @@ var pjs;
             };
             PVector.cross = function (v1, v2, target) {
                 var cx = v1.y * v2.z - v2.y * v1.z, cy = v1.z * v2.x - v2.z * v1.x, cz = v1.x * v2.y - v2.x * v1.y;
-                return target ? target.set(cx, cy, cz) : new PVector(cx, cy, cz);
+                return target && target.set(cx, cy, cz) || new PVector(cx, cy, cz);
             };
-            PVector.angleBetween = function (v1, v2) {
-                if (!v1.x && !v1.y && !v1.z || !v2.x && !v2.y && !v2.z)
+            PVector.angleBetween = function (v1, v2, magSq1, magSq2, dot) {
+                if (v1.isZero() || v2.isZero())
                     return 0;
-                var amt = PVector.dot(v1, v2) / Math.sqrt(v1.magSq() * v2.magSq());
+                //if (!v1.x && !v1.y && !v1.z || !v2.x && !v2.y && !v2.z)  return 0
+                magSq1 = magSq1 || v1.magSq(), magSq2 = magSq2 || v2.magSq();
+                dot = dot || PVector.dot(v1, v2);
+                var amt = dot / Math.sqrt(magSq1 * magSq2);
                 return amt <= -1 ? Math.PI : amt >= 1 ? 0 : Math.acos(amt);
             };
-            PVector.lerp = function (v1, v2, amt) {
-                return v1.copy().lerp(v2, amt);
+            PVector.lerp = function (v1, v2, amt, target) {
+                return (target && target.set(v1) || v1.copy()).lerp(v2, amt);
             };
             PVector.add = function (v1, v2, target) {
-                return target ? target.set(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
-                    : new PVector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+                return target && target.set(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
+                    || new PVector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
             };
             PVector.sub = function (v1, v2, target) {
-                return target ? target.set(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
-                    : new PVector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+                return target && target.set(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
+                    || new PVector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+            };
+            PVector.subInv = function (v1, v2, target) {
+                return target && target.set(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z)
+                    || new PVector(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z);
             };
             PVector.mult = function (v, n, target) {
                 if (typeof n === 'number')
-                    return target ? target.set(v.x * n, v.y * n, v.z * n)
-                        : new PVector(v.x * n, v.y * n, v.z * n);
+                    return target && target.set(v.x * n, v.y * n, v.z * n)
+                        || new PVector(v.x * n, v.y * n, v.z * n);
                 else
-                    return target ? target.set(v.x * n.x, v.y * n.y, v.z * n.z)
-                        : new PVector(v.x * n.x, v.y * n.y, v.z * n.z);
+                    return target && target.set(v.x * n.x, v.y * n.y, v.z * n.z)
+                        || new PVector(v.x * n.x, v.y * n.y, v.z * n.z);
             };
             PVector.div = function (v, n, target) {
                 if (typeof n === 'number')
-                    return target ? target.set(v.x / n, v.y / n, v.z / n)
-                        : new PVector(v.x / n, v.y / n, v.z / n);
+                    return target && target.set(v.x / n, v.y / n, v.z / n)
+                        || new PVector(v.x / n, v.y / n, v.z / n);
                 else
-                    return target ? target.set(v.x / n.x, v.y / n.y, v.z / n.z)
-                        : new PVector(v.x / n.x, v.y / n.y, v.z / n.z);
+                    return target && target.set(v.x / n.x, v.y / n.y, v.z / n.z)
+                        || new PVector(v.x / n.x, v.y / n.y, v.z / n.z);
             };
-            PVector.prototype.array = function () {
-                return [this.x, this.y, this.z];
+            PVector.mod = function (v, n, target) {
+                if (typeof n === 'number')
+                    return target && target.set(v.x % n, v.y % n, v.z % n)
+                        || new PVector(v.x % n, v.y % n, v.z % n);
+                else
+                    return target && target.set(v.x % n.x, v.y % n.y, v.z % n.z)
+                        || new PVector(v.x % n.x, v.y % n.y, v.z % n.z);
             };
-            PVector.prototype.copy = function () {
-                return new PVector(this.x, this.y, this.z);
-            };
+            PVector.prototype.array = function () { return [this.x, this.y, this.z]; };
+            PVector.prototype.object = function () { return { x: this.x, y: this.y, z: this.z }; };
+            PVector.prototype.copy = function () { return new PVector(this.x, this.y, this.z); };
+            PVector.prototype.clone = function () { return this.copy(); };
             PVector.prototype.get = function (target) {
                 if (!arguments.length)
                     return this.copy(); // @Deprecated
                 if (typeof target !== 'object')
                     return this.array();
-                target[0] = this.x, target[1] = this.y, target[2] = this.z;
+                if (xyzObjCheck(target))
+                    target.x = this.x, target.y = this.y, target.z = this.z;
+                else
+                    target[0] = this.x, target[1] = this.y, target[2] = this.z;
                 return target;
             };
             PVector.prototype.set = function (v, y, z) {
                 var len = arguments.length;
                 if (len > 1)
-                    this.x = v, this.y = y, len > 2 && (this.z = z);
+                    this.x = +v, this.y = +y, z != null && (this.z = +z);
                 else if (len === 1)
-                    this.set(v[0] || v.x || 0, v[1] || v.y || 0, v[2] || v.z || undefined);
+                    this.set(v[0] || v.x || 0, v[1] || v.y || 0, v[2] || v.z);
                 else
                     argsErr('set', len, 1);
                 return this;
@@ -1104,14 +1161,14 @@ var pjs;
             PVector.prototype.normalize = function (target, mag) {
                 var m = mag || this.mag(), canDivide = m !== 0 && m !== 1;
                 if (!arguments.length)
-                    return canDivide ? this.div(m) : this;
+                    return canDivide && this.div(m) || this;
                 return canDivide ? PVector.div(this, m, target)
-                    : target ? target.set(this) : this.copy();
+                    : target && target.set(this) || this.copy();
             };
-            PVector.prototype.limit = function (max, target) {
-                var magSq = this.magSq();
+            PVector.prototype.limit = function (max, target, magSq) {
+                magSq = magSq || this.magSq();
                 return magSq > max * max ? this.normalize(target, Math.sqrt(magSq)).mult(max)
-                    : target ? target.set(this) : this;
+                    : target && target.set(this) || this;
             };
             PVector.prototype.heading = function () {
                 //return -Math.atan2(-this.y, this.x)
@@ -1124,25 +1181,46 @@ var pjs;
                 return Math.sqrt(this.magSq());
             };
             PVector.prototype.magSq = function () {
-                return sq(this.x) + sq(this.y) + sq(this.z);
+                //return sq(this.x) + sq(this.y) + sq(this.z)
+                return this.x * this.x + this.y * this.y + this.z * this.z;
             };
-            PVector.prototype.setMag = function (target, length) {
+            PVector.prototype.setMag = function (target, length, mag) {
                 var len = arguments.length;
                 return len === 1 ? this.normalize().mult(target) :
-                    len > 1 ? this.normalize(target).mult(length) :
+                    len > 1 ? this.normalize(target, mag).mult(length) :
                         argsErr('setMag', len, 1);
             };
-            PVector.prototype.rotate = function (angle) {
-                var prev_x = this.x, c = Math.cos(angle), s = Math.sin(angle);
-                this.x = c * prev_x - s * this.y;
-                this.y = s * prev_x + c * this.y;
-                return this;
+            PVector.prototype.rotate = function (angle, target) {
+                var c = Math.cos(angle), s = Math.sin(angle), x = c * this.x - s * this.y, y = s * this.x + c * this.y;
+                return target && target.set(x, y) || this.set(x, y);
+            };
+            PVector.prototype.rotateX = function (angle, target) {
+                var c = Math.cos(angle), s = Math.sin(angle), y = c * this.y - s * this.z, z = s * this.y + c * this.z;
+                return target && target.set(this.x, y, z) || this.set(this.x, y, z);
+            };
+            PVector.prototype.rotateY = function (angle, target) {
+                var c = Math.cos(angle), s = Math.sin(angle), x = s * this.z + c * this.x, z = c * this.z - s * this.x;
+                return target && target.set(x, this.y, z) || this.set(x, this.y, z);
+            };
+            PVector.prototype.rotateZ = function (angle, target) {
+                return this.rotate(angle, target);
+            };
+            PVector.prototype.fromAngle = function (angle, target) {
+                return PVector.fromAngle(angle, target || this);
+            };
+            PVector.prototype.random2D = function (target, parent) {
+                return pjsCheck(target) && PVector.random2D(this, target)
+                    || PVector.random2D(target || this, parent);
+            };
+            PVector.prototype.random3D = function (target, parent) {
+                return pjsCheck(target) && PVector.random3D(this, target)
+                    || PVector.random3D(target || this, parent);
             };
             PVector.prototype.dist = function (v1, v2) {
-                return v2 ? PVector.dist(v1, v2) : PVector.dist(this, v1);
+                return v2 && PVector.dist(v1, v2) || PVector.dist(this, v1);
             };
             PVector.prototype.distSq = function (v1, v2) {
-                return v2 ? PVector.distSq(v1, v2) : PVector.distSq(this, v1);
+                return v2 && PVector.distSq(v1, v2) || PVector.distSq(this, v1);
             };
             PVector.prototype.dot = function (v, y, z) {
                 var len = arguments.length;
@@ -1152,10 +1230,10 @@ var pjs;
                             argsErr('dot', len, 1);
             };
             PVector.prototype.cross = function (v1, v2, target) {
-                return target ? PVector.cross(v1, v2, target) : PVector.cross(this, v1, v2);
+                return target && PVector.cross(v1, v2, target) || PVector.cross(this, v1, v2);
             };
-            PVector.prototype.angleBetween = function (v) {
-                return PVector.angleBetween(this, v);
+            PVector.prototype.angleBetween = function (v, magSq1, magSq2, dot) {
+                return PVector.angleBetween(this, v, magSq1, magSq2, dot);
             };
             PVector.prototype.lerp = function (a, b, c, d) {
                 var x, y, z, amt;
@@ -1173,42 +1251,64 @@ var pjs;
                 else {
                     x = a, y = b, z = c, amt = d;
                 }
-                this.x = lerp(this.x, x, amt);
-                this.y = lerp(this.y, y, amt);
-                this.z = lerp(this.z, z, amt);
-                return this;
+                return this.set(lerp(this.x, x, amt), lerp(this.y, y, amt), lerp(this.z, z, amt));
             };
             PVector.prototype.add = function (v, y, z) {
-                if (y instanceof PVector)
+                if (typeof y !== 'number')
                     return PVector.add(v, y, z);
                 else {
                     var len = arguments.length;
                     if (len === 1) {
-                        this.x += v.x, this.y += v.y, this.z += v.z;
+                        if (typeof v === 'number')
+                            this.x += v, this.y += v, this.z += v;
+                        else
+                            this.x += v.x, this.y += v.y, this.z += v.z;
                     }
                     else if (len > 1) {
-                        this.x += v, this.y += y, len > 2 && (this.z += z);
+                        this.x += +v, this.y += y, z != null && (this.z += +z);
                     }
                     else
                         argsErr('add', len, 1);
-                    return this;
                 }
+                return this;
             };
             PVector.prototype.sub = function (v, y, z) {
-                if (y instanceof PVector)
+                if (typeof y !== 'number')
                     return PVector.sub(v, y, z);
                 else {
                     var len = arguments.length;
                     if (len === 1) {
-                        this.x -= v.x, this.y -= v.y, this.z -= v.z;
+                        if (typeof v === 'number')
+                            this.x -= v, this.y -= v, this.z -= v;
+                        else
+                            this.x -= v.x, this.y -= v.y, this.z -= v.z;
                     }
                     else if (len > 1) {
-                        this.x -= v, this.y -= y, len > 2 && (this.z -= z);
+                        this.x -= +v, this.y -= y, z != null && (this.z -= +z);
                     }
                     else
                         argsErr('sub', len, 1);
-                    return this;
                 }
+                return this;
+            };
+            PVector.prototype.subInv = function (v, y, z) {
+                if (typeof y !== 'number')
+                    return PVector.subInv(v, y, z);
+                else {
+                    var len = arguments.length;
+                    if (len === 1) {
+                        if (typeof v === 'number')
+                            this.x += -v, this.y += -v, this.z += -v;
+                        else
+                            this.x += -v.x, this.y += -v.y, this.z += -v.z;
+                    }
+                    else if (len > 1) {
+                        this.x += -v, this.y += -y, z != null && (this.z += -z);
+                    }
+                    else
+                        argsErr('sub', len, 1);
+                }
+                return this;
             };
             PVector.prototype.mult = function (v, n, target) {
                 var len = arguments.length;
@@ -1236,9 +1336,37 @@ var pjs;
                     return PVector.div(v, n, target);
                 argsErr('div', len, 1);
             };
+            PVector.prototype.mod = function (v, n, target) {
+                var len = arguments.length;
+                if (len === 1) {
+                    if (typeof v === 'number')
+                        this.x %= v, this.y %= v, this.z %= v;
+                    else
+                        this.x %= v.x, this.y %= v.y, this.z %= v.z;
+                    return this;
+                }
+                else if (len > 1)
+                    return PVector.mod(v, n, target);
+                argsErr('mod', len, 1);
+            };
+            PVector.prototype.negate = function () {
+                this.x *= -1, this.y *= -1, this.z *= -1;
+                return this;
+            };
+            PVector.prototype.clear = function () {
+                this.x = this.y = this.z = 0;
+                return this;
+            };
+            PVector.prototype.isZero = function (tolerance) {
+                return isZero(this.x, tolerance) && isZero(this.y, tolerance) && isZero(this.z, tolerance);
+            };
+            PVector.prototype.isNaN = function () {
+                return this.x !== this.x || this.y !== this.y || this.z !== this.z;
+            };
             PVector.prototype.toString = function () {
                 return "[ " + this.x + ", " + this.y + ", " + this.z + " ]";
             };
+            PVector.prototype.valueOf = function () { return this.hashCode(); };
             PVector.prototype.equals = function (o) {
                 return o === this ? true : o instanceof PVector ?
                     o.x === this.x && o.y === this.y && o.z === this.z : false;
@@ -1254,7 +1382,13 @@ var pjs;
             ], PVector.prototype, "array", null);
             __decorate([
                 Frozen
+            ], PVector.prototype, "object", null);
+            __decorate([
+                Frozen
             ], PVector.prototype, "copy", null);
+            __decorate([
+                Frozen
+            ], PVector.prototype, "clone", null);
             __decorate([
                 Frozen
             ], PVector.prototype, "get", null);
@@ -1287,6 +1421,24 @@ var pjs;
             ], PVector.prototype, "rotate", null);
             __decorate([
                 Frozen
+            ], PVector.prototype, "rotateX", null);
+            __decorate([
+                Frozen
+            ], PVector.prototype, "rotateY", null);
+            __decorate([
+                Frozen
+            ], PVector.prototype, "rotateZ", null);
+            __decorate([
+                Frozen
+            ], PVector.prototype, "fromAngle", null);
+            __decorate([
+                Frozen
+            ], PVector.prototype, "random2D", null);
+            __decorate([
+                Frozen
+            ], PVector.prototype, "random3D", null);
+            __decorate([
+                Frozen
             ], PVector.prototype, "dist", null);
             __decorate([
                 Frozen
@@ -1311,10 +1463,28 @@ var pjs;
             ], PVector.prototype, "sub", null);
             __decorate([
                 Frozen
+            ], PVector.prototype, "subInv", null);
+            __decorate([
+                Frozen
             ], PVector.prototype, "mult", null);
             __decorate([
                 Frozen
             ], PVector.prototype, "div", null);
+            __decorate([
+                Frozen
+            ], PVector.prototype, "mod", null);
+            __decorate([
+                Frozen
+            ], PVector.prototype, "negate", null);
+            __decorate([
+                Frozen
+            ], PVector.prototype, "clear", null);
+            __decorate([
+                Frozen
+            ], PVector.prototype, "isZero", null);
+            __decorate([
+                Frozen
+            ], PVector.prototype, "isNaN", null);
             __decorate([
                 Frozen
             ], PVector.prototype, "toString", null);
@@ -1359,18 +1529,40 @@ var pjs;
             ], PVector, "sub", null);
             __decorate([
                 Frozen
+            ], PVector, "subInv", null);
+            __decorate([
+                Frozen
             ], PVector, "mult", null);
             __decorate([
                 Frozen
             ], PVector, "div", null);
+            __decorate([
+                Frozen
+            ], PVector, "mod", null);
             PVector = __decorate([
-                Frozen,
                 InjectInto(Processing)
             ], PVector);
             return PVector;
         }());
         classes.PVector = PVector;
+        function PVectorAltBuilder(p) {
+            var DEG_TO_RAD = PConstants.DEG_TO_RAD, RAD_TO_DEG = PConstants.RAD_TO_DEG;
+            return (function (_super) {
+                __extends(PVectorAlt, _super);
+                function PVectorAlt() {
+                    _super.apply(this, arguments);
+                }
+                PVectorAlt.fromAngle = function (angle, target) {
+                    p._degreeIn && (angle *= DEG_TO_RAD);
+                    return target && target.set(Math.cos(angle), Math.sin(angle))
+                        || new PVectorAlt(Math.cos(angle), Math.sin(angle));
+                };
+                PVectorAlt.prototype.fromAngle = function (angle, target) {
+                    return PVectorAlt.fromAngle(angle, target || this);
+                };
+                return PVectorAlt;
+            }(PVector));
+        }
+        classes.PVectorAltBuilder = PVectorAltBuilder;
     })(classes = pjs.classes || (pjs.classes = {}));
 })(pjs || (pjs = {}));
-
-// test

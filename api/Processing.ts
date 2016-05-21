@@ -11,7 +11,7 @@ class Processing extends Maths {
 
   init() { this.PVector = pjs.classes.PVectorAltBuilder(this), this._degreeIn = true }
 
-  static readonly PVector = 'pjs' in window && pjs.classes.PVector
+  static readonly PVector: typeof pjs.classes.PVector
 
   random(low?: number, high?: number) { return Math.random() as norm }
 }
