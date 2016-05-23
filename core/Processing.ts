@@ -1,4 +1,4 @@
-/// <reference path="Maths.ts"/>
+/// <reference path="../math/Maths.ts"/>
 
 class Processing extends Maths {
   _degreeIn:  boolean
@@ -9,9 +9,9 @@ class Processing extends Maths {
      this.init()
   }
 
-  init() { this.PVector = pjs.classes.PVectorAltBuilder(this), this._degreeIn = true }
+  init() { this.PVector = pjs.math.PVectorAltBuilder(this), this._degreeIn = true }
 
-  static readonly PVector: typeof pjs.classes.PVector
+  static readonly PVector: typeof pjs.math.PVector
 
   random(low?: number, high?: number) { return Math.random() as norm }
 }

@@ -1,4 +1,4 @@
-/// <reference path="PConstants.ts"/>
+/// <reference path="../core/PConstants.ts"/>
 
 abstract class Maths extends PConstants {
   @Frozen random(low?: number, high?: number) { return Math.random() as norm }

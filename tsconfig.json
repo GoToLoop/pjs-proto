@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "module": "es2015",
         "moduleResolution": "node",
         "isolatedModules": false,
@@ -25,14 +25,14 @@
     "compileOnSave": true,
     "buildOnSave": false,
     "files": [
-        "api/Decorators.ts",
-        "api/Maths.ts",
-        "api/PConstants.ts",
-        "api/Processing.ts",
-        "api/Types.d.ts",
-        "classes/PVector.ts",
+        "core/PConstants.ts",
+        "core/Processing.ts",
+        "core/Types.d.ts",
+        "math/Maths.ts",
+        "math/PVector.ts",
         "p5.d.ts",
-        "test.ts"
+        "test.ts",
+        "utils/Decorators.ts"
     ],
     "atom": {
         "rewriteTsconfig": true

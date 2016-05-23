@@ -1,5 +1,5 @@
 /// <reference path="Types.d.ts"/>
-/// <reference path="Decorators.ts"/>
+/// <reference path="../utils/Decorators.ts"/>
 
 @Frozen abstract class PConstants {
   @ProtoAssign static readonly X = 0

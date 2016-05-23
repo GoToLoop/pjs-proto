@@ -1,7 +1,7 @@
-/// <reference path="../api/Maths.ts"/>
-/// <reference path="../api/Processing.ts"/>
+/// <reference path="Maths.ts"/>
+/// <reference path="../core/Processing.ts"/>
 
-namespace pjs.classes {
+namespace pjs.math {
   "use strict"
 
   const {lerp, sq, isZero} = Maths,

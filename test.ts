@@ -1,5 +1,5 @@
-/// <reference path="api/Processing.ts"/>
-/// <reference path="classes/PVector.ts"/>
+/// <reference path="core/Processing.ts"/>
+/// <reference path="math/PVector.ts"/>
 
 console.log(Processing.random())
 console.log(new Processing().random())
@@ -15,7 +15,7 @@ console.info(arr)
 function q(...a: string[]) {const t = new Processing().PVector.random3D().get(arguments); console.info(t)}
 q('tdfgfdgfd', 'tdfgfdgfd','tdfgfdgfd','tdfgfdgfd')
 
-pjs.classes.PVector.random2D()
+pjs.math.PVector.random2D()
 Processing.PVector.random3D()
 Processing.sq(6)
 
