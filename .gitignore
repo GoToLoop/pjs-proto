@@ -3,6 +3,7 @@
 test.js
 core/*.js
 data/*.js
+graphics/*.js
 helpers/*.js
 java/*.js
 math/*.js

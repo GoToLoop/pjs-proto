@@ -1,8 +1,11 @@
-/// <reference path="Maths.ts"/>
 /// <reference path="../core/Processing.ts"/>
 
 namespace pjs.math {
   "use strict"
+
+  import Frozen = utils.Frozen
+  import InjectInto = utils.InjectInto
+  import PConstants = core.PConstants
 
   const {lerp, sq, isZero} = Maths,
         TAU = PConstants.TAU,
