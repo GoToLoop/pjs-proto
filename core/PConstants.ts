@@ -1,5 +1,5 @@
-/// <reference path="Types.d.ts"/>
-/// <reference path="../utils/Decorators.ts"/>
+/// <reference path="../typings/Types"/>
+/// <reference path="../utils/Decorators"/>
 
 namespace pjs.core {
   "use strict"
@@ -311,7 +311,7 @@ namespace pjs.core {
 
   export interface PConstants extends PConstants.prototype {}
 
-  namespace PConstants {
+  export namespace PConstants {
     export interface prototype {
       readonly X: number
       readonly Y: number

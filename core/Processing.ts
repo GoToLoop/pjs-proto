@@ -1,4 +1,4 @@
-/// <reference path="../math/Maths.ts"/>
+/// <reference path="../math/Maths"/>
 
 namespace pjs.core {
   "use strict"
@@ -21,7 +21,7 @@ namespace pjs.core {
 
   export interface Processing extends Processing.prototype {}
 
-  namespace Processing {
+  export namespace Processing {
     export interface prototype {
       PVector: typeof Processing.PVector
     }
@@ -29,4 +29,4 @@ namespace pjs.core {
 }
 
 import Processing = pjs.core.Processing
-const PApplet = Processing
+var PApplet = Processing

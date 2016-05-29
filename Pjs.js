@@ -26,7 +26,7 @@ var pjs;
         utils.Frozen = Frozen;
         function ProtoAssign(clazz, prop) {
             "use strict";
-            "use strong"; // Must be static Method or Prop
+            "use strong";
             clazz.prototype[prop] = clazz[prop];
         }
         utils.ProtoAssign = ProtoAssign;
@@ -53,8 +53,6 @@ var pjs;
         utils.InjectInto = InjectInto;
     })(utils = pjs.utils || (pjs.utils = {}));
 })(pjs || (pjs = {}));
-/// <reference path="Types.d.ts"/>
-/// <reference path="../utils/Decorators.ts"/>
 var pjs;
 (function (pjs) {
     var core;
@@ -78,13 +76,11 @@ var pjs;
             PConstants.NY = 10;
             PConstants.NZ = 11;
             PConstants.EDGE = 12;
-            // Stroke
             PConstants.SR = 13;
             PConstants.SG = 14;
             PConstants.SB = 15;
             PConstants.SA = 16;
             PConstants.SW = 17;
-            // Transformations (2D and 3D)
             PConstants.TX = 18;
             PConstants.TY = 19;
             PConstants.TZ = 20;
@@ -92,7 +88,6 @@ var pjs;
             PConstants.VY = 22;
             PConstants.VZ = 23;
             PConstants.VW = 24;
-            // Material properties
             PConstants.AR = 25;
             PConstants.AG = 26;
             PConstants.AB = 27;
@@ -109,7 +104,6 @@ var pjs;
             PConstants.EB = 34;
             PConstants.BEEN_LIT = 35;
             PConstants.VERTEX_FIELD_COUNT = 36;
-            // Renderers
             PConstants.P2D = 1;
             PConstants.JAVA2D = 1;
             PConstants.WEBGL = 2;
@@ -117,44 +111,39 @@ var pjs;
             PConstants.OPENGL = 2;
             PConstants.PDF = 0;
             PConstants.DXF = 0;
-            // Platform IDs
             PConstants.OTHER = 0;
             PConstants.WINDOWS = 1;
             PConstants.MAXOSX = 2;
             PConstants.LINUX = 3;
-            // Math Constants
             PConstants.EPSILON = 1e-4;
             PConstants.EPSILON_ZERO = 1e-12;
             PConstants.MAX_FLOAT = 3.4028235e+38;
             PConstants.MIN_FLOAT = -3.4028235e+38;
             PConstants.MAX_INT = 2147483647;
             PConstants.MIN_INT = -2147483648;
-            PConstants.PI = Math.PI; // 180°
-            PConstants.TWO_PI = Math.PI * 2; // 360°
-            PConstants.TAU = Math.PI * 2; // 360°
-            PConstants.HALF_PI = Math.PI / 2; // 90°
-            PConstants.THIRD_PI = Math.PI / 3; // 60°
-            PConstants.QUARTER_PI = Math.PI / 4; // 45°
-            PConstants.SIXTH_PI = Math.PI / 6; // 30°
-            PConstants.EIGHTH_PI = Math.PI / 8; // 22.5°
-            PConstants.TWELFTH_PI = Math.PI / 12; // 15°
+            PConstants.PI = Math.PI;
+            PConstants.TWO_PI = Math.PI * 2;
+            PConstants.TAU = Math.PI * 2;
+            PConstants.HALF_PI = Math.PI / 2;
+            PConstants.THIRD_PI = Math.PI / 3;
+            PConstants.QUARTER_PI = Math.PI / 4;
+            PConstants.SIXTH_PI = Math.PI / 6;
+            PConstants.EIGHTH_PI = Math.PI / 8;
+            PConstants.TWELFTH_PI = Math.PI / 12;
             PConstants.DEG_TO_RAD = Math.PI / 180;
             PConstants.RAD_TO_DEG = 180 / Math.PI;
             PConstants.RADIANS = 0;
             PConstants.DEGREES = 1;
             PConstants.WHITESPACE = ' \t\n\r\f\u00A0';
-            // Color modes
             PConstants.RGB = 1;
             PConstants.ARGB = 2;
             PConstants.HSB = 3;
             PConstants.ALPHA = 4;
             PConstants.CMYK = 5;
-            // Image file types
             PConstants.TIFF = 0;
             PConstants.TARGA = 1;
             PConstants.JPEG = 2;
             PConstants.GIF = 3;
-            // Filter/convert types
             PConstants.BLUR = 11;
             PConstants.GRAY = 12;
             PConstants.INVERT = 13;
@@ -163,7 +152,6 @@ var pjs;
             PConstants.THRESHOLD = 16;
             PConstants.ERODE = 17;
             PConstants.DILATE = 18;
-            // Blend modes
             PConstants.REPLACE = 0;
             PConstants.BLEND = 1 << 0;
             PConstants.ADD = 1 << 1;
@@ -179,16 +167,13 @@ var pjs;
             PConstants.SOFT_LIGHT = 1 << 11;
             PConstants.DODGE = 1 << 12;
             PConstants.BURN = 1 << 13;
-            // Color component bit masks
             PConstants.ALPHA_MASK = 0xff000000;
             PConstants.RED_MASK = 0x00ff0000;
             PConstants.GREEN_MASK = 0x0000ff00;
             PConstants.BLUE_MASK = 0x000000ff;
-            // Projection matrices
             PConstants.CUSTOM = 0;
             PConstants.ORTHOGRAPHIC = 2;
             PConstants.PERSPECTIVE = 3;
-            // Shapes
             PConstants.POINT = 2;
             PConstants.POINTS = 2;
             PConstants.LINE = 4;
@@ -209,47 +194,35 @@ var pjs;
             PConstants.BOX = 41;
             PConstants.GROUP = 0;
             PConstants.PRIMITIVE = 1;
-            //@ProtoAssign static readonly PATH = 21 // shared with Shape PATH
             PConstants.GEOMETRY = 3;
-            // Shape Vertex
             PConstants.VERTEX = 0;
             PConstants.BEZIER_VERTEX = 1;
             PConstants.CURVE_VERTEX = 2;
             PConstants.BREAK = 3;
             PConstants.CLOSESHAPE = 4;
-            // Shape closing modes
             PConstants.OPEN = 1;
             PConstants.CLOSE = 2;
-            // Shape drawing modes
-            PConstants.CORNER = 0; // Draw mode convention to use (x y) to (width height)
-            PConstants.CORNERS = 1; // Draw mode convention to use (x1 y1) to (x2 y2)
-            PConstants.RADIUS = 2; // Draw mode from the center and using the radius
-            PConstants.CENTER = 3; // Draw from center using 2nd pair of values as the diam
-            PConstants.DIAMETER = 3; // Synonym for CENTER constant. Draw from the center
-            // Text vertical alignment modes
-            PConstants.BASELINE = 0; // Default vertical alignment for text placement
-            PConstants.TOP = 101; // Align text to the top
-            PConstants.BOTTOM = 102; // Align text from the bottom using the baseline
-            // UV Texture coordinate modes
+            PConstants.CORNER = 0;
+            PConstants.CORNERS = 1;
+            PConstants.RADIUS = 2;
+            PConstants.CENTER = 3;
+            PConstants.DIAMETER = 3;
+            PConstants.BASELINE = 0;
+            PConstants.TOP = 101;
+            PConstants.BOTTOM = 102;
             PConstants.NORMAL = 1;
             PConstants.NORMALIZED = 1;
             PConstants.IMAGE = 2;
-            // Text placement modes
             PConstants.MODEL = 4;
             PConstants.SHAPE = 5;
-            // Stroke modes
             PConstants.SQUARE = 'butt';
             PConstants.ROUND = 'round';
             PConstants.PROJECT = 'square';
             PConstants.MITER = 'miter';
             PConstants.BEVEL = 'bevel';
-            // Lighting modes
             PConstants.AMBIENT = 0;
             PConstants.DIRECTIONAL = 1;
-            //@ProtoAssign static readonly POINT = 2 Shared with Shape constant
             PConstants.SPOT = 3;
-            // Key constants
-            // Both key and keyCode will be equal to these values
             PConstants.BACKSPACE = 8;
             PConstants.TAB = 9;
             PConstants.ENTER = 10;
@@ -257,7 +230,6 @@ var pjs;
             PConstants.ESC = 27;
             PConstants.DELETE = 127;
             PConstants.CODED = 0xffff;
-            // p.key will be CODED and p.keyCode will be this value
             PConstants.SHIFT = 16;
             PConstants.CONTROL = 17;
             PConstants.ALT = 18;
@@ -285,7 +257,6 @@ var pjs;
             PConstants.NUMLK = 144;
             PConstants.META = 157;
             PConstants.INSERT = 155;
-            // Cursor types
             PConstants.ARROW = 'default';
             PConstants.CROSS = 'crosshair';
             PConstants.HAND = 'pointer';
@@ -293,7 +264,6 @@ var pjs;
             PConstants.TEXT = 'text';
             PConstants.WAIT = 'wait';
             PConstants.NOCURSOR = "url('data:image/gif;base64R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==') auto";
-            // Hints
             PConstants.DISABLE_OPENGL_2X_SMOOTH = 1;
             PConstants.ENABLE_OPENGL_2X_SMOOTH = -1;
             PConstants.ENABLE_OPENGL_4X_SMOOTH = 2;
@@ -307,9 +277,8 @@ var pjs;
             PConstants.ENABLE_ACCURATE_TEXTURES = 7;
             PConstants.DISABLE_ACCURATE_TEXTURES = -7;
             PConstants.HINT_COUNT = 10;
-            // PJS defined constants
-            PConstants.SINCOS_LENGTH = 720; // every half degree
-            PConstants.PRECISIONB = 15; // fixed point precision is limited to 15 bits!!
+            PConstants.SINCOS_LENGTH = 720;
+            PConstants.PRECISIONB = 15;
             PConstants.PRECISIONF = 1 << 15;
             PConstants.PREC_MAXVAL = (1 << 15) - 1;
             PConstants.PREC_ALPHA_SHIFT = 24 - 15;
@@ -496,39 +465,30 @@ var pjs;
                 ProtoAssign
             ], PConstants, "PI", void 0);
             __decorate([
-                // 180°
                 ProtoAssign
             ], PConstants, "TWO_PI", void 0);
             __decorate([
-                // 360°
                 ProtoAssign
             ], PConstants, "TAU", void 0);
             __decorate([
-                // 360°
                 ProtoAssign
             ], PConstants, "HALF_PI", void 0);
             __decorate([
-                // 90°
                 ProtoAssign
             ], PConstants, "THIRD_PI", void 0);
             __decorate([
-                // 60°
                 ProtoAssign
             ], PConstants, "QUARTER_PI", void 0);
             __decorate([
-                // 45°
                 ProtoAssign
             ], PConstants, "SIXTH_PI", void 0);
             __decorate([
-                // 30°
                 ProtoAssign
             ], PConstants, "EIGHTH_PI", void 0);
             __decorate([
-                // 22.5°
                 ProtoAssign
             ], PConstants, "TWELFTH_PI", void 0);
             __decorate([
-                // 15°
                 ProtoAssign
             ], PConstants, "DEG_TO_RAD", void 0);
             __decorate([
@@ -748,35 +708,27 @@ var pjs;
                 ProtoAssign
             ], PConstants, "CORNER", void 0);
             __decorate([
-                // Draw mode convention to use (x y) to (width height)
                 ProtoAssign
             ], PConstants, "CORNERS", void 0);
             __decorate([
-                // Draw mode convention to use (x1 y1) to (x2 y2)
                 ProtoAssign
             ], PConstants, "RADIUS", void 0);
             __decorate([
-                // Draw mode from the center and using the radius
                 ProtoAssign
             ], PConstants, "CENTER", void 0);
             __decorate([
-                // Draw from center using 2nd pair of values as the diam
                 ProtoAssign
             ], PConstants, "DIAMETER", void 0);
             __decorate([
-                // Synonym for CENTER constant. Draw from the center
                 ProtoAssign
             ], PConstants, "BASELINE", void 0);
             __decorate([
-                // Default vertical alignment for text placement
                 ProtoAssign
             ], PConstants, "TOP", void 0);
             __decorate([
-                // Align text to the top
                 ProtoAssign
             ], PConstants, "BOTTOM", void 0);
             __decorate([
-                // Align text from the bottom using the baseline
                 ProtoAssign
             ], PConstants, "NORMAL", void 0);
             __decorate([
@@ -981,11 +933,9 @@ var pjs;
                 ProtoAssign
             ], PConstants, "SINCOS_LENGTH", void 0);
             __decorate([
-                // every half degree
                 ProtoAssign
             ], PConstants, "PRECISIONB", void 0);
             __decorate([
-                // fixed point precision is limited to 15 bits!!
                 ProtoAssign
             ], PConstants, "PRECISIONF", void 0);
             __decorate([
@@ -1017,7 +967,6 @@ var pjs;
         core.PConstants = PConstants;
     })(core = pjs.core || (pjs.core = {}));
 })(pjs || (pjs = {}));
-/// <reference path="../core/PConstants.ts"/>
 var pjs;
 (function (pjs) {
     var math;
@@ -1058,7 +1007,6 @@ var pjs;
     })(math = pjs.math || (pjs.math = {}));
 })(pjs || (pjs = {}));
 var StrictMath = Math;
-/// <reference path="../math/Maths.ts"/>
 var pjs;
 (function (pjs) {
     var core;
@@ -1067,7 +1015,7 @@ var pjs;
         var Processing = (function (_super) {
             __extends(Processing, _super);
             function Processing() {
-                _super.call(this); /* this.random = () => 10 */
+                _super.call(this);
                 this.init();
             }
             Processing.prototype.init = function () { this.PVector = pjs.math.PVectorAltBuilder(this), this._degreeIn = true; };
@@ -1079,7 +1027,6 @@ var pjs;
 })(pjs || (pjs = {}));
 var Processing = pjs.core.Processing;
 var PApplet = Processing;
-/// <reference path="../core/Processing.ts"/>
 var pjs;
 (function (pjs) {
     var math;
@@ -1128,7 +1075,6 @@ var pjs;
             PVector.angleBetween = function (v1, v2, magSq1, magSq2, dot) {
                 if (v1.isZero() || v2.isZero())
                     return 0;
-                //if (!v1.x && !v1.y && !v1.z || !v2.x && !v2.y && !v2.z)  return 0
                 magSq1 = magSq1 || v1.magSq(), magSq2 = magSq2 || v2.magSq();
                 dot = dot || PVector.dot(v1, v2);
                 var amt = dot / Math.sqrt(magSq1 * magSq2);
@@ -1179,7 +1125,7 @@ var pjs;
             PVector.prototype.clone = function () { return this.copy(); };
             PVector.prototype.get = function (target) {
                 if (!arguments.length)
-                    return this.copy(); // @Deprecated
+                    return this.copy();
                 if (typeof target !== 'object')
                     return this.array();
                 if (xyzObjCheck(target))
@@ -1211,7 +1157,6 @@ var pjs;
                     : target && target.set(this) || this;
             };
             PVector.prototype.heading = function () {
-                //return -Math.atan2(-this.y, this.x)
                 return Math.atan2(this.y, this.x);
             };
             PVector.prototype.heading2D = function () {
@@ -1221,7 +1166,6 @@ var pjs;
                 return Math.sqrt(this.magSq());
             };
             PVector.prototype.magSq = function () {
-                //return sq(this.x) + sq(this.y) + sq(this.z)
                 return this.x * this.x + this.y * this.y + this.z * this.z;
             };
             PVector.prototype.setMag = function (target, length, mag) {

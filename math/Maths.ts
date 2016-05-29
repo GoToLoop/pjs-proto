@@ -1,4 +1,4 @@
-/// <reference path="../core/PConstants.ts"/>
+/// <reference path="../core/PConstants"/>
 
 namespace pjs.math {
   "use strict"
@@ -23,4 +23,4 @@ namespace pjs.math {
   }
 }
 
-const StrictMath = Math
+var StrictMath = Math

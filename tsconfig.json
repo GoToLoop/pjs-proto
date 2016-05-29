@@ -6,12 +6,12 @@
         "isolatedModules": false,
         "jsx": "react",
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
+        "emitDecoratorMetadata": false,
         "declaration": false,
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "removeComments": true,
         "noLib": false,
-        "preserveConstEnums": true,
+        "preserveConstEnums": false,
         "suppressImplicitAnyIndexErrors": true,
         "newLine": "LF",
         "allowJs": true,
@@ -27,11 +27,11 @@
     "files": [
         "core/PConstants.ts",
         "core/Processing.ts",
-        "core/Types.d.ts",
         "math/Maths.ts",
         "math/PVector.ts",
         "p5.d.ts",
         "test.ts",
+        "typings/Types.d.ts",
         "utils/Decorators.ts"
     ],
     "atom": {

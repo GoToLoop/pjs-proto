@@ -1,4 +1,4 @@
-/// <reference path="../core/Processing.ts"/>
+/// <reference path="../core/Processing"/>
 
 namespace pjs.math {
   "use strict"
@@ -367,6 +367,8 @@ namespace pjs.math {
     }
   }
 
+  export declare class PVectorAlt extends PVector {}
+
   export function PVectorAltBuilder(p: Processing) {
     const {DEG_TO_RAD, RAD_TO_DEG} = PConstants
 
@@ -380,6 +382,6 @@ namespace pjs.math {
       fromAngle(angle: rad, target?: PVector): PVector {
         return PVectorAlt.fromAngle(angle, target || this)
       }
-    }
+    } as typeof PVectorAlt
   }
 }
