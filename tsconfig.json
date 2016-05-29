@@ -34,6 +34,10 @@
         "typings/Types.d.ts",
         "utils/Decorators.ts"
     ],
+    "exclude": [
+        "node_modules",
+        "Pjs.d.ts"
+    ],
     "atom": {
         "rewriteTsconfig": true
     },
