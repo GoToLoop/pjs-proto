@@ -51,7 +51,7 @@ type whdObj = { width: size, height: size, depth: size }
 type callback = () => void
 
 type PseudoArray<T> = {
-  readonly length: uint
+  length: uint
   [idx: number]: T
 }
 

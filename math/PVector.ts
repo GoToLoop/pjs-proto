@@ -119,7 +119,7 @@ namespace pjs.math {
     get(target: TypedArray): TypedArray
     get(target: ArrayLike<number>): PseudoArray<number>
     get(target: xyzObj): xyzObj
-    @Frozen get(target?: PseudoArray<number> | xyzObj): PVector | ArrayLike<number> | xyzObj {
+    @Frozen get(target?: PseudoArray<number> | xyzObj): ArrayLike<number> | xyzObj {
       if (!arguments.length)           return this.copy() // @Deprecated
       if (typeof target !== 'object')  return this.array()
       if (xyzObjCheck(target))  target.x  = this.x, target.y  = this.y, target.z  = this.z
