@@ -24,7 +24,8 @@ namespace pjs.utils {
   export function InjectInto(target: Function) { // Class only
     "use strict"
     return <TFn extends Function>(clazz: TFn) => {
-      let name = clazz['name'] as string
+      //let name = clazz['name'] as string
+      let name = clazz.name
       if (!name) {
         name = clazz.toString()
         const start = name.indexOf(' ') + 1,

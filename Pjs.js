@@ -1,13 +1,13 @@
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var pjs;
 (function (pjs) {
@@ -41,7 +41,7 @@ var pjs;
         function InjectInto(target) {
             "use strict";
             return function (clazz) {
-                var name = clazz['name'];
+                var name = clazz.name;
                 if (!name) {
                     name = clazz.toString();
                     var start = name.indexOf(' ') + 1, stop = name.indexOf('(', start);
@@ -53,6 +53,57 @@ var pjs;
         utils.InjectInto = InjectInto;
     })(utils = pjs.utils || (pjs.utils = {}));
 })(pjs || (pjs = {}));
+var java;
+(function (java) {
+    var lang;
+    (function (lang) {
+        function Deprecated(clazz, prop) { }
+        lang.Deprecated = Deprecated;
+        function FunctionalInterface(clazz) { }
+        lang.FunctionalInterface = FunctionalInterface;
+        function Override(clazz, prop) { }
+        lang.Override = Override;
+        function SafeVarargs(clazz, prop) { }
+        lang.SafeVarargs = SafeVarargs;
+        function SuppressWarnings(clazz, prop) {
+            return function (clazz) { };
+        }
+        lang.SuppressWarnings = SuppressWarnings;
+    })(lang = java.lang || (java.lang = {}));
+})(java || (java = {}));
+var Deprecated = java.lang.Deprecated;
+var FunctionalInterface = java.lang.FunctionalInterface;
+var Override = java.lang.Override;
+var SafeVarargs = java.lang.SafeVarargs;
+var SuppressWarnings = java.lang.SuppressWarnings;
+var java;
+(function (java) {
+    var Bool = Boolean;
+    var lang;
+    (function (lang) {
+        var Boolean = (function (_super) {
+            __extends(Boolean, _super);
+            function Boolean() {
+                _super.apply(this, arguments);
+            }
+            return Boolean;
+        }(Bool));
+        lang.Boolean = Boolean;
+    })(lang || (lang = {}));
+})(java || (java = {}));
+var java;
+(function (java) {
+    var util;
+    (function (util) {
+        var AbstractCollection = (function () {
+            function AbstractCollection() {
+            }
+            return AbstractCollection;
+        }());
+        util.AbstractCollection = AbstractCollection;
+    })(util = java.util || (java.util = {}));
+})(java || (java = {}));
+var AbstractCollection = java.util.AbstractCollection;
 var pjs;
 (function (pjs) {
     var core;
@@ -1081,7 +1132,7 @@ var pjs;
                 return amt <= -1 ? Math.PI : amt >= 1 ? 0 : Math.acos(amt);
             };
             PVector.lerp = function (v1, v2, amt, target) {
-                return (target && target.set(v1) || v1.copy()).lerp(v2, amt);
+                return (target && target.set(v1) || v1.clone()).lerp(v2, amt);
             };
             PVector.add = function (v1, v2, target) {
                 return target && target.set(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
@@ -1119,13 +1170,15 @@ var pjs;
                     return target && target.set(v.x % n.x, v.y % n.y, v.z % n.z)
                         || new PVector(v.x % n.x, v.y % n.y, v.z % n.z);
             };
+            PVector.compare = function (a, b) { return a.x - b.x || a.y - b.y || a.z - b.z; };
+            PVector.prototype.compareTo = function (v) { return this.x - v.x || this.y - v.y || this.z - v.z; };
             PVector.prototype.array = function () { return [this.x, this.y, this.z]; };
             PVector.prototype.object = function () { return { x: this.x, y: this.y, z: this.z }; };
-            PVector.prototype.copy = function () { return new PVector(this.x, this.y, this.z); };
-            PVector.prototype.clone = function () { return this.copy(); };
+            PVector.prototype.clone = function () { return new PVector(this.x, this.y, this.z); };
+            PVector.prototype.copy = function () { return this.clone(); };
             PVector.prototype.get = function (target) {
                 if (!arguments.length)
-                    return this.copy();
+                    return this.clone();
                 if (typeof target !== 'object')
                     return this.array();
                 if (xyzObjCheck(target))
@@ -1149,7 +1202,7 @@ var pjs;
                 if (!arguments.length)
                     return canDivide && this.div(m) || this;
                 return canDivide ? PVector.div(this, m, target)
-                    : target && target.set(this) || this.copy();
+                    : target && target.set(this) || this.clone();
             };
             PVector.prototype.limit = function (max, target, magSq) {
                 magSq = magSq || this.magSq();
@@ -1344,12 +1397,8 @@ var pjs;
             PVector.prototype.isZero = function (tolerance) {
                 return isZero(this.x, tolerance) && isZero(this.y, tolerance) && isZero(this.z, tolerance);
             };
-            PVector.prototype.isNaN = function () {
-                return this.x !== this.x || this.y !== this.y || this.z !== this.z;
-            };
-            PVector.prototype.toString = function () {
-                return "[ " + this.x + ", " + this.y + ", " + this.z + " ]";
-            };
+            PVector.prototype.isNaN = function () { return this.x !== this.x || this.y !== this.y || this.z !== this.z; };
+            PVector.prototype.toString = function () { return "[ " + this.x + ", " + this.y + ", " + this.z + " ]"; };
             PVector.prototype.valueOf = function () { return this.hashCode(); };
             PVector.prototype.equals = function (o) {
                 return o === this ? true : o instanceof PVector ?
@@ -1363,16 +1412,19 @@ var pjs;
             };
             __decorate([
                 Frozen
+            ], PVector.prototype, "compareTo", null);
+            __decorate([
+                Frozen
             ], PVector.prototype, "array", null);
             __decorate([
                 Frozen
             ], PVector.prototype, "object", null);
             __decorate([
                 Frozen
-            ], PVector.prototype, "copy", null);
+            ], PVector.prototype, "clone", null);
             __decorate([
                 Frozen
-            ], PVector.prototype, "clone", null);
+            ], PVector.prototype, "copy", null);
             __decorate([
                 Frozen
             ], PVector.prototype, "get", null);
@@ -1389,6 +1441,7 @@ var pjs;
                 Frozen
             ], PVector.prototype, "heading", null);
             __decorate([
+                Deprecated,
                 Frozen
             ], PVector.prototype, "heading2D", null);
             __decorate([
@@ -1474,6 +1527,9 @@ var pjs;
             ], PVector.prototype, "toString", null);
             __decorate([
                 Frozen
+            ], PVector.prototype, "valueOf", null);
+            __decorate([
+                Frozen
             ], PVector.prototype, "equals", null);
             __decorate([
                 Frozen
@@ -1523,6 +1579,9 @@ var pjs;
             __decorate([
                 Frozen
             ], PVector, "mod", null);
+            __decorate([
+                Frozen
+            ], PVector, "compare", null);
             PVector = __decorate([
                 InjectInto(Processing)
             ], PVector);

@@ -1,5 +1,5 @@
-/// <reference path="../typings/Types"/>
-/// <reference path="../utils/Decorators"/>
+/// <reference path="../java/lang/Classes"/>
+/// <reference path="../java/util/Classes"/>
 
 namespace pjs.core {
   "use strict"

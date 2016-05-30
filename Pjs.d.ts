@@ -4,6 +4,26 @@ declare namespace pjs.utils {
     function ProtoAdditions(props: Object): <TFn extends Function>(clazz: TFn) => void;
     function InjectInto(target: Function): <TFn extends Function>(clazz: TFn) => void;
 }
+declare namespace java.lang {
+    function Deprecated(clazz: Object, prop?: string | symbol): void;
+    function FunctionalInterface(clazz: Function): void;
+    function Override(clazz: Object, prop?: string | symbol): void;
+    function SafeVarargs(clazz: Object, prop?: string | symbol): void;
+    function SuppressWarnings(clazz: Object, prop?: string | symbol): <TFn extends Function>(clazz: TFn) => void;
+}
+import Deprecated = java.lang.Deprecated;
+import FunctionalInterface = java.lang.FunctionalInterface;
+import Override = java.lang.Override;
+import SafeVarargs = java.lang.SafeVarargs;
+import SuppressWarnings = java.lang.SuppressWarnings;
+declare namespace java {
+}
+declare namespace java.util {
+    abstract class AbstractCollection<E> implements Collection<E> {
+        abstract iterator(): util.Iterator<E>;
+    }
+}
+import AbstractCollection = java.util.AbstractCollection;
 declare namespace pjs.core {
     abstract class PConstants {
         static readonly X: number;
@@ -495,7 +515,7 @@ declare namespace pjs.core {
 import Processing = pjs.core.Processing;
 declare var PApplet: typeof Processing;
 declare namespace pjs.math {
-    class PVector {
+    class PVector implements Comparable<xyzObj>, Cloneable {
         x: coord;
         y: coord;
         z: coord;
@@ -515,14 +535,16 @@ declare namespace pjs.math {
         static mult(v: xyzObj, n: xyzObj | number, target?: PVector): PVector;
         static div(v: xyzObj, n: xyzObj | number, target?: PVector): PVector;
         static mod(v: xyzObj, n: xyzObj | number, target?: PVector): PVector;
+        static compare(a: xyzObj, b: xyzObj): number;
+        compareTo(v: xyzObj): number;
         array(): [coord, coord, coord];
         object(): {
             x: coord;
             y: coord;
             z: coord;
         };
-        copy(): PVector;
         clone(): PVector;
+        copy(): PVector;
         get(): PVector;
         get(target: number[]): xyz;
         get(target: TypedArray): TypedArray;

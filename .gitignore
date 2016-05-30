@@ -1,10 +1,4 @@
 *.DS_STORE
 *.db
-test.js
-core/*.js
-data/*.js
-graphics/*.js
-helpers/*.js
-java/*.js
-math/*.js
-utils/*.js
+*.js
+!Pjs.js

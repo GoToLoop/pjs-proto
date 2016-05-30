@@ -27,6 +27,11 @@
     "files": [
         "core/PConstants.ts",
         "core/Processing.ts",
+        "java/lang/Annotations.ts",
+        "java/lang/Classes.ts",
+        "java/lang/Interfaces.d.ts",
+        "java/util/Classes.ts",
+        "java/util/Interfaces.d.ts",
         "math/Maths.ts",
         "math/PVector.ts",
         "p5.d.ts",

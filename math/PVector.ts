@@ -15,7 +15,7 @@ namespace pjs.math {
         xyzObjCheck = (obj: {}): obj is xyzObj => 'x' in obj,
         pjsCheck = (obj: {}): obj is Processing => obj && 'random' in obj
 
-  @InjectInto(Processing) export class PVector {
+  @InjectInto(Processing) export class PVector implements Comparable<xyzObj>, Cloneable {
     constructor (public x: coord = 0, public y: coord = 0, public z: coord = 0) {}
 
     @Frozen static fromAngle(angle: rad, target?: PVector) {
@@ -70,7 +70,7 @@ namespace pjs.math {
     }
 
     @Frozen static lerp(v1: PVector, v2: PVector, amt: norm, target?: PVector) {
-      return (target && target.set(v1) || v1.copy()).lerp(v2, amt)
+      return (target && target.set(v1) || v1.clone()).lerp(v2, amt)
     }
 
     @Frozen static add(v1: xyzObj, v2: xyzObj, target?: PVector) {
@@ -109,18 +109,21 @@ namespace pjs.math {
                                                 || new PVector(v.x%n.x, v.y%n.y, v.z%n.z)
     }
 
+    @Frozen static compare(a: xyzObj, b: xyzObj) { return a.x - b.x || a.y - b.y || a.z - b.z }
+    @Frozen compareTo(v: xyzObj) { return this.x - v.x || this.y - v.y || this.z - v.z }
+
     @Frozen array() { return [this.x, this.y, this.z] as xyz }
     @Frozen object() { return { x: this.x, y: this.y, z: this.z } }
-    @Frozen copy() { return new PVector(this.x, this.y, this.z) }
-    @Frozen clone() { return this.copy() }
+    @Frozen clone() { return new PVector(this.x, this.y, this.z) }
+    @Frozen copy() { return this.clone() }
 
-    get(): PVector
+    get(): PVector // @Deprecated
     get(target: number[]): xyz
     get(target: TypedArray): TypedArray
     get(target: ArrayLike<number>): PseudoArray<number>
     get(target: xyzObj): xyzObj
     @Frozen get(target?: PseudoArray<number> | xyzObj): ArrayLike<number> | xyzObj {
-      if (!arguments.length)           return this.copy() // @Deprecated
+      if (!arguments.length)           return this.clone() // @Deprecated
       if (typeof target !== 'object')  return this.array()
       if (xyzObjCheck(target))  target.x  = this.x, target.y  = this.y, target.z  = this.z
       else                      target[0] = this.x, target[1] = this.y, target[2] = this.z
@@ -142,7 +145,7 @@ namespace pjs.math {
             canDivide = m !== 0 && m !== 1
       if (!arguments.length)  return canDivide && this.div(m) || this
       return canDivide? PVector.div(this, m, target)
-                      : target && target.set(this) || this.copy()
+                      : target && target.set(this) || this.clone()
     }
 
     @Frozen limit(max: number, target?: PVector, magSq?: number) {
@@ -156,7 +159,7 @@ namespace pjs.math {
       return Math.atan2(this.y, this.x)
     }
 
-    @Frozen heading2D() { // @Deprecated
+    @Deprecated @Frozen heading2D() {
        return this.heading()
     }
 
@@ -344,15 +347,9 @@ namespace pjs.math {
       return isZero(this.x, tolerance) && isZero(this.y, tolerance) && isZero(this.z, tolerance)
     }
 
-    @Frozen isNaN() {
-      return this.x !== this.x || this.y !== this.y || this.z !== this.z
-    }
-
-    @Frozen toString() {
-      return `[ ${this.x}, ${this.y}, ${this.z} ]`
-    }
-
-    valueOf() {return this.hashCode()}
+    @Frozen isNaN() { return this.x !== this.x || this.y !== this.y || this.z !== this.z }
+    @Frozen toString() { return `[ ${this.x}, ${this.y}, ${this.z} ]` }
+    @Frozen valueOf() { return this.hashCode() }
 
     @Frozen equals(o: Object) {
       return o === this? true : o instanceof PVector?
