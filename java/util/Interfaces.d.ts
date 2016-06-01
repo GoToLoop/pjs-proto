@@ -1,16 +1,10 @@
-declare namespace java {
-  type Iter<T> = Iterator<T>
-
-  namespace util {
-    interface Iterator<E> extends Iter<E> {
-      hasNext(): boolean
-      next(value?: any): E & IteratorResult<E>
-      remove(): void
-    }
-  }
-}
-
 declare namespace java.util {
+  interface Iterator<E> extends IterableIterator<E> {
+    hasNext(): boolean
+    next(value?: any): E & IteratorResult<E>
+    remove(): void
+  }
+
   interface Collection<E> extends lang.Iterable<E> {}
   interface Set<E> extends Collection<E> {}
   interface List<E> extends Collection<E> {}
@@ -20,9 +14,9 @@ declare namespace java.util {
   interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {}
 }
 
-import Collection = java.util.Collection
-import List = java.util.List
-import Queue = java.util.Queue
-import BlockingQueue = java.util.BlockingQueue
-import Deque = java.util.Deque
-import BlockingDeque = java.util.BlockingDeque
+type Collection<E> = java.util.Collection<E>
+type List<E> = java.util.List<E>
+type Queue<E> = java.util.Queue<E>
+type BlockingQueue<E> = java.util.BlockingQueue<E>
+type Deque<E> = java.util.Deque<E>
+type BlockingDeque<E> = java.util.BlockingDeque<E>

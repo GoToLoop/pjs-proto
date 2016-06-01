@@ -1,10 +1,17 @@
 /// <reference path="../../typings/Types"/>
 
+declare namespace java {
+  type Rable<T> = Iterable<T>
+
+  namespace lang {
+    interface Iterable<T> extends Rable<T> { iterator(): util.Iterator<T> }
+  }
+}
+
 declare namespace java.lang {
   interface AutoCloseable { close(): void }
   interface Cloneable { clone(): {} }
   interface Comparable<T> { compareTo(o: T): int32 }
-  interface Iterable<T> { iterator(): util.Iterator<T> }
   interface Runnable { run(): void }
 
   interface Appendable {
@@ -19,9 +26,9 @@ declare namespace java.lang {
   }
 }
 
-import Appendable = java.lang.Appendable
-import AutoCloseable = java.lang.AutoCloseable
-import CharSequence = java.lang.CharSequence
-import Cloneable = java.lang.Cloneable
-import Comparable = java.lang.Comparable
-import Runnable = java.lang.Runnable
+type Appendable = java.lang.Appendable
+type AutoCloseable = java.lang.AutoCloseable
+type CharSequence = java.lang.CharSequence
+type Cloneable = java.lang.Cloneable
+type Comparable<T> = java.lang.Comparable<T>
+type Runnable = java.lang.Runnable
