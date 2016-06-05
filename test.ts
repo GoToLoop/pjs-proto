@@ -13,7 +13,7 @@ arr[13] = 7
 console.info(arr)
 
 function q(...a: string[]) {
-  const t = new Processing().PVector.random3D().get(arguments); console.info(t)
+  new Processing().PVector.random3D().get(arguments); console.info(arguments)
 }
 q('tdfgfdgfd', 'tdfgfdgfd','tdfgfdgfd','tdfgfdgfd')
 
@@ -25,7 +25,7 @@ const pa = new PApplet
 pa.random = () => 10
 pa.sq = n => n*n*n
 
-var vec1 = new pa.PVector(pa.PI, pa.TAU).fromAngle(90)
+var vec1 = new pa.PVector(+pa.PI, +pa.TAU).fromAngle(90)
 var vec2 = pa.PVector.fromAngle(180)
 
 console.log(vec1, vec2)

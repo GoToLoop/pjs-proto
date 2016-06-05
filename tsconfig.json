@@ -15,7 +15,7 @@
         "suppressImplicitAnyIndexErrors": true,
         "newLine": "LF",
         "allowJs": true,
-        "strictNullChecks": false
+        "strictNullChecks": true
     },
     "filesGlob": [
         "**/*.ts",

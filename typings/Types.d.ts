@@ -1,4 +1,5 @@
-type undef   = undefined | null
+type none    = null | undefined
+type undef   = undefined
 
 type falsy   = boolean
 type truthy  = boolean
@@ -27,6 +28,15 @@ type long    = int64
 type ulong   = uint64
 type float   = float32
 type double  = float64
+
+declare const enum color {} // Colors
+declare const enum gray {}  // Gray Colors
+declare const enum alpha {} // Opacity
+
+declare const enum pos {}   // Positives
+declare const enum neg {}   // Negatives
+declare const enum nzr {}   // Non-Zero
+declare const enum whole {} // Integers
 
 declare const enum coord {} // Coordinates
 declare const enum size {}  // Dimensions like length, diameter & radius

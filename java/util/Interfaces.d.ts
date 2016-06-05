@@ -1,7 +1,8 @@
 declare namespace java.util {
   interface Iterator<E> extends IterableIterator<E> {
     hasNext(): boolean
-    next(value?: any): E & IteratorResult<E>
+    next(): E
+    next(value?: any): IteratorResult<E>
     remove(): void
   }
 

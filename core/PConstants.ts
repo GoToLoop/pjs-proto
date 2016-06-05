@@ -84,26 +84,26 @@ namespace pjs.core {
     @ProtoAssign static readonly LINUX = 3
 
     // Math Constants
-    @ProtoAssign static readonly EPSILON = 1e-4
-    @ProtoAssign static readonly EPSILON_ZERO = 1e-12
+    @ProtoAssign static readonly EPSILON: norm = 1e-4
+    @ProtoAssign static readonly EPSILON_ZERO: norm = 1e-12
 
     @ProtoAssign static readonly MAX_FLOAT = 3.4028235e+38
     @ProtoAssign static readonly MIN_FLOAT = -3.4028235e+38
     @ProtoAssign static readonly MAX_INT = 2147483647
     @ProtoAssign static readonly MIN_INT = -2147483648
 
-    @ProtoAssign static readonly PI = Math.PI               // 180°
-    @ProtoAssign static readonly TWO_PI = Math.PI * 2       // 360°
-    @ProtoAssign static readonly TAU = Math.PI * 2          // 360°
-    @ProtoAssign static readonly HALF_PI = Math.PI / 2      // 90°
-    @ProtoAssign static readonly THIRD_PI = Math.PI / 3     // 60°
-    @ProtoAssign static readonly QUARTER_PI = Math.PI / 4   // 45°
-    @ProtoAssign static readonly SIXTH_PI = Math.PI / 6     // 30°
-    @ProtoAssign static readonly EIGHTH_PI = Math.PI / 8    // 22.5°
-    @ProtoAssign static readonly TWELFTH_PI = Math.PI / 12  // 15°
+    @ProtoAssign static readonly PI: rad = Math.PI               // 180°
+    @ProtoAssign static readonly TWO_PI: rad = Math.PI * 2       // 360°
+    @ProtoAssign static readonly TAU: rad = Math.PI * 2          // 360°
+    @ProtoAssign static readonly HALF_PI: rad = Math.PI / 2      // 90°
+    @ProtoAssign static readonly THIRD_PI: rad = Math.PI / 3     // 60°
+    @ProtoAssign static readonly QUARTER_PI: rad = Math.PI / 4   // 45°
+    @ProtoAssign static readonly SIXTH_PI: rad = Math.PI / 6     // 30°
+    @ProtoAssign static readonly EIGHTH_PI: rad = Math.PI / 8    // 22.5°
+    @ProtoAssign static readonly TWELFTH_PI: rad = Math.PI / 12  // 15°
 
-    @ProtoAssign static readonly DEG_TO_RAD = Math.PI / 180
-    @ProtoAssign static readonly RAD_TO_DEG = 180 / Math.PI
+    @ProtoAssign static readonly DEG_TO_RAD: number = Math.PI / 180
+    @ProtoAssign static readonly RAD_TO_DEG: number = 180 / Math.PI
 
     @ProtoAssign static readonly RADIANS = 0
     @ProtoAssign static readonly DEGREES = 1
@@ -297,7 +297,7 @@ namespace pjs.core {
     @ProtoAssign static readonly HINT_COUNT = 10
 
     // PJS defined constants
-    @ProtoAssign static readonly SINCOS_LENGTH = 720 // every half degree
+    @ProtoAssign static readonly SINCOS_LENGTH: deg = 720 // every half degree
     @ProtoAssign static readonly PRECISIONB = 15 // fixed point precision is limited to 15 bits!!
     @ProtoAssign static readonly PRECISIONF = 1 << 15
     @ProtoAssign static readonly PREC_MAXVAL = (1 << 15) - 1
@@ -389,23 +389,23 @@ namespace pjs.core {
       readonly LINUX: number
 
       // Math Constants
-      readonly EPSILON: number
-      readonly EPSILON_ZERO: number
+      readonly EPSILON: norm
+      readonly EPSILON_ZERO: norm
 
       readonly MAX_FLOAT: number
       readonly MIN_FLOAT: number
       readonly MAX_INT: number
       readonly MIN_INT: number
 
-      readonly PI: number           // 180°
-      readonly TWO_PI: number       // 360°
-      readonly TAU: number          // 360°
-      readonly HALF_PI: number      // 90°
-      readonly THIRD_PI: number     // 60°
-      readonly QUARTER_PI: number   // 45°
-      readonly SIXTH_PI: number     // 30°
-      readonly EIGHTH_PI: number    // 22.5°
-      readonly TWELFTH_PI: number   // 15°
+      readonly PI: rad           // 180°
+      readonly TWO_PI: rad       // 360°
+      readonly TAU: rad          // 360°
+      readonly HALF_PI: rad      // 90°
+      readonly THIRD_PI: rad     // 60°
+      readonly QUARTER_PI: rad   // 45°
+      readonly SIXTH_PI: rad     // 30°
+      readonly EIGHTH_PI: rad    // 22.5°
+      readonly TWELFTH_PI: rad   // 15°
 
       readonly DEG_TO_RAD: number
       readonly RAD_TO_DEG: number
@@ -601,7 +601,7 @@ namespace pjs.core {
       readonly HINT_COUNT: number
 
       // PJS defined constants
-      readonly SINCOS_LENGTH: number // every half degree
+      readonly SINCOS_LENGTH: deg // every half degree
       readonly PRECISIONB: number // fixed point precision is limited to 15 bits!!
       readonly PRECISIONF: number
       readonly PREC_MAXVAL: number

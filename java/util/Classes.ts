@@ -2,7 +2,8 @@
 
 namespace java.util {
   export abstract class AbstractCollection<E> implements Collection<E> {
-     abstract iterator(): util.Iterator<E>
+     abstract iterator(): Iterator<E>
+     abstract [Symbol.iterator](): Iterator<E>
   }
 }
 

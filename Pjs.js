@@ -1033,8 +1033,8 @@ var pjs;
             Maths.prototype.lerp = function (start, stop, amt) { return amt * (stop - start) + start; };
             Maths.prototype.sq = function (n) { return n * n; };
             Maths.prototype.isZero = function (n, tolerance) {
-                var epsilon = Math.abs(tolerance) || Maths.EPSILON_ZERO;
-                return n !== n || (n >= -epsilon && n <= epsilon);
+                if (tolerance === void 0) { tolerance = Maths.EPSILON_ZERO; }
+                return n !== n || (n <= (tolerance = Math.abs(tolerance)) && n >= -tolerance);
             };
             Maths.random = Maths.prototype.random;
             Maths.lerp = Maths.prototype.lerp;
@@ -1088,7 +1088,7 @@ var pjs;
         var PConstants = pjs.core.PConstants;
         var lerp = math.Maths.lerp, sq = math.Maths.sq, isZero = math.Maths.isZero, TAU = PConstants.TAU, argsErr = function (mtd, len, min) {
             throw "Too few args passed to " + mtd + "() [" + len + " < " + min + "].";
-        }, xyzObjCheck = function (obj) { return 'x' in obj; }, pjsCheck = function (obj) { return obj && 'random' in obj; };
+        }, xyzObjCheck = function (obj) { return obj != null && 'x' in obj; }, pjsCheck = function (obj) { return obj != null && 'random' in obj; };
         var PVector = (function () {
             function PVector(x, y, z) {
                 if (x === void 0) { x = 0; }
@@ -1190,7 +1190,7 @@ var pjs;
             PVector.prototype.set = function (v, y, z) {
                 var len = arguments.length;
                 if (len > 1)
-                    this.x = +v, this.y = +y, z != null && (this.z = +z);
+                    this.x = +v, this.y = +y, z != undefined && (this.z = +z);
                 else if (len === 1)
                     this.set(v[0] || v.x || 0, v[1] || v.y || 0, v[2] || v.z);
                 else
@@ -1302,7 +1302,7 @@ var pjs;
                             this.x += v.x, this.y += v.y, this.z += v.z;
                     }
                     else if (len > 1) {
-                        this.x += +v, this.y += y, z != null && (this.z += +z);
+                        this.x += +v, this.y += y, z != undefined && (this.z += +z);
                     }
                     else
                         argsErr('add', len, 1);
@@ -1321,7 +1321,7 @@ var pjs;
                             this.x -= v.x, this.y -= v.y, this.z -= v.z;
                     }
                     else if (len > 1) {
-                        this.x -= +v, this.y -= y, z != null && (this.z -= +z);
+                        this.x -= +v, this.y -= y, z != undefined && (this.z -= +z);
                     }
                     else
                         argsErr('sub', len, 1);
@@ -1335,12 +1335,12 @@ var pjs;
                     var len = arguments.length;
                     if (len === 1) {
                         if (typeof v === 'number')
-                            this.x += -v, this.y += -v, this.z += -v;
+                            this.x = v - this.x, this.y = v - this.y, this.z = v - this.z;
                         else
-                            this.x += -v.x, this.y += -v.y, this.z += -v.z;
+                            this.x = v.x - this.x, this.y = v.y - this.y, this.z = v.z - this.z;
                     }
                     else if (len > 1) {
-                        this.x += -v, this.y += -y, z != null && (this.z += -z);
+                        this.x = +v - this.x, this.y = y - this.y, z != undefined && (this.z = +z - this.z);
                     }
                     else
                         argsErr('sub', len, 1);
@@ -1354,11 +1354,12 @@ var pjs;
                         this.x *= v, this.y *= v, this.z *= v;
                     else
                         this.x *= v.x, this.y *= v.y, this.z *= v.z;
-                    return this;
                 }
                 else if (len > 1)
                     return PVector.mult(v, n, target);
-                argsErr('mult', len, 1);
+                else
+                    argsErr('mult', len, 1);
+                return this;
             };
             PVector.prototype.div = function (v, n, target) {
                 var len = arguments.length;
@@ -1367,11 +1368,12 @@ var pjs;
                         this.x /= v, this.y /= v, this.z /= v;
                     else
                         this.x /= v.x, this.y /= v.y, this.z /= v.z;
-                    return this;
                 }
                 else if (len > 1)
                     return PVector.div(v, n, target);
-                argsErr('div', len, 1);
+                else
+                    argsErr('div', len, 1);
+                return this;
             };
             PVector.prototype.mod = function (v, n, target) {
                 var len = arguments.length;
@@ -1380,11 +1382,12 @@ var pjs;
                         this.x %= v, this.y %= v, this.z %= v;
                     else
                         this.x %= v.x, this.y %= v.y, this.z %= v.z;
-                    return this;
                 }
                 else if (len > 1)
                     return PVector.mod(v, n, target);
-                argsErr('mod', len, 1);
+                else
+                    argsErr('mod', len, 1);
+                return this;
             };
             PVector.prototype.negate = function () {
                 this.x *= -1, this.y *= -1, this.z *= -1;

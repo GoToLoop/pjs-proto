@@ -15,9 +15,8 @@ namespace pjs.math {
     @Frozen sq(n: number) { return n*n }
     static readonly sq = Maths.prototype.sq
 
-    @Frozen isZero(n: number, tolerance?: norm) {
-      const epsilon = Math.abs(tolerance) || Maths.EPSILON_ZERO
-      return n !== n || (n >= -epsilon && n <= epsilon)
+    @Frozen isZero(n: number, tolerance=Maths.EPSILON_ZERO) {
+      return n !== n || (n <= (tolerance = Math.abs(tolerance)) && n >= -tolerance)
     }
     static readonly isZero = Maths.prototype.isZero
   }
