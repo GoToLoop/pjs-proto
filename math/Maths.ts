@@ -16,7 +16,7 @@ namespace pjs.math {
     static readonly sq = Maths.prototype.sq
 
     @Frozen isZero(n: number, tolerance=Maths.EPSILON_ZERO) {
-      return n !== n || (n <= (tolerance = Math.abs(tolerance)) && n >= -tolerance)
+      return n != n || (n <= (tolerance = Math.abs(tolerance)) && n >= -tolerance)
     }
     static readonly isZero = Maths.prototype.isZero
   }

@@ -25,13 +25,13 @@ namespace pjs.math {
 
     @Frozen static random2D(target?: PVector | Processing, parent?: Processing) {
       const isPjs = pjsCheck(target),
-            rnd = parent? parent : isPjs? target as Processing : Math
+            rnd = parent? parent : isPjs && target as Processing || Math
       return PVector.fromAngle(TAU * rnd.random(), isPjs? undefined : target as PVector)
     }
 
     @Frozen static random3D(target?: PVector | Processing, parent?: Processing) {
       const isPjs = pjsCheck(target),
-            rnd = parent? parent : isPjs? target as Processing : Math,
+            rnd = parent? parent : isPjs && target as Processing || Math,
             ang = TAU * rnd.random(),
             vz  = 2 * rnd.random() - 1,
             vzr = Math.sqrt(1 - vz*vz),
@@ -89,24 +89,24 @@ namespace pjs.math {
     }
 
     @Frozen static mult(v: xyzObj, n: xyzObj | number, target?: PVector) {
-      if (typeof n === 'number')  return target && target.set (v.x*n,   v.y*n,   v.z*n)
-                                                || new PVector(v.x*n,   v.y*n,   v.z*n)
-      else                        return target && target.set (v.x*n.x, v.y*n.y, v.z*n.z)
-                                                || new PVector(v.x*n.x, v.y*n.y, v.z*n.z)
+      if (typeof n == 'number')  return target && target.set (v.x*n,   v.y*n,   v.z*n)
+                                               || new PVector(v.x*n,   v.y*n,   v.z*n)
+      else                       return target && target.set (v.x*n.x, v.y*n.y, v.z*n.z)
+                                               || new PVector(v.x*n.x, v.y*n.y, v.z*n.z)
     }
 
     @Frozen static div(v: xyzObj, n: xyzObj | number, target?: PVector) {
-      if (typeof n === 'number')  return target && target.set (v.x/n,   v.y/n,   v.z/n)
-                                                || new PVector(v.x/n,   v.y/n,   v.z/n)
-      else                        return target && target.set (v.x/n.x, v.y/n.y, v.z/n.z)
-                                                || new PVector(v.x/n.x, v.y/n.y, v.z/n.z)
+      if (typeof n == 'number')  return target && target.set (v.x/n,   v.y/n,   v.z/n)
+                                               || new PVector(v.x/n,   v.y/n,   v.z/n)
+      else                       return target && target.set (v.x/n.x, v.y/n.y, v.z/n.z)
+                                               || new PVector(v.x/n.x, v.y/n.y, v.z/n.z)
     }
 
     @Frozen static mod(v: xyzObj, n: xyzObj | number, target?: PVector) {
-      if (typeof n === 'number')  return target && target.set (v.x%n,   v.y%n,   v.z%n)
-                                                || new PVector(v.x%n,   v.y%n,   v.z%n)
-      else                        return target && target.set (v.x%n.x, v.y%n.y, v.z%n.z)
-                                                || new PVector(v.x%n.x, v.y%n.y, v.z%n.z)
+      if (typeof n == 'number')  return target && target.set (v.x%n,   v.y%n,   v.z%n)
+                                               || new PVector(v.x%n,   v.y%n,   v.z%n)
+      else                       return target && target.set (v.x%n.x, v.y%n.y, v.z%n.z)
+                                               || new PVector(v.x%n.x, v.y%n.y, v.z%n.z)
     }
 
     @Frozen static compare(a: xyzObj, b: xyzObj) { return a.x - b.x || a.y - b.y || a.z - b.z }
@@ -123,8 +123,8 @@ namespace pjs.math {
     get(target: ArrayLike<number>): PseudoArray<number>
     get(target: xyzObj): xyzObj
     @Frozen get(target?: PseudoArray<number> | xyzObj): ArrayLike<number> | xyzObj {
-      if (!arguments.length)           return this.clone() // @Deprecated
-      if (typeof target !== 'object')  return this.array()
+      if (!arguments.length)          return this.clone() // @Deprecated
+      if (typeof target != 'object')  return this.array()
       if (xyzObjCheck(target))  target.x  = this.x, target.y  = this.y, target.z  = this.z
       else                      target[0] = this.x, target[1] = this.y, target[2] = this.z
       return target
@@ -132,17 +132,17 @@ namespace pjs.math {
 
     @Frozen set(v: ArrayLike<number> | xyzObj | coord, y?: coord, z?: coord) {
       const len = arguments.length
-      if (len > 1)         this.x = +v, this.y = +y, z != undefined && (this.z = +z)
-      else if (len === 1)  this.set(v[0] || (v as xyzObj).x || 0,
-                                    v[1] || (v as xyzObj).y || 0,
-                                    v[2] || (v as xyzObj).z)
-      else                 argsErr('set', len, 1)
+      if (len > 1)        this.x = +v, this.y = +y, z != undefined && (this.z = +z)
+      else if (len == 1)  this.set(v[0] || (v as xyzObj).x || 0,
+                                   v[1] || (v as xyzObj).y || 0,
+                                   v[2] || (v as xyzObj).z)
+      else                argsErr('set', len, 1)
       return this
     }
 
     @Frozen normalize(target?: PVector, mag?: number): this | PVector {
       const m = mag || this.mag(),
-            canDivide = m !== 0 && m !== 1
+            canDivide = m != 0 && m != 1
       if (!arguments.length)  return canDivide && this.div(m) || this
       return canDivide? PVector.div(this, m, target)
                       : target && target.set(this) || this.clone()
@@ -174,9 +174,9 @@ namespace pjs.math {
 
     @Frozen setMag(target: PVector | number, length?: number, mag?: number): this {
       const len = arguments.length
-      return len === 1? this.normalize().mult(target as number) :
-             len >   1? this.normalize(target as PVector, mag).mult(length!) :
-                        argsErr('setMag', len, 1) as any
+      return len == 1? this.normalize().mult(target as number) :
+             len >  1? this.normalize(target as PVector, mag).mult(length!) :
+                       argsErr('setMag', len, 1) as any
     }
 
     @Frozen rotate(angle: rad, target?: PVector): this | PVector {
@@ -231,10 +231,10 @@ namespace pjs.math {
 
     @Frozen dot(v: xyzObj | number, y?: xyzObj | number, z?: number) {
       const len = arguments.length
-      return len === 1? PVector.dot(this, v as xyzObj) :
-             len === 2? PVector.dot(v as xyzObj, y as xyzObj) :
-             len >   2? this.x*(v as number) + this.y*(y as number) + this.z*z :
-                        argsErr('dot', len, 1)!
+      return len == 1? PVector.dot(this, v as xyzObj) :
+             len == 2? PVector.dot(v as xyzObj, y as xyzObj) :
+             len >  2? this.x*(v as number) + this.y*(y as number) + this.z*z :
+                       argsErr('dot', len, 1)!
     }
 
     @Frozen cross(v1: xyzObj, v2?: PVector, target?: PVector): this | PVector {
@@ -248,12 +248,12 @@ namespace pjs.math {
     @Frozen lerp(a: PVector | number, b: PVector | number, c?: number, d?: norm): this | PVector {
       let x: number, y: number, z: number, amt: norm
       const len = arguments.length
-      if ((len | 1) === 1)  argsErr('lerp', len, 2)
-      if (len === 2) { // given vector and amt
+      if ((len | 1) == 1)  argsErr('lerp', len, 2)
+      if (len == 2) { // given vector and amt
         const v = a as PVector
         x = v.x, y = v.y, z = v.z
         amt = b as norm
-      } else if (len === 3) { // given vector 1, vector 2 and amt
+      } else if (len == 3) { // given vector 1, vector 2 and amt
         return PVector.lerp(a as PVector, b as PVector, c!)
       } else { // given x, y, z and amt
         x = a as number, y = b as number, z = c!, amt = d!
@@ -262,76 +262,69 @@ namespace pjs.math {
     }
 
     @Frozen add(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number): this | PVector {
-      if (typeof y !== 'number')  return PVector.add(v as xyzObj, y!, z as PVector)
-      else {
-        const len = arguments.length
-        if (len === 1) { // PVector.add(this, v as xyzObj, this)
-          if (typeof v === 'number')  this.x += v,   this.y += v,   this.z += v
-          else                        this.x += v.x, this.y += v.y, this.z += v.z
-        } else if (len > 1) {
-          this.x += +v, this.y += y, z != undefined && (this.z += +z)
-        } else argsErr('add', len, 1)
-      }
+      if (typeof y != 'number')  return PVector.add(v as xyzObj, y!, z as PVector)
+      const len = arguments.length
+      if (len == 1) // PVector.add(this, v as xyzObj, this)
+        if (typeof v == 'number')  this.x += v,   this.y += v,   this.z += v
+        else                       this.x += v.x, this.y += v.y, this.z += v.z
+      else if (len > 1)  this.x += +v, this.y += y, z != undefined && (this.z += +z)
+      else               argsErr('add', len, 1)
       return this
     }
 
     @Frozen sub(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number): this | PVector {
-      if (typeof y !== 'number')  return PVector.sub(v as xyzObj, y!, z as PVector)
-      else {
-        const len = arguments.length
-        if (len === 1) { // PVector.sub(this, v as xyzObj, this)
-          if (typeof v === 'number')  this.x -= v,   this.y -= v,   this.z -= v
-          else                        this.x -= v.x, this.y -= v.y, this.z -= v.z
-        } else if (len > 1) {
-          this.x -= +v, this.y -= y, z != undefined && (this.z -= +z)
-        } else argsErr('sub', len, 1)
-      }
+      if (typeof y != 'number')  return PVector.sub(v as xyzObj, y!, z as PVector)
+      const len = arguments.length
+      if (len == 1) // PVector.sub(this, v as xyzObj, this)
+        if (typeof v == 'number')  this.x -= v,   this.y -= v,   this.z -= v
+        else                       this.x -= v.x, this.y -= v.y, this.z -= v.z
+      else if (len > 1)  this.x -= +v, this.y -= y, z != undefined && (this.z -= +z)
+      else               argsErr('sub', len, 1)
       return this
     }
 
     @Frozen subInv(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number): this | PVector {
-      if (typeof y !== 'number')  return PVector.subInv(v as xyzObj, y!, z as PVector)
-      else {
-        const len = arguments.length
-        if (len === 1) { // PVector.subInv(this, v as xyzObj, this)
-          if (typeof v === 'number')
-            this.x = v - this.x, this.y = v - this.y, this.z = v - this.z
-          else
-            this.x = v.x - this.x, this.y = v.y - this.y, this.z = v.z - this.z
-        } else if (len > 1) {
-          this.x = +v - this.x, this.y = y - this.y, z != undefined && (this.z = +z - this.z)
-        } else argsErr('sub', len, 1)
-      }
+      if (typeof y != 'number')  return PVector.subInv(v as xyzObj, y!, z as PVector)
+      const len = arguments.length
+      if (len == 1) // PVector.subInv(this, v as xyzObj, this)
+        if (typeof v == 'number')
+          this.x = v - this.x, this.y = v - this.y, this.z = v - this.z
+        else
+          this.x = v.x - this.x, this.y = v.y - this.y, this.z = v.z - this.z
+      else if (len > 1)
+        this.x = +v - this.x, this.y = y - this.y, z != undefined && (this.z = +z - this.z)
+      else
+        argsErr('subInv', len, 1)
       return this
     }
 
     @Frozen mult(v: xyzObj | number, n?: number, target?: PVector): this | PVector {
       const len = arguments.length
-      if (len === 1) {
-        if (typeof v === 'number')  this.x *= v,   this.y *= v,   this.z *= v
-        else                        this.x *= v.x, this.y *= v.y, this.z *= v.z
-      } else if (len > 1)  return PVector.mult(v as xyzObj, n!, target)
-      else argsErr('mult', len, 1)
+      if (len == 1)
+        if (typeof v == 'number')  this.x *= v,   this.y *= v,   this.z *= v
+        else                       this.x *= v.x, this.y *= v.y, this.z *= v.z
+      else if (len > 1)  return PVector.mult(v as xyzObj, n!, target)
+      else               argsErr('mult', len, 1)
       return this
     }
 
     @Frozen div(v: xyzObj | number, n?: number, target?: PVector): this | PVector {
       const len = arguments.length
-      if (len === 1) {
-        if (typeof v === 'number')  this.x /= v,   this.y /= v,   this.z /= v
-        else                        this.x /= v.x, this.y /= v.y, this.z /= v.z
-      } else if (len > 1)  return PVector.div(v as xyzObj, n!, target)
-      else argsErr('div', len, 1)
+      if (len == 1)
+        if (typeof v == 'number')  this.x /= v,   this.y /= v,   this.z /= v
+        else                       this.x /= v.x, this.y /= v.y, this.z /= v.z
+      else if (len > 1)  return PVector.div(v as xyzObj, n!, target)
+      else               argsErr('div', len, 1)
       return this
     }
 
     @Frozen mod(v: xyzObj | number, n?: number, target?: PVector): this | PVector {
       const len = arguments.length
-      if (len === 1) {
-        if (typeof v === 'number')  this.x %= v,   this.y %= v,   this.z %= v
-        else                        this.x %= v.x, this.y %= v.y, this.z %= v.z
-      } else if (len > 1)  return PVector.mod(v as xyzObj, n!, target)
-      else argsErr('mod', len, 1)
+      if (len == 1)
+        if (typeof v == 'number')  this.x %= v,   this.y %= v,   this.z %= v
+        else                       this.x %= v.x, this.y %= v.y, this.z %= v.z
+      else if (len > 1)  return PVector.mod(v as xyzObj, n!, target)
+      else               argsErr('mod', len, 1)
       return this
     }
 
@@ -349,13 +342,13 @@ namespace pjs.math {
       return isZero(this.x, tolerance) && isZero(this.y, tolerance) && isZero(this.z, tolerance)
     }
 
-    @Frozen isNaN() { return this.x !== this.x || this.y !== this.y || this.z !== this.z }
+    @Frozen isNaN() { return this.x != this.x || this.y != this.y || this.z != this.z }
     @Frozen toString() { return `[ ${this.x}, ${this.y}, ${this.z} ]` }
     @Frozen valueOf() { return this.hashCode() }
 
     @Frozen equals(o: Object) {
-      return o === this? true : o instanceof PVector?
-             o.x === this.x && o.y === this.y && o.z === this.z : false
+      return o == this? true : o instanceof PVector &&
+             o.x == this.x && o.y == this.y && o.z == this.z
     }
 
     @Frozen hashCode() {
@@ -381,6 +374,6 @@ namespace pjs.math {
       fromAngle(angle: rad, target?: PVector): this | PVector {
         return PVectorAlt.fromAngle(angle, target || this)
       }
-    } as typeof PVectorAlt
+    }
   }
 }

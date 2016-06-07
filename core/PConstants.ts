@@ -58,14 +58,12 @@ namespace pjs.core {
     @ProtoAssign static readonly SPG = 29
     @ProtoAssign static readonly SPB = 30
 
-    @ProtoAssign static readonly SHINE = 31
-
     @ProtoAssign static readonly ER = 32
     @ProtoAssign static readonly EG = 33
     @ProtoAssign static readonly EB = 34
 
+    @ProtoAssign static readonly SHINE = 31
     @ProtoAssign static readonly BEEN_LIT = 35
-
     @ProtoAssign static readonly VERTEX_FIELD_COUNT = 36
 
     // Renderers
@@ -363,14 +361,12 @@ namespace pjs.core {
       readonly SPG: number
       readonly SPB: number
 
-      readonly SHINE: number
-
       readonly ER: number
       readonly EG: number
       readonly EB: number
 
+      readonly SHINE: number
       readonly BEEN_LIT: number
-
       readonly VERTEX_FIELD_COUNT: number
 
       // Renderers
