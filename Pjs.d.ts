@@ -62,10 +62,10 @@ declare namespace pjs.core {
         static readonly SPR: number;
         static readonly SPG: number;
         static readonly SPB: number;
-        static readonly SHINE: number;
         static readonly ER: number;
         static readonly EG: number;
         static readonly EB: number;
+        static readonly SHINE: number;
         static readonly BEEN_LIT: number;
         static readonly VERTEX_FIELD_COUNT: number;
         static readonly P2D: number;
@@ -291,10 +291,10 @@ declare namespace pjs.core {
             readonly SPR: number;
             readonly SPG: number;
             readonly SPB: number;
-            readonly SHINE: number;
             readonly ER: number;
             readonly EG: number;
             readonly EB: number;
+            readonly SHINE: number;
             readonly BEEN_LIT: number;
             readonly VERTEX_FIELD_COUNT: number;
             readonly P2D: number;
@@ -589,5 +589,5 @@ declare namespace pjs.math {
     }
     class PVectorAlt extends PVector {
     }
-    function PVectorAltBuilder(p: Processing): typeof PVectorAlt;
+    function PVectorAltBuilder(p: Processing): typeof PVector;
 }

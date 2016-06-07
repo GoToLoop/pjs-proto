@@ -3,9 +3,9 @@
 namespace pjs.math {
   "use strict"
 
+  import PConstants = core.PConstants
   import Frozen = utils.Frozen
   import InjectInto = utils.InjectInto
-  import PConstants = core.PConstants
 
   const {lerp, sq, isZero} = Maths,
         TAU = PConstants.TAU,
@@ -374,6 +374,6 @@ namespace pjs.math {
       fromAngle(angle: rad, target?: PVector): this | PVector {
         return PVectorAlt.fromAngle(angle, target || this)
       }
-    }
+    } as typeof PVector
   }
 }
