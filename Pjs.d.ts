@@ -1,6 +1,8 @@
 declare namespace pjs.utils {
     function Frozen(clazz: Function | Object, prop?: string | symbol): void;
+    function FreezeAll(clazz: Function): void;
     function ProtoAssign(clazz: Function, prop: string | symbol): void;
+    function ProtoAssignAll(clazz: Function): void;
     function ProtoAdditions(props: Object): <TFn extends Function>(clazz: TFn) => void;
     function InjectInto(target: Function): <TFn extends Function>(clazz: TFn) => void;
 }
@@ -589,5 +591,5 @@ declare namespace pjs.math {
     }
     class PVectorAlt extends PVector {
     }
-    function PVectorAltBuilder(p: Processing): typeof PVector;
+    function PVectorAltBuilder(p: Processing): typeof PVectorAlt;
 }

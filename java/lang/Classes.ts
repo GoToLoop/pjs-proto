@@ -4,9 +4,11 @@
 /// <reference path="Annotations"/>
 
 namespace java {
+  "use strict"
+  import FreezeAll = pjs.utils.FreezeAll
   const Bool = Boolean
 
   namespace lang {
-    export class Boolean extends Bool {}
+    @FreezeAll export class Boolean extends Bool {}
   }
 }

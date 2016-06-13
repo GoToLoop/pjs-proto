@@ -30,5 +30,5 @@ var vec2 = pa.PVector.fromAngle(180)
 
 console.log(vec1, vec2)
 
-let prop = 'PVector'
+let propr = 'PVector'
 //pa[prop] = Processing.PVector

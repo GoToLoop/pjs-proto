@@ -15,7 +15,6 @@ var pjs;
     (function (utils) {
         "use strict";
         function Frozen(clazz, prop) {
-            "use strict";
             if (prop) {
                 var value = clazz[prop];
                 Object.freeze(value) && Object.freeze(value.prototype);
@@ -24,14 +23,26 @@ var pjs;
                 Object.freeze(Object.freeze(clazz)['prototype']);
         }
         utils.Frozen = Frozen;
+        function FreezeAll(clazz) {
+            var proto = clazz.prototype;
+            for (var prop in Object.freeze(clazz))
+                Object.freeze(clazz[prop].prototype);
+            for (var prop in Object.freeze(proto))
+                Object.freeze(proto[prop].prototype);
+        }
+        utils.FreezeAll = FreezeAll;
         function ProtoAssign(clazz, prop) {
-            "use strict";
-            "use strong";
             clazz.prototype[prop] = clazz[prop];
         }
         utils.ProtoAssign = ProtoAssign;
+        function ProtoAssignAll(clazz) {
+            for (var prop in clazz) {
+                var value = clazz[prop];
+                typeof value != 'function' && (clazz.prototype[prop] = value);
+            }
+        }
+        utils.ProtoAssignAll = ProtoAssignAll;
         function ProtoAdditions(props) {
-            "use strict";
             return function (clazz) {
                 for (var prop in props)
                     clazz.prototype[prop] = props[prop];
@@ -39,7 +50,6 @@ var pjs;
         }
         utils.ProtoAdditions = ProtoAdditions;
         function InjectInto(target) {
-            "use strict";
             return function (clazz) {
                 var name = clazz.name;
                 if (!name) {
@@ -57,6 +67,7 @@ var java;
 (function (java) {
     var lang;
     (function (lang) {
+        "use strict";
         function Deprecated(clazz, prop) { }
         lang.Deprecated = Deprecated;
         function FunctionalInterface(clazz) { }
@@ -78,6 +89,8 @@ var SafeVarargs = java.lang.SafeVarargs;
 var SuppressWarnings = java.lang.SuppressWarnings;
 var java;
 (function (java) {
+    "use strict";
+    var FreezeAll = pjs.utils.FreezeAll;
     var Bool = Boolean;
     var lang;
     (function (lang) {
@@ -86,6 +99,9 @@ var java;
             function Boolean() {
                 _super.apply(this, arguments);
             }
+            Boolean = __decorate([
+                FreezeAll
+            ], Boolean);
             return Boolean;
         }(Bool));
         lang.Boolean = Boolean;
@@ -95,9 +111,14 @@ var java;
 (function (java) {
     var util;
     (function (util) {
+        "use strict";
+        var FreezeAll = pjs.utils.FreezeAll;
         var AbstractCollection = (function () {
             function AbstractCollection() {
             }
+            AbstractCollection = __decorate([
+                FreezeAll
+            ], AbstractCollection);
             return AbstractCollection;
         }());
         util.AbstractCollection = AbstractCollection;
@@ -110,7 +131,7 @@ var pjs;
     (function (core) {
         "use strict";
         var Frozen = pjs.utils.Frozen;
-        var ProtoAssign = pjs.utils.ProtoAssign;
+        var ProtoAssignAll = pjs.utils.ProtoAssignAll;
         var PConstants = (function () {
             function PConstants() {
             }
@@ -338,680 +359,9 @@ var pjs;
             PConstants.NORMAL_MODE_SHAPE = 1;
             PConstants.NORMAL_MODE_VERTEX = 2;
             PConstants.MAX_LIGHTS = 8;
-            __decorate([
-                ProtoAssign
-            ], PConstants, "X", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "Y", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "Z", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "R", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "G", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "B", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "A", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "U", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "V", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "NX", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "NY", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "NZ", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "EDGE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SR", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SG", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SB", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SA", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SW", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TX", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TY", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TZ", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "VX", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "VY", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "VZ", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "VW", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "AR", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "AG", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "AB", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DR", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DG", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DB", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DA", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SPR", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SPG", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SPB", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ER", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "EG", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "EB", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SHINE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BEEN_LIT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "VERTEX_FIELD_COUNT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "P2D", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "JAVA2D", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "WEBGL", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "P3D", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "OPENGL", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PDF", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DXF", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "OTHER", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "WINDOWS", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "MAXOSX", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "LINUX", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "EPSILON", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "EPSILON_ZERO", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "MAX_FLOAT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "MIN_FLOAT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "MAX_INT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "MIN_INT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PI", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TWO_PI", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TAU", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "HALF_PI", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "THIRD_PI", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "QUARTER_PI", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SIXTH_PI", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "EIGHTH_PI", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TWELFTH_PI", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DEG_TO_RAD", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "RAD_TO_DEG", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "RADIANS", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DEGREES", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "WHITESPACE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "RGB", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ARGB", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "HSB", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ALPHA", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CMYK", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TIFF", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TARGA", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "JPEG", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "GIF", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BLUR", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "GRAY", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "INVERT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "OPAQUE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "POSTERIZE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "THRESHOLD", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ERODE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DILATE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "REPLACE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BLEND", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ADD", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SUBTRACT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "LIGHTEST", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DARKEST", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DIFFERENCE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "EXCLUSION", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "MULTIPLY", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SCREEN", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "OVERLAY", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "HARD_LIGHT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SOFT_LIGHT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DODGE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BURN", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ALPHA_MASK", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "RED_MASK", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "GREEN_MASK", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BLUE_MASK", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CUSTOM", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ORTHOGRAPHIC", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PERSPECTIVE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "POINT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "POINTS", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "LINE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "LINES", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TRIANGLE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TRIANGLES", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TRIANGLE_STRIP", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TRIANGLE_FAN", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "QUAD", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "QUADS", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "QUAD_STRIP", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "POLYGON", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PATH", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "RECT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ELLIPSE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ARC", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SPHERE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BOX", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "GROUP", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PRIMITIVE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "GEOMETRY", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "VERTEX", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BEZIER_VERTEX", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CURVE_VERTEX", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BREAK", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CLOSESHAPE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "OPEN", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CLOSE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CORNER", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CORNERS", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "RADIUS", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CENTER", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DIAMETER", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BASELINE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TOP", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BOTTOM", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "NORMAL", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "NORMALIZED", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "IMAGE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "MODEL", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SHAPE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SQUARE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ROUND", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PROJECT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "MITER", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BEVEL", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "AMBIENT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DIRECTIONAL", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SPOT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "BACKSPACE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TAB", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ENTER", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "RETURN", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ESC", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DELETE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CODED", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SHIFT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CONTROL", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ALT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CAPSLK", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PGUP", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PGDN", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "END", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "HOME", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "LEFT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "UP", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "RIGHT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DOWN", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F1", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F2", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F3", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F4", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F5", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F6", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F7", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F8", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F9", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F10", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F11", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "F12", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "NUMLK", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "META", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "INSERT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ARROW", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "CROSS", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "HAND", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "MOVE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "TEXT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "WAIT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "NOCURSOR", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DISABLE_OPENGL_2X_SMOOTH", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ENABLE_OPENGL_2X_SMOOTH", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ENABLE_OPENGL_4X_SMOOTH", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ENABLE_NATIVE_FONTS", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DISABLE_DEPTH_TEST", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ENABLE_DEPTH_TEST", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ENABLE_DEPTH_SORT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DISABLE_DEPTH_SORT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DISABLE_OPENGL_ERROR_REPORT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ENABLE_OPENGL_ERROR_REPORT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "ENABLE_ACCURATE_TEXTURES", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "DISABLE_ACCURATE_TEXTURES", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "HINT_COUNT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "SINCOS_LENGTH", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PRECISIONB", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PRECISIONF", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PREC_MAXVAL", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PREC_ALPHA_SHIFT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "PREC_RED_SHIFT", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "NORMAL_MODE_AUTO", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "NORMAL_MODE_SHAPE", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "NORMAL_MODE_VERTEX", void 0);
-            __decorate([
-                ProtoAssign
-            ], PConstants, "MAX_LIGHTS", void 0);
             PConstants = __decorate([
-                Frozen
+                Frozen,
+                ProtoAssignAll
             ], PConstants);
             return PConstants;
         }());
@@ -1023,7 +373,6 @@ var pjs;
     var math;
     (function (math) {
         "use strict";
-        var Frozen = pjs.utils.Frozen;
         var Maths = (function (_super) {
             __extends(Maths, _super);
             function Maths() {
@@ -1040,18 +389,6 @@ var pjs;
             Maths.lerp = Maths.prototype.lerp;
             Maths.sq = Maths.prototype.sq;
             Maths.isZero = Maths.prototype.isZero;
-            __decorate([
-                Frozen
-            ], Maths.prototype, "random", null);
-            __decorate([
-                Frozen
-            ], Maths.prototype, "lerp", null);
-            __decorate([
-                Frozen
-            ], Maths.prototype, "sq", null);
-            __decorate([
-                Frozen
-            ], Maths.prototype, "isZero", null);
             return Maths;
         }(pjs.core.PConstants));
         math.Maths = Maths;
@@ -1084,7 +421,6 @@ var pjs;
     (function (math) {
         "use strict";
         var PConstants = pjs.core.PConstants;
-        var Frozen = pjs.utils.Frozen;
         var InjectInto = pjs.utils.InjectInto;
         var lerp = math.Maths.lerp, sq = math.Maths.sq, isZero = math.Maths.isZero, TAU = PConstants.TAU, argsErr = function (mtd, len, min) {
             throw "Too few args passed to " + mtd + "() [" + len + " < " + min + "].";
@@ -1104,7 +440,7 @@ var pjs;
             };
             PVector.random2D = function (target, parent) {
                 var isPjs = pjsCheck(target), rnd = parent ? parent : isPjs && target || Math;
-                return PVector.fromAngle(TAU * rnd.random(), isPjs ? undefined : target);
+                return PVector.fromAngle(TAU * rnd.random(), isPjs ? void 0 : target);
             };
             PVector.random3D = function (target, parent) {
                 var isPjs = pjsCheck(target), rnd = parent ? parent : isPjs && target || Math, ang = TAU * rnd.random(), vz = 2 * rnd.random() - 1, vzr = Math.sqrt(1 - vz * vz), vx = vzr * Math.cos(ang), vy = vzr * Math.sin(ang);
@@ -1399,177 +735,8 @@ var pjs;
                 return 31 * hash + this.z;
             };
             __decorate([
-                Frozen
-            ], PVector.prototype, "compareTo", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "array", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "object", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "clone", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "copy", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "get", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "set", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "normalize", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "limit", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "heading", null);
-            __decorate([
-                Deprecated,
-                Frozen
+                Deprecated
             ], PVector.prototype, "heading2D", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "mag", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "magSq", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "setMag", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "rotate", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "rotateX", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "rotateY", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "rotateZ", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "fromAngle", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "random2D", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "random3D", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "dist", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "distSq", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "dot", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "cross", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "angleBetween", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "lerp", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "add", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "sub", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "subInv", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "mult", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "div", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "mod", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "negate", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "clear", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "isZero", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "isNaN", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "toString", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "valueOf", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "equals", null);
-            __decorate([
-                Frozen
-            ], PVector.prototype, "hashCode", null);
-            __decorate([
-                Frozen
-            ], PVector, "fromAngle", null);
-            __decorate([
-                Frozen
-            ], PVector, "random2D", null);
-            __decorate([
-                Frozen
-            ], PVector, "random3D", null);
-            __decorate([
-                Frozen
-            ], PVector, "dist", null);
-            __decorate([
-                Frozen
-            ], PVector, "distSq", null);
-            __decorate([
-                Frozen
-            ], PVector, "dot", null);
-            __decorate([
-                Frozen
-            ], PVector, "cross", null);
-            __decorate([
-                Frozen
-            ], PVector, "angleBetween", null);
-            __decorate([
-                Frozen
-            ], PVector, "lerp", null);
-            __decorate([
-                Frozen
-            ], PVector, "add", null);
-            __decorate([
-                Frozen
-            ], PVector, "sub", null);
-            __decorate([
-                Frozen
-            ], PVector, "subInv", null);
-            __decorate([
-                Frozen
-            ], PVector, "mult", null);
-            __decorate([
-                Frozen
-            ], PVector, "div", null);
-            __decorate([
-                Frozen
-            ], PVector, "mod", null);
-            __decorate([
-                Frozen
-            ], PVector, "compare", null);
             PVector = __decorate([
                 InjectInto(Processing)
             ], PVector);
@@ -1577,6 +744,7 @@ var pjs;
         }());
         math.PVector = PVector;
         function PVectorAltBuilder(p) {
+            "use strict";
             var DEG_TO_RAD = PConstants.DEG_TO_RAD, RAD_TO_DEG = PConstants.RAD_TO_DEG;
             return (function (_super) {
                 __extends(PVectorAlt, _super);

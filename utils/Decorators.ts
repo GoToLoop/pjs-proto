@@ -2,27 +2,40 @@ namespace pjs.utils {
   "use strict"
 
   export function Frozen(clazz: Function | Object, prop?: string | symbol) { // Class, Method, Prop
-    "use strict"
     if (prop) {
       const value = clazz[prop]
       Object.freeze(value) && Object.freeze(value.prototype)
     } else Object.freeze(Object.freeze(clazz)['prototype'])
   }
 
-  export function ProtoAssign(clazz: Function, prop: string | symbol) {
-    "use strict"; "use strong" // Must be static Method or Prop
+  export function FreezeAll(clazz: Function) { // Class only
+    const proto = clazz.prototype
+    //for (const prop in Object.freeze(clazz))  Object.freeze(clazz[prop].prototype) // Not FF!
+    //for (const prop in Object.freeze(proto))  Object.freeze(proto[prop].prototype)
+    for (let prop in Object.freeze(clazz))  Object.freeze(clazz[prop].prototype)
+    for (let prop in Object.freeze(proto))  Object.freeze(proto[prop].prototype)
+  }
+
+  export function ProtoAssign(clazz: Function, prop: string | symbol) {  // Static Method or Prop
     clazz.prototype[prop] = clazz[prop]
   }
 
+  export function ProtoAssignAll(clazz: Function) { // Class only
+    //for (const prop in clazz) { // Not compatible w/ FF!
+    for (let prop in clazz) {
+      const value = clazz[prop]
+      typeof value != 'function' && (clazz.prototype[prop] = value)
+    }
+  }
+
   export function ProtoAdditions(props: Object) { // Class only
-    "use strict"
     return <TFn extends Function>(clazz: TFn) => {
-      for (const prop in props)  clazz.prototype[prop] = props[prop]
+      //for (const prop in props)  clazz.prototype[prop] = props[prop] // Not compatible w/ FF!
+      for (let prop in props)  clazz.prototype[prop] = props[prop]
     }
   }
 
   export function InjectInto(target: Function) { // Class only
-    "use strict"
     return <TFn extends Function>(clazz: TFn) => {
       //let name = clazz['name'] as string
       let name = clazz.name
