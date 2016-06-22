@@ -3,7 +3,7 @@
 namespace pjs.core {
   "use strict"
 
-  export class Processing extends math.Maths {
+  export class PApplet extends math.Maths {
     _degreeIn:  boolean
     _degreeOut: boolean
 
@@ -15,18 +15,20 @@ namespace pjs.core {
     init() { this.PVector = math.PVectorAltBuilder(this), this._degreeIn = true }
 
     static readonly PVector: typeof math.PVector
+    static readonly AbstractCollection = java.util.AbstractCollection
 
     random(low?: number, high?: number) { return Math.random() as norm }
   }
 
-  export interface Processing extends Processing.prototype {}
+  export interface PApplet extends PApplet.prototype {}
 
-  export namespace Processing {
+  export namespace PApplet {
     export interface prototype {
-      PVector: typeof Processing.PVector
+      PVector: typeof PApplet.PVector
+      AbstractCollection: typeof PApplet.AbstractCollection
     }
   }
 }
 
-import Processing = pjs.core.Processing
-var PApplet = Processing
+import PApplet = pjs.core.PApplet
+var Processing = PApplet

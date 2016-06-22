@@ -82,11 +82,6 @@ var java;
         lang.SuppressWarnings = SuppressWarnings;
     })(lang = java.lang || (java.lang = {}));
 })(java || (java = {}));
-var Deprecated = java.lang.Deprecated;
-var FunctionalInterface = java.lang.FunctionalInterface;
-var Override = java.lang.Override;
-var SafeVarargs = java.lang.SafeVarargs;
-var SuppressWarnings = java.lang.SuppressWarnings;
 var java;
 (function (java) {
     "use strict";
@@ -124,7 +119,6 @@ var java;
         util.AbstractCollection = AbstractCollection;
     })(util = java.util || (java.util = {}));
 })(java || (java = {}));
-var AbstractCollection = java.util.AbstractCollection;
 var pjs;
 (function (pjs) {
     var core;
@@ -400,21 +394,22 @@ var pjs;
     var core;
     (function (core) {
         "use strict";
-        var Processing = (function (_super) {
-            __extends(Processing, _super);
-            function Processing() {
+        var PApplet = (function (_super) {
+            __extends(PApplet, _super);
+            function PApplet() {
                 _super.call(this);
                 this.init();
             }
-            Processing.prototype.init = function () { this.PVector = pjs.math.PVectorAltBuilder(this), this._degreeIn = true; };
-            Processing.prototype.random = function (low, high) { return Math.random(); };
-            return Processing;
+            PApplet.prototype.init = function () { this.PVector = pjs.math.PVectorAltBuilder(this), this._degreeIn = true; };
+            PApplet.prototype.random = function (low, high) { return Math.random(); };
+            PApplet.AbstractCollection = java.util.AbstractCollection;
+            return PApplet;
         }(pjs.math.Maths));
-        core.Processing = Processing;
+        core.PApplet = PApplet;
     })(core = pjs.core || (pjs.core = {}));
 })(pjs || (pjs = {}));
-var Processing = pjs.core.Processing;
-var PApplet = Processing;
+var PApplet = pjs.core.PApplet;
+var Processing = PApplet;
 var pjs;
 (function (pjs) {
     var math;
@@ -422,6 +417,7 @@ var pjs;
         "use strict";
         var PConstants = pjs.core.PConstants;
         var InjectInto = pjs.utils.InjectInto;
+        var Deprecated = java.lang.Deprecated;
         var lerp = math.Maths.lerp, sq = math.Maths.sq, isZero = math.Maths.isZero, TAU = PConstants.TAU, argsErr = function (mtd, len, min) {
             throw "Too few args passed to " + mtd + "() [" + len + " < " + min + "].";
         }, xyzObjCheck = function (obj) { return obj != null && 'x' in obj; }, pjsCheck = function (obj) { return obj != null && 'random' in obj; };
@@ -738,7 +734,7 @@ var pjs;
                 Deprecated
             ], PVector.prototype, "heading2D", null);
             PVector = __decorate([
-                InjectInto(Processing)
+                InjectInto(PApplet)
             ], PVector);
             return PVector;
         }());

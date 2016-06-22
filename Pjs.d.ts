@@ -13,11 +13,6 @@ declare namespace java.lang {
     function SafeVarargs(clazz: Object, prop?: string | symbol): void;
     function SuppressWarnings(clazz: Object, prop?: string | symbol): <TFn extends Function>(clazz: TFn) => void;
 }
-import Deprecated = java.lang.Deprecated;
-import FunctionalInterface = java.lang.FunctionalInterface;
-import Override = java.lang.Override;
-import SafeVarargs = java.lang.SafeVarargs;
-import SuppressWarnings = java.lang.SuppressWarnings;
 declare namespace java {
 }
 declare namespace java.util {
@@ -26,7 +21,6 @@ declare namespace java.util {
         abstract [Symbol.iterator](): Iterator<E>;
     }
 }
-import AbstractCollection = java.util.AbstractCollection;
 declare namespace pjs.core {
     abstract class PConstants {
         static readonly X: number;
@@ -499,24 +493,26 @@ declare namespace pjs.math {
 }
 declare var StrictMath: Math;
 declare namespace pjs.core {
-    class Processing extends math.Maths {
+    class PApplet extends math.Maths {
         _degreeIn: boolean;
         _degreeOut: boolean;
         constructor();
         init(): void;
         static readonly PVector: typeof math.PVector;
+        static readonly AbstractCollection: typeof java.util.AbstractCollection;
         random(low?: number, high?: number): norm;
     }
-    interface Processing extends Processing.prototype {
+    interface PApplet extends PApplet.prototype {
     }
-    namespace Processing {
+    namespace PApplet {
         interface prototype {
-            PVector: typeof Processing.PVector;
+            PVector: typeof PApplet.PVector;
+            AbstractCollection: typeof PApplet.AbstractCollection;
         }
     }
 }
-import Processing = pjs.core.Processing;
-declare var PApplet: typeof Processing;
+import PApplet = pjs.core.PApplet;
+declare var Processing: typeof PApplet;
 declare namespace pjs.math {
     class PVector implements Comparable<xyzObj>, Cloneable {
         x: coord;
@@ -524,8 +520,8 @@ declare namespace pjs.math {
         z: coord;
         constructor(x?: coord, y?: coord, z?: coord);
         static fromAngle(angle: rad, target?: PVector): PVector;
-        static random2D(target?: PVector | Processing, parent?: Processing): PVector;
-        static random3D(target?: PVector | Processing, parent?: Processing): PVector;
+        static random2D(target?: PVector | PApplet, parent?: PApplet): PVector;
+        static random3D(target?: PVector | PApplet, parent?: PApplet): PVector;
         static dist(v1: xyzObj, v2: xyzObj): number;
         static distSq(v1: xyzObj, v2: xyzObj): number;
         static dot(v1: xyzObj, v2: xyzObj): number;
@@ -566,8 +562,8 @@ declare namespace pjs.math {
         rotateY(angle: rad, target?: PVector): this | PVector;
         rotateZ(angle: rad, target?: PVector): this | PVector;
         fromAngle(angle: rad, target?: PVector): this | PVector;
-        random2D(target?: PVector | Processing, parent?: Processing): this | PVector;
-        random3D(target?: PVector | Processing, parent?: Processing): this | PVector;
+        random2D(target?: PVector | PApplet, parent?: PApplet): this | PVector;
+        random3D(target?: PVector | PApplet, parent?: PApplet): this | PVector;
         dist(v1: xyzObj, v2?: xyzObj): number;
         distSq(v1: xyzObj, v2?: xyzObj): number;
         dot(v: xyzObj | number, y?: xyzObj | number, z?: number): number;
@@ -591,5 +587,5 @@ declare namespace pjs.math {
     }
     class PVectorAlt extends PVector {
     }
-    function PVectorAltBuilder(p: Processing): typeof PVectorAlt;
+    function PVectorAltBuilder(p: PApplet): typeof PVectorAlt;
 }

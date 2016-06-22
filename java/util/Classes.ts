@@ -9,5 +9,3 @@ namespace java.util {
      abstract [Symbol.iterator](): Iterator<E>
   }
 }
-
-import AbstractCollection = java.util.AbstractCollection

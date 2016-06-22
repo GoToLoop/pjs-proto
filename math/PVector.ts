@@ -5,6 +5,7 @@ namespace pjs.math {
 
   import PConstants = core.PConstants
   import InjectInto = utils.InjectInto
+  import Deprecated = java.lang.Deprecated
 
   const {lerp, sq, isZero} = Maths,
         TAU = PConstants.TAU,
@@ -12,9 +13,9 @@ namespace pjs.math {
           throw `Too few args passed to ${mtd}() [${len} < ${min}].`
         },
         xyzObjCheck = (obj: {} | none): obj is xyzObj  => obj != null && 'x' in obj,
-        pjsCheck = (obj: {} | none): obj is Processing => obj != null && 'random' in obj
+        pjsCheck    = (obj: {} | none): obj is PApplet => obj != null && 'random' in obj
 
-  @InjectInto(Processing) export class PVector implements Comparable<xyzObj>, Cloneable {
+  @InjectInto(PApplet) export class PVector implements Comparable<xyzObj>, Cloneable {
     constructor (public x: coord = 0, public y: coord = 0, public z: coord = 0) {}
 
     static fromAngle(angle: rad, target?: PVector) {
@@ -22,15 +23,15 @@ namespace pjs.math {
                     || new PVector(Math.cos(angle), Math.sin(angle))
     }
 
-    static random2D(target?: PVector | Processing, parent?: Processing) {
+    static random2D(target?: PVector | PApplet, parent?: PApplet) {
       const isPjs = pjsCheck(target),
-            rnd = parent? parent : isPjs && target as Processing || Math
+            rnd = parent? parent : isPjs && target as PApplet || Math
       return PVector.fromAngle(TAU * rnd.random(), isPjs? void 0 : target as PVector)
     }
 
-    static random3D(target?: PVector | Processing, parent?: Processing) {
+    static random3D(target?: PVector | PApplet, parent?: PApplet) {
       const isPjs = pjsCheck(target),
-            rnd = parent? parent : isPjs && target as Processing || Math,
+            rnd = parent? parent : isPjs && target as PApplet || Math,
             ang = TAU * rnd.random(),
             vz  = 2 * rnd.random() - 1,
             vzr = Math.sqrt(1 - vz*vz),
@@ -210,12 +211,12 @@ namespace pjs.math {
       return PVector.fromAngle(angle, target || this)
     }
 
-    random2D(target?: PVector | Processing, parent?: Processing): this | PVector {
+    random2D(target?: PVector | PApplet, parent?: PApplet): this | PVector {
       return pjsCheck(target) && PVector.random2D(this, target)
                               || PVector.random2D(target || this, parent)
     }
 
-    random3D(target?: PVector | Processing, parent?: Processing): this | PVector {
+    random3D(target?: PVector | PApplet, parent?: PApplet): this | PVector {
       return pjsCheck(target) && PVector.random3D(this, target)
                               || PVector.random3D(target || this, parent)
     }
@@ -360,7 +361,7 @@ namespace pjs.math {
 
   export declare class PVectorAlt extends PVector {}
 
-  export function PVectorAltBuilder(p: Processing) {
+  export function PVectorAltBuilder(p: PApplet) {
     "use strict"
 
     const {DEG_TO_RAD, RAD_TO_DEG} = PConstants
