@@ -9,6 +9,7 @@
         "emitDecoratorMetadata": false,
         "declaration": false,
         "noImplicitAny": true,
+        "noImplicitReturns": true,
         "removeComments": true,
         "noLib": false,
         "preserveConstEnums": false,

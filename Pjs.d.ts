@@ -543,9 +543,8 @@ declare namespace pjs.math {
             z: coord;
         };
         clone(): PVector;
-        copy(): PVector;
         get(): PVector;
-        get(target: number[]): xyz;
+        get(target: number[] | null): xyz;
         get(target: TypedArray): TypedArray;
         get(target: ArrayLike<number>): PseudoArray<number>;
         get(target: xyzObj): xyzObj;
@@ -553,14 +552,12 @@ declare namespace pjs.math {
         normalize(target?: PVector, mag?: number): this | PVector;
         limit(max: number, target?: PVector, magSq?: number): this | PVector;
         heading(): rad;
-        heading2D(): rad;
         mag(): number;
         magSq(): number;
-        setMag(target: PVector | number, length?: number, mag?: number): this;
+        setMag(target: PVector | number, length?: number, mag?: number): this | PVector;
         rotate(angle: rad, target?: PVector): this | PVector;
         rotateX(angle: rad, target?: PVector): this | PVector;
         rotateY(angle: rad, target?: PVector): this | PVector;
-        rotateZ(angle: rad, target?: PVector): this | PVector;
         fromAngle(angle: rad, target?: PVector): this | PVector;
         random2D(target?: PVector | PApplet, parent?: PApplet): this | PVector;
         random3D(target?: PVector | PApplet, parent?: PApplet): this | PVector;
@@ -584,6 +581,11 @@ declare namespace pjs.math {
         valueOf(): number;
         equals(o: Object): boolean;
         hashCode(): number;
+    }
+    interface PVector {
+        copy(): PVector;
+        heading2D(): rad;
+        rotateZ(angle: rad, target?: PVector): this | PVector;
     }
     class PVectorAlt extends PVector {
     }

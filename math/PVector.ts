@@ -5,14 +5,13 @@ namespace pjs.math {
 
   import PConstants = core.PConstants
   import InjectInto = utils.InjectInto
-  import Deprecated = java.lang.Deprecated
 
   const {lerp, sq, isZero} = Maths,
         TAU = PConstants.TAU,
         argsErr = (mtd: string, len: number, min: number) => {
           throw `Too few args passed to ${mtd}() [${len} < ${min}].`
         },
-        xyzObjCheck = (obj: {} | none): obj is xyzObj  => obj != null && 'x' in obj,
+        xyzObjCheck = (obj: {} | none): obj is xyzObj  => obj != null && 'z' in obj,
         pjsCheck    = (obj: {} | none): obj is PApplet => obj != null && 'random' in obj
 
   @InjectInto(PApplet) export class PVector implements Comparable<xyzObj>, Cloneable {
@@ -89,54 +88,50 @@ namespace pjs.math {
     }
 
     static mult(v: xyzObj, n: xyzObj | number, target?: PVector) {
-      if (typeof n == 'number')  return target && target.set (v.x*n,   v.y*n,   v.z*n)
-                                               || new PVector(v.x*n,   v.y*n,   v.z*n)
-      else                       return target && target.set (v.x*n.x, v.y*n.y, v.z*n.z)
+      if (typeof n == 'object')  return target && target.set (v.x*n.x, v.y*n.y, v.z*n.z)
                                                || new PVector(v.x*n.x, v.y*n.y, v.z*n.z)
+      else                       return target && target.set (v.x*n,   v.y*n,   v.z*n)
+                                               || new PVector(v.x*n,   v.y*n,   v.z*n)
     }
 
     static div(v: xyzObj, n: xyzObj | number, target?: PVector) {
-      if (typeof n == 'number')  return target && target.set (v.x/n,   v.y/n,   v.z/n)
-                                               || new PVector(v.x/n,   v.y/n,   v.z/n)
-      else                       return target && target.set (v.x/n.x, v.y/n.y, v.z/n.z)
+      if (typeof n == 'object')  return target && target.set (v.x/n.x, v.y/n.y, v.z/n.z)
                                                || new PVector(v.x/n.x, v.y/n.y, v.z/n.z)
+      else                       return target && target.set (v.x/n,   v.y/n,   v.z/n)
+                                               || new PVector(v.x/n,   v.y/n,   v.z/n)
     }
 
     static mod(v: xyzObj, n: xyzObj | number, target?: PVector) {
-      if (typeof n == 'number')  return target && target.set (v.x%n,   v.y%n,   v.z%n)
-                                               || new PVector(v.x%n,   v.y%n,   v.z%n)
-      else                       return target && target.set (v.x%n.x, v.y%n.y, v.z%n.z)
+      if (typeof n == 'object')  return target && target.set (v.x%n.x, v.y%n.y, v.z%n.z)
                                                || new PVector(v.x%n.x, v.y%n.y, v.z%n.z)
+      else                       return target && target.set (v.x%n,   v.y%n,   v.z%n)
+                                               || new PVector(v.x%n,   v.y%n,   v.z%n)
     }
 
     static compare(a: xyzObj, b: xyzObj) { return a.x - b.x || a.y - b.y || a.z - b.z }
     compareTo(v: xyzObj) { return this.x - v.x || this.y - v.y || this.z - v.z }
 
-    array() { return [this.x, this.y, this.z] as xyz }
-    object() { return { x: this.x, y: this.y, z: this.z } }
-    clone() { return new PVector(this.x, this.y, this.z) }
-    copy() { return this.clone() }
+    array()   { return [ this.x, this.y, this.z ] as xyz }
+    object()  { return { x: this.x, y: this.y, z: this.z } }
+    clone()   { return new PVector(this.x, this.y, this.z) }
 
     get(): PVector // @Deprecated
-    get(target: number[]): xyz
+    get(target: number[] | null): xyz
     get(target: TypedArray): TypedArray
     get(target: ArrayLike<number>): PseudoArray<number>
     get(target: xyzObj): xyzObj
-    get(target?: PseudoArray<number> | xyzObj): ArrayLike<number> | xyzObj {
-      if (!arguments.length)          return this.clone() // @Deprecated
-      if (typeof target != 'object')  return this.array()
-      if (xyzObjCheck(target))  target.x  = this.x, target.y  = this.y, target.z  = this.z
-      else                      target[0] = this.x, target[1] = this.y, target[2] = this.z
+    get(target?: PseudoArray<number> | xyzObj | null): ArrayLike<number> | xyzObj {
+      if      (!target)               return target === void 0 && this.clone() || this.array()
+      else if (xyzObjCheck(target))   target.x  = this.x, target.y  = this.y, target.z  = this.z
+      else                            target[0] = this.x, target[1] = this.y, target[2] = this.z
       return target
     }
 
     set(v: ArrayLike<number> | xyzObj | coord, y?: coord, z?: coord) {
-      const len = arguments.length
-      if (len > 1)        this.x = +v, this.y = +y, z != undefined && (this.z = +z)
-      else if (len == 1)  this.set(v[0] || (v as xyzObj).x || 0,
-                                   v[1] || (v as xyzObj).y || 0,
-                                   v[2] || (v as xyzObj).z)
-      else                argsErr('set', len, 1)
+      if (y != void 0)  this.x = +v, this.y = +y, z != void 0 && (this.z = +z)
+      else              this.set(v[0] || (v as xyzObj).x || 0,
+                                 v[1] || (v as xyzObj).y || 0,
+                                 v[2] || (v as xyzObj).z)
       return this
     }
 
@@ -159,10 +154,6 @@ namespace pjs.math {
       return Math.atan2(this.y, this.x)
     }
 
-    @Deprecated heading2D() {
-       return this.heading()
-    }
-
     mag() {
       return Math.sqrt(this.magSq())
     }
@@ -172,11 +163,9 @@ namespace pjs.math {
       return this.x*this.x + this.y*this.y + this.z*this.z
     }
 
-    setMag(target: PVector | number, length?: number, mag?: number): this {
-      const len = arguments.length
-      return len == 1? this.normalize().mult(target as number) :
-             len >  1? this.normalize(target as PVector, mag).mult(length!) :
-                       argsErr('setMag', len, 1) as any
+    setMag(target: PVector | number, length?: number, mag?: number): this | PVector {
+      return typeof target == 'object'? this.normalize(target, mag).mult(length!)
+                                      : this.normalize().mult(target)
     }
 
     rotate(angle: rad, target?: PVector): this | PVector {
@@ -203,10 +192,6 @@ namespace pjs.math {
       return target && target.set(x, this.y, z) || this.set(x, this.y, z)
     }
 
-    rotateZ(angle: rad, target?: PVector) {
-      return this.rotate(angle, target)
-    }
-
     fromAngle(angle: rad, target?: PVector): this | PVector {
       return PVector.fromAngle(angle, target || this)
     }
@@ -230,11 +215,8 @@ namespace pjs.math {
     }
 
     dot(v: xyzObj | number, y?: xyzObj | number, z?: number) {
-      const len = arguments.length
-      return len == 1? PVector.dot(this, v as xyzObj) :
-             len == 2? PVector.dot(v as xyzObj, y as xyzObj) :
-             len >  2? this.x*(v as number) + this.y*(y as number) + this.z*z :
-                       argsErr('dot', len, 1)!
+      return typeof v != 'object'? this.x*v + this.y*+y + this.z*z :
+             y == void 0? PVector.dot(this, v) : PVector.dot(v, y as xyzObj)
     }
 
     cross(v1: xyzObj, v2?: PVector, target?: PVector): this | PVector {
@@ -262,69 +244,52 @@ namespace pjs.math {
     }
 
     add(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number): this | PVector {
-      if (typeof y != 'number')  return PVector.add(v as xyzObj, y!, z as PVector)
-      const len = arguments.length
-      if (len == 1) // PVector.add(this, v as xyzObj, this)
-        if (typeof v == 'number')  this.x += v,   this.y += v,   this.z += v
-        else                       this.x += v.x, this.y += v.y, this.z += v.z
-      else if (len > 1)  this.x += +v, this.y += y, z != undefined && (this.z += +z)
-      else               argsErr('add', len, 1)
+      if (y != undefined) {
+        if (typeof y == 'object')       return PVector.add(v as xyzObj, y, z as PVector)
+        this.x += +v, this.y += y, z != void 0 && (this.z += +z)
+      } else if (typeof v == 'object')  this.x += v.x, this.y += v.y, this.z += v.z
+        else                            this.x += v,   this.y += v,   this.z += v
       return this
     }
 
     sub(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number): this | PVector {
-      if (typeof y != 'number')  return PVector.sub(v as xyzObj, y!, z as PVector)
-      const len = arguments.length
-      if (len == 1) // PVector.sub(this, v as xyzObj, this)
-        if (typeof v == 'number')  this.x -= v,   this.y -= v,   this.z -= v
-        else                       this.x -= v.x, this.y -= v.y, this.z -= v.z
-      else if (len > 1)  this.x -= +v, this.y -= y, z != undefined && (this.z -= +z)
-      else               argsErr('sub', len, 1)
+      if (y != undefined) {
+        if (typeof y == 'object')       return PVector.sub(v as xyzObj, y, z as PVector)
+        this.x -= +v, this.y -= y, z != void 0 && (this.z -= +z)
+      } else if (typeof v == 'object')  this.x -= v.x, this.y -= v.y, this.z -= v.z
+        else                            this.x -= v,   this.y -= v,   this.z -= v
       return this
     }
 
     subInv(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number): this | PVector {
-      if (typeof y != 'number')  return PVector.subInv(v as xyzObj, y!, z as PVector)
-      const len = arguments.length
-      if (len == 1) // PVector.subInv(this, v as xyzObj, this)
-        if (typeof v == 'number')
-          this.x = v - this.x, this.y = v - this.y, this.z = v - this.z
-        else
+      if (y != undefined) {
+        if (typeof y == 'object')  return PVector.subInv(v as xyzObj, y, z as PVector)
+        this.x = +v - this.x, this.y = y - this.y, z != void 0 && (this.z = +z - this.z)
+      } else if (typeof v == 'object')
           this.x = v.x - this.x, this.y = v.y - this.y, this.z = v.z - this.z
-      else if (len > 1)
-        this.x = +v - this.x, this.y = y - this.y, z != undefined && (this.z = +z - this.z)
-      else
-        argsErr('subInv', len, 1)
+        else
+          this.x = v   - this.x, this.y = v   - this.y, this.z = v   - this.z
       return this
     }
 
     mult(v: xyzObj | number, n?: number, target?: PVector): this | PVector {
-      const len = arguments.length
-      if (len == 1)
-        if (typeof v == 'number')  this.x *= v,   this.y *= v,   this.z *= v
-        else                       this.x *= v.x, this.y *= v.y, this.z *= v.z
-      else if (len > 1)  return PVector.mult(v as xyzObj, n!, target)
-      else               argsErr('mult', len, 1)
+      if (n != undefined)        return PVector.mult(v as xyzObj, n, target)
+      if (typeof v == 'object')  this.x *= v.x, this.y *= v.y, this.z *= v.z
+      else                       this.x *= v,   this.y *= v,   this.z *= v
       return this
     }
 
     div(v: xyzObj | number, n?: number, target?: PVector): this | PVector {
-      const len = arguments.length
-      if (len == 1)
-        if (typeof v == 'number')  this.x /= v,   this.y /= v,   this.z /= v
-        else                       this.x /= v.x, this.y /= v.y, this.z /= v.z
-      else if (len > 1)  return PVector.div(v as xyzObj, n!, target)
-      else               argsErr('div', len, 1)
+      if (n != undefined)        return PVector.div(v as xyzObj, n, target)
+      if (typeof v == 'object')  this.x /= v.x, this.y /= v.y, this.z /= v.z
+      else                       this.x /= v,   this.y /= v,   this.z /= v
       return this
     }
 
     mod(v: xyzObj | number, n?: number, target?: PVector): this | PVector {
-      const len = arguments.length
-      if (len == 1)
-        if (typeof v == 'number')  this.x %= v,   this.y %= v,   this.z %= v
-        else                       this.x %= v.x, this.y %= v.y, this.z %= v.z
-      else if (len > 1)  return PVector.mod(v as xyzObj, n!, target)
-      else               argsErr('mod', len, 1)
+      if (n != undefined)        return PVector.mod(v as xyzObj, n, target)
+      if (typeof v == 'object')  this.x %= v.x, this.y %= v.y, this.z %= v.z
+      else                       this.x %= v,   this.y %= v,   this.z %= v
       return this
     }
 
@@ -358,6 +323,16 @@ namespace pjs.math {
       return 31*hash + this.z
     }
   }
+
+  export interface PVector {
+    copy(): PVector
+    heading2D(): rad // @Deprecated
+    rotateZ(angle: rad, target?: PVector): this | PVector
+  }
+
+  PVector.prototype.copy = PVector.prototype.clone
+  PVector.prototype.heading2D = PVector.prototype.heading
+  PVector.prototype.rotateZ = PVector.prototype.rotate
 
   export declare class PVectorAlt extends PVector {}
 
