@@ -246,9 +246,9 @@ namespace pjs.math {
     add(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number): this | PVector {
       if (y != undefined) {
         if (typeof y == 'object')       return PVector.add(v as xyzObj, y, z as PVector)
-        this.x += +v, this.y += y, z != void 0 && (this.z += +z)
+        this.x += +v, this.y += +y, z != void 0 && (this.z += +z)
       } else if (typeof v == 'object')  this.x += v.x, this.y += v.y, this.z += v.z
-        else                            this.x += v,   this.y += v,   this.z += v
+        else                            this.x += +v,  this.y += +v,  this.z += +v
       return this
     }
 
@@ -311,7 +311,7 @@ namespace pjs.math {
     toString() { return `[ ${this.x}, ${this.y}, ${this.z} ]` }
     valueOf() { return this.hashCode() }
 
-    equals(o: Object) {
+    equals(o: {}) {
       return o == this? true : o instanceof PVector &&
              o.x == this.x && o.y == this.y && o.z == this.z
     }
