@@ -32,5 +32,3 @@ console.log(vec1, vec2)
 
 let propr = 'PVector'
 //pa[prop] = Processing.PVector
-
-const j = (() => (new PApplet.PVector).get(arguments))()

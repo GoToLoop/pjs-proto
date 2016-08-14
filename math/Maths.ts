@@ -7,7 +7,7 @@ namespace pjs.math {
     random(low?: number, high?: number) { return Math.random() as norm }
     static readonly random = Maths.prototype.random
 
-    lerp(start: number, stop: number, amt: norm) { return amt * (stop - start) + start }
+    lerp(start: number, stop: number, amt: norm) { return +start + amt * (stop - start) }
     static readonly lerp = Maths.prototype.lerp
 
     sq(n: number) { return n*n }

@@ -15,9 +15,9 @@ declare namespace java.util {
   interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {}
 }
 
-type Collection<E> = java.util.Collection<E>
-type List<E> = java.util.List<E>
-type Queue<E> = java.util.Queue<E>
-type BlockingQueue<E> = java.util.BlockingQueue<E>
-type Deque<E> = java.util.Deque<E>
-type BlockingDeque<E> = java.util.BlockingDeque<E>
+// type Collection<E> = java.util.Collection<E>
+// type List<E> = java.util.List<E>
+// type Queue<E> = java.util.Queue<E>
+// type BlockingQueue<E> = java.util.BlockingQueue<E>
+// type Deque<E> = java.util.Deque<E>
+// type BlockingDeque<E> = java.util.BlockingDeque<E>
