@@ -35,7 +35,7 @@ namespace pjs.math {
       const isPjs = pjsCheck(target),
             rnd = parent? parent : isPjs && target as PApplet || Math,
             ang = TAU * rnd.random(),
-            vz  = 2 * rnd.random() - 1,
+            vz  = 2*rnd.random() - 1,
             vzr = Math.sqrt(1 - vz*vz),
             vx  = vzr * Math.cos(ang),
             vy  = vzr * Math.sin(ang)
@@ -156,7 +156,7 @@ namespace pjs.math {
     limit(max: number, target?: PVector | null, magSq?: number) {
       const mSq = magSq || this.magSq(),
             overMax = mSq > max*max
-      if (target === null)  target = new PVector
+      target === null && (target = new PVector)
       return !target? overMax && this.normalize().mult(max) || this
         : overMax && this.normalize(target, Math.sqrt(mSq)).mult(max) || target.set(this)
     }
@@ -191,8 +191,8 @@ namespace pjs.math {
             s = Math.sin(angle),
             x = c*this.x - s*this.y,
             y = s*this.x + c*this.y
-      if (target === null)  target = new PVector
-      return target && target.set(x, y) || this.set(x, y)
+      target === null && (target = new PVector)
+      return (target || this).set(x, y)
     }
 
     rotateX(angle: rad, target: PVector | null): PVector
@@ -203,8 +203,8 @@ namespace pjs.math {
             s = Math.sin(angle),
             y = c*this.y - s*this.z,
             z = s*this.y + c*this.z
-      if (target === null)  target = new PVector
-      return target && target.set(this.x, y, z) || this.set(this.x, y, z)
+      target === null && (target = new PVector)
+      return (target || this).set(this.x, y, z)
     }
 
     rotateY(angle: rad, target: PVector | null): PVector
@@ -215,8 +215,8 @@ namespace pjs.math {
             s = Math.sin(angle),
             x = s*this.z + c*this.x,
             z = c*this.z - s*this.x
-      if (target === null)  target = new PVector
-      return target && target.set(x, this.y, z) || this.set(x, this.y, z)
+      target === null && (target = new PVector)
+      return (target || this).set(x, this.y, z)
     }
 
     fromAngle(angle: rad, target: PVector | null): PVector
@@ -243,11 +243,11 @@ namespace pjs.math {
     }
 
     dist(v1: xyzObj, v2?: xyzObj) {
-      return v2 && PVector.dist(v1, v2) || PVector.dist(this, v1)
+      return v2? PVector.dist(v1, v2) : PVector.dist(this, v1)
     }
 
     distSq(v1: xyzObj, v2?: xyzObj) {
-      return v2 && PVector.distSq(v1, v2) || PVector.distSq(this, v1)
+      return v2? PVector.distSq(v1, v2) : PVector.distSq(this, v1)
     }
 
     dot(v: xyzObj | number, y?: xyzObj | number, z?: number) {
@@ -271,7 +271,7 @@ namespace pjs.math {
       const len = arguments.length
       if ((len | 1) == 1)  argsErr('lerp', len, 2)
       if (len == 2) { // given vector and amt
-        ({x,y,z} = a as PVector), amt = b as norm
+        ({x , y, z} = a as PVector), amt = b as norm
       } else if (len == 3) { // given vector 1, vector 2 and amt
         return PVector.lerp(a as PVector, b as PVector, c!)
       } else { // given x, y, z and amt
@@ -369,16 +369,10 @@ namespace pjs.math {
     toString() { return `[ ${this.x}, ${this.y}, ${this.z} ]` }
     valueOf() { return this.x }
 
+    hashCode() { return this.x + this.y + this.z }
     equals(o: {}) {
-      return o == this? true : o instanceof PVector &&
+      return o === this? true : o instanceof PVector &&
              o.x == this.x && o.y == this.y && o.z == this.z
-    }
-
-    hashCode() {
-      let hash = 1
-      hash = 31*hash + this.x
-      hash = 31*hash + this.y
-      return 31*hash + this.z
     }
   }
 
