@@ -419,7 +419,7 @@ var pjs;
         var InjectInto = pjs.utils.InjectInto;
         var lerp = math.Maths.lerp, sq = math.Maths.sq, isZero = math.Maths.isZero, TAU = PConstants.TAU, argsErr = function (mtd, len, min) {
             throw "Too few args passed to " + mtd + "() [" + len + " < " + min + "].";
-        }, xyzObjCheck = function (obj) { return obj != null && 'z' in obj; }, pjsCheck = function (obj) { return obj != null && 'random' in obj; };
+        }, xyzObjCheck = function (obj) { return obj != null && 'z' in obj; }, pjsCheck = function (obj) { return obj != null && 'lerp' in obj; };
         var PVector = (function () {
             function PVector(x, y, z) {
                 if (x === void 0) { x = 0; }
@@ -431,18 +431,18 @@ var pjs;
             }
             PVector.fromAngle = function (ang, t) {
                 return t && t.set(Math.cos(ang), Math.sin(ang))
-                    || new PVector(Math.cos(ang), Math.sin(ang));
+                    || new this(Math.cos(ang), Math.sin(ang));
             };
             PVector.random2D = function (t, p) {
                 var isPjs = pjsCheck(t), rnd = p ? p : isPjs && t || Math;
-                return PVector.fromAngle(TAU * rnd.random(), isPjs ? void 0 : t);
+                return this.fromAngle(TAU * rnd.random(), isPjs ? void 0 : t);
             };
             PVector.random3D = function (t, p) {
                 var isPjs = pjsCheck(t), rnd = p ? p : isPjs && t || Math, ang = TAU * rnd.random(), vz = 2 * rnd.random() - 1, vzr = Math.sqrt(1 - vz * vz), vx = vzr * Math.cos(ang), vy = vzr * Math.sin(ang);
-                return t && !isPjs ? t.set(vx, vy, vz) : new PVector(vx, vy, vz);
+                return t && !isPjs ? t.set(vx, vy, vz) : new this(vx, vy, vz);
             };
             PVector.dist = function (v1, v2) {
-                return Math.sqrt(PVector.distSq(v1, v2));
+                return Math.sqrt(this.distSq(v1, v2));
             };
             PVector.distSq = function (v1, v2) {
                 return sq(v1.x - v2.x) + sq(v1.y - v2.y) + sq(v1.z - v2.z);
@@ -452,13 +452,13 @@ var pjs;
             };
             PVector.cross = function (v1, v2, t) {
                 var cx = v1.y * v2.z - v2.y * v1.z, cy = v1.z * v2.x - v2.z * v1.x, cz = v1.x * v2.y - v2.x * v1.y;
-                return t && t.set(cx, cy, cz) || new PVector(cx, cy, cz);
+                return t && t.set(cx, cy, cz) || new this(cx, cy, cz);
             };
             PVector.angleBetween = function (v1, v2, magSq1, magSq2, dot) {
                 if (v1.isZero() || v2.isZero())
                     return 0;
                 magSq1 = magSq1 || v1.magSq(), magSq2 = magSq2 || v2.magSq();
-                dot = dot || PVector.dot(v1, v2);
+                dot = dot || this.dot(v1, v2);
                 var amt = dot / Math.sqrt(magSq1 * magSq2);
                 return amt <= -1 ? Math.PI : amt >= 1 ? 0 : Math.acos(amt);
             };
@@ -467,35 +467,35 @@ var pjs;
             };
             PVector.add = function (v1, v2, t) {
                 return t && t.set(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
-                    || new PVector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+                    || new this(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
             };
             PVector.sub = function (v1, v2, t) {
                 return t && t.set(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
-                    || new PVector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+                    || new this(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
             };
             PVector.mult = function (v, n, t) {
                 if (typeof n === 'object')
                     return t && t.set(v.x * n.x, v.y * n.y, v.z * n.z)
-                        || new PVector(v.x * n.x, v.y * n.y, v.z * n.z);
+                        || new this(v.x * n.x, v.y * n.y, v.z * n.z);
                 else
                     return t && t.set(v.x * n, v.y * n, v.z * n)
-                        || new PVector(v.x * n, v.y * n, v.z * n);
+                        || new this(v.x * n, v.y * n, v.z * n);
             };
             PVector.div = function (v, n, t) {
                 if (typeof n === 'object')
                     return t && t.set(v.x / n.x, v.y / n.y, v.z / n.z)
-                        || new PVector(v.x / n.x, v.y / n.y, v.z / n.z);
+                        || new this(v.x / n.x, v.y / n.y, v.z / n.z);
                 else
                     return t && t.set(v.x / n, v.y / n, v.z / n)
-                        || new PVector(v.x / n, v.y / n, v.z / n);
+                        || new this(v.x / n, v.y / n, v.z / n);
             };
             PVector.mod = function (v, n, t) {
                 if (typeof n === 'object')
                     return t && t.set(v.x % n.x, v.y % n.y, v.z % n.z)
-                        || new PVector(v.x % n.x, v.y % n.y, v.z % n.z);
+                        || new this(v.x % n.x, v.y % n.y, v.z % n.z);
                 else
                     return t && t.set(v.x % n, v.y % n, v.z % n)
-                        || new PVector(v.x % n, v.y % n, v.z % n);
+                        || new this(v.x % n, v.y % n, v.z % n);
             };
             PVector.compare = function (a, b) { return a.x - b.x || a.y - b.y || a.z - b.z; };
             PVector.prototype.compareTo = function (v) { return this.x - v.x || this.y - v.y || this.z - v.z; };
@@ -598,7 +598,7 @@ var pjs;
                     return PVector.lerp(a, b, c);
                 }
                 else {
-                    x = a, y = b, z = c, amt = d;
+                    x = arguments[0], y = arguments[1], z = arguments[2], amt = arguments[3];
                 }
                 return this.set(lerp(this.x, x, amt), lerp(this.y, y, amt), lerp(this.z, z, amt));
                 var _a;
@@ -693,7 +693,7 @@ var pjs;
                 PVectorAlt.fromAngle = function (ang, t) {
                     p._degreeIn && (ang *= DEG_TO_RAD);
                     return t && t.set(Math.cos(ang), Math.sin(ang))
-                        || new PVectorAlt(Math.cos(ang), Math.sin(ang));
+                        || new this(Math.cos(ang), Math.sin(ang));
                 };
                 PVectorAlt.prototype.fromAngle = function (ang, t) {
                     return PVectorAlt.fromAngle(ang, t || this);

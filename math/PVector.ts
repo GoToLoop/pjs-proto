@@ -15,20 +15,20 @@ namespace pjs.math {
           throw `Too few args passed to ${mtd}() [${len} < ${min}].`
         },
         xyzObjCheck = (obj: {} | none): obj is xyzObj  => obj != null && 'z' in obj,
-        pjsCheck    = (obj: {} | none): obj is PApplet => obj != null && 'random' in obj
+        pjsCheck    = (obj: {} | none): obj is PApplet => obj != null && 'lerp' in obj
 
   @InjectInto(PApplet) export class PVector implements Comparable<xyzObj>, Cloneable {
     constructor (public x: coord = 0, public y: coord = 0, public z: coord = 0) {}
 
     static fromAngle(ang: rad, t?: PVector | null) {
       return t && t.set(Math.cos(ang), Math.sin(ang))
-               || new PVector(Math.cos(ang), Math.sin(ang))
+               || new this(Math.cos(ang), Math.sin(ang))
     }
 
     static random2D(t?: PVector | PApplet | null, p?: PApplet | null) {
       const isPjs = pjsCheck(t),
             rnd = p? p : isPjs && t as PApplet || Math
-      return PVector.fromAngle(TAU * rnd.random(), isPjs? void 0 : t as PVector)
+      return this.fromAngle(TAU * rnd.random(), isPjs? void 0 : t as PVector)
     }
 
     static random3D(t?: PVector | PApplet | null, p?: PApplet | null) {
@@ -39,11 +39,11 @@ namespace pjs.math {
             vzr = Math.sqrt(1 - vz*vz),
             vx  = vzr * Math.cos(ang),
             vy  = vzr * Math.sin(ang)
-      return t && !isPjs? (t as PVector).set(vx, vy, vz) : new PVector(vx, vy, vz)
+      return t && !isPjs? (t as PVector).set(vx, vy, vz) : new this(vx, vy, vz)
     }
 
     static dist(v1: xyzObj, v2: xyzObj) {
-      return Math.sqrt(PVector.distSq(v1, v2))
+      return Math.sqrt(this.distSq(v1, v2))
     }
 
     static distSq(v1: xyzObj, v2: xyzObj) {
@@ -58,7 +58,7 @@ namespace pjs.math {
       const cx: coord = v1.y*v2.z - v2.y*v1.z,
             cy: coord = v1.z*v2.x - v2.z*v1.x,
             cz: coord = v1.x*v2.y - v2.x*v1.y
-      return t && t.set(cx, cy, cz) || new PVector(cx, cy, cz)
+      return t && t.set(cx, cy, cz) || new this(cx, cy, cz)
     }
 
     static angleBetween(v1: PVector, v2: PVector,
@@ -66,7 +66,7 @@ namespace pjs.math {
       if (v1.isZero() || v2.isZero())  return 0
       //if (!v1.x && !v1.y && !v1.z || !v2.x && !v2.y && !v2.z)  return 0
       magSq1 = magSq1 || v1.magSq(), magSq2 = magSq2 || v2.magSq()
-      dot = dot || PVector.dot(v1, v2)
+      dot = dot || this.dot(v1, v2)
       const amt = dot / Math.sqrt(magSq1 * magSq2)
       return amt <= -1? Math.PI : amt >= 1? 0 : Math.acos(amt)
     }
@@ -77,33 +77,33 @@ namespace pjs.math {
 
     static add(v1: xyzObj, v2: xyzObj, t?: PVector | null) {
       return t && t.set(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
-               || new PVector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
+               || new this(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
     }
 
     static sub(v1: xyzObj, v2: xyzObj, t?: PVector | null) {
       return t && t.set(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
-               || new PVector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
+               || new this(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
     }
 
     static mult(v: xyzObj, n: xyzObj | number, t?: PVector | null) {
-      if (typeof n === 'object')  return t && t.set (v.x*n.x, v.y*n.y, v.z*n.z)
-                                           || new PVector(v.x*n.x, v.y*n.y, v.z*n.z)
-      else                        return t && t.set (v.x*n, v.y*n, v.z*n)
-                                           || new PVector(v.x*n, v.y*n, v.z*n)
+      if (typeof n === 'object')  return t && t.set(v.x*n.x, v.y*n.y, v.z*n.z)
+                                           || new this(v.x*n.x, v.y*n.y, v.z*n.z)
+      else                        return t && t.set(v.x*n, v.y*n, v.z*n)
+                                           || new this(v.x*n, v.y*n, v.z*n)
     }
 
     static div(v: xyzObj, n: xyzObj | number, t?: PVector | null) {
-      if (typeof n === 'object')  return t && t.set (v.x/n.x, v.y/n.y, v.z/n.z)
-                                           || new PVector(v.x/n.x, v.y/n.y, v.z/n.z)
-      else                        return t && t.set (v.x/n, v.y/n, v.z/n)
-                                           || new PVector(v.x/n, v.y/n, v.z/n)
+      if (typeof n === 'object')  return t && t.set(v.x/n.x, v.y/n.y, v.z/n.z)
+                                           || new this(v.x/n.x, v.y/n.y, v.z/n.z)
+      else                        return t && t.set(v.x/n, v.y/n, v.z/n)
+                                           || new this(v.x/n, v.y/n, v.z/n)
     }
 
     static mod(v: xyzObj, n: xyzObj | number, t?: PVector | null) {
-      if (typeof n === 'object')  return t && t.set (v.x%n.x, v.y%n.y, v.z%n.z)
-                                           || new PVector(v.x%n.x, v.y%n.y, v.z%n.z)
-      else                        return t && t.set (v.x%n, v.y%n, v.z%n)
-                                           || new PVector(v.x%n, v.y%n, v.z%n)
+      if (typeof n === 'object')  return t && t.set(v.x%n.x, v.y%n.y, v.z%n.z)
+                                           || new this(v.x%n.x, v.y%n.y, v.z%n.z)
+      else                        return t && t.set(v.x%n, v.y%n, v.z%n)
+                                           || new this(v.x%n, v.y%n, v.z%n)
     }
 
     static compare(a: xyzObj, b: xyzObj) { return a.x - b.x || a.y - b.y || a.z - b.z }
@@ -266,11 +266,11 @@ namespace pjs.math {
       const len = arguments.length
       if ((len | 1) === 1)  argsErr('lerp', len, 2)
       if (len === 2) { // given vector and amt
-        ({x , y, z} = a as PVector), amt = b as norm
+        ({x, y, z} = a as PVector), amt = b as norm
       } else if (len === 3) { // given vector 1, vector 2 and amt
         return PVector.lerp(a as PVector, b as PVector, c!)
       } else { // given x, y, z and amt
-        x = a as number, y = b as number, z = c!, amt = d!
+        [x, y, z, amt] = arguments
       }
       return this.set(lerp(this.x, x, amt), lerp(this.y, y, amt), lerp(this.z, z, amt))
     }
@@ -378,7 +378,7 @@ namespace pjs.math {
       static fromAngle(ang: rad, t?: PVector | null) {
         p._degreeIn && (ang *= DEG_TO_RAD)
         return t && t.set(Math.cos(ang), Math.sin(ang))
-                 || new PVectorAlt(Math.cos(ang), Math.sin(ang))
+                 || new this(Math.cos(ang), Math.sin(ang))
       }
 
       fromAngle(ang: rad, t: PVector | null): PVector
