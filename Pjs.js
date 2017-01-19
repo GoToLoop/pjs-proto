@@ -419,7 +419,7 @@ var pjs;
         var InjectInto = pjs.utils.InjectInto;
         var lerp = math.Maths.lerp, sq = math.Maths.sq, isZero = math.Maths.isZero, TAU = PConstants.TAU, argsErr = function (mtd, len, min) {
             throw "Too few args passed to " + mtd + "() [" + len + " < " + min + "].";
-        }, xyzObjCheck = function (obj) { return obj != null && 'z' in obj; }, pjsCheck = function (obj) { return obj != null && 'lerp' in obj; };
+        }, xyzObjCheck = function (obj) { return obj != void 0 && 'z' in obj; }, pjsCheck = function (obj) { return obj != void 0 && 'lerp' in obj; };
         var PVector = (function () {
             function PVector(x, y, z) {
                 if (x === void 0) { x = 0; }
@@ -502,6 +502,7 @@ var pjs;
             PVector.prototype.array = function () { return [this.x, this.y, this.z]; };
             PVector.prototype.object = function () { return { x: this.x, y: this.y, z: this.z }; };
             PVector.prototype.clone = function () { return new PVector(this.x, this.y, this.z); };
+            PVector.prototype.new = function () { return new PVector; };
             PVector.prototype.get = function (t) {
                 if (!t)
                     return t === void 0 && this.clone() || this.array();
@@ -546,17 +547,17 @@ var pjs;
             };
             PVector.prototype.rotate = function (ang, t) {
                 var c = Math.cos(ang), s = Math.sin(ang), x = c * this.x - s * this.y, y = s * this.x + c * this.y;
-                t === null && (t = new PVector);
+                t === null && (t = this.new());
                 return (t || this).set(x, y);
             };
             PVector.prototype.rotateX = function (ang, t) {
                 var c = Math.cos(ang), s = Math.sin(ang), y = c * this.y - s * this.z, z = s * this.y + c * this.z;
-                t === null && (t = new PVector);
+                t === null && (t = this.new());
                 return (t || this).set(this.x, y, z);
             };
             PVector.prototype.rotateY = function (ang, t) {
                 var c = Math.cos(ang), s = Math.sin(ang), x = s * this.z + c * this.x, z = c * this.z - s * this.x;
-                t === null && (t = new PVector);
+                t === null && (t = this.new());
                 return (t || this).set(x, this.y, z);
             };
             PVector.prototype.fromAngle = function (ang, t) {
@@ -604,7 +605,7 @@ var pjs;
                 var _a;
             };
             PVector.prototype.add = function (v, y, z) {
-                if (y != undefined) {
+                if (y != void 0) {
                     if (typeof y === 'object')
                         return PVector.add(v, y, z);
                     this.x += +v, this.y += +y, z != void 0 && (this.z += +z);
@@ -616,7 +617,7 @@ var pjs;
                 return this;
             };
             PVector.prototype.sub = function (v, y, z) {
-                if (y != undefined) {
+                if (y != void 0) {
                     if (typeof y === 'object')
                         return PVector.sub(v, y, z);
                     this.x -= +v, this.y -= y, z != void 0 && (this.z -= +z);
@@ -628,7 +629,7 @@ var pjs;
                 return this;
             };
             PVector.prototype.mult = function (v, n, t) {
-                if (n != undefined)
+                if (n != void 0)
                     return PVector.mult(v, n, t);
                 if (typeof v === 'object')
                     this.x *= v.x, this.y *= v.y, this.z *= v.z;
@@ -637,7 +638,7 @@ var pjs;
                 return this;
             };
             PVector.prototype.div = function (v, n, t) {
-                if (n != undefined)
+                if (n != void 0)
                     return PVector.div(v, n, t);
                 if (typeof v === 'object')
                     this.x /= v.x, this.y /= v.y, this.z /= v.z;
@@ -646,7 +647,7 @@ var pjs;
                 return this;
             };
             PVector.prototype.mod = function (v, n, t) {
-                if (n != undefined)
+                if (n != void 0)
                     return PVector.mod(v, n, t);
                 if (typeof v === 'object')
                     this.x %= v.x, this.y %= v.y, this.z %= v.z;
@@ -690,6 +691,8 @@ var pjs;
                 function PVectorAlt() {
                     return _super.apply(this, arguments) || this;
                 }
+                PVectorAlt.prototype.clone = function () { return new PVectorAlt(this.x, this.y, this.z); };
+                PVectorAlt.prototype.new = function () { return new PVectorAlt; };
                 PVectorAlt.fromAngle = function (ang, t) {
                     p._degreeIn && (ang *= DEG_TO_RAD);
                     return t && t.set(Math.cos(ang), Math.sin(ang))

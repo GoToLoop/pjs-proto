@@ -544,6 +544,7 @@ declare namespace pjs.math {
             z: coord;
         };
         clone(): PVector;
+        new(): PVector;
         get(): PVector;
         get(t: number[] | null): xyz;
         get(t: TypedArray): TypedArray;
