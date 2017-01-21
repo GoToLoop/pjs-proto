@@ -601,12 +601,13 @@ declare namespace pjs.math {
         equals(o: {}): boolean;
     }
     interface PVector {
+        constructor: typeof PVector;
         copy(): PVector;
         heading2D(): rad;
         rotateZ(ang: rad, t: PVector | null): PVector;
         rotateZ(ang: rad): this;
     }
-    class PVectorAlt extends PVector {
+    class PVectorDeg extends PVector {
     }
-    function PVectorAltBuilder(p: PApplet): typeof PVectorAlt;
+    function PVectorDegBuilder(p: PApplet): typeof PVectorDeg;
 }

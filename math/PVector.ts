@@ -111,8 +111,8 @@ namespace pjs.math {
 
     array()   { return [ this.x, this.y, this.z ] as xyz }
     object()  { return { x: this.x, y: this.y, z: this.z } }
-    clone()   { return new PVector(this.x, this.y, this.z) }
-    new()     { return new PVector }
+    clone()   { return new this.constructor(this.x, this.y, this.z) }
+    new()     { return new this.constructor }
 
     get(): PVector // @Deprecated
     get(t: number[] | null): xyz
@@ -142,7 +142,7 @@ namespace pjs.math {
       const m = +mag || this.mag(),
             canDivide = m === m && m !== 0 && m !== 1
       if (!arguments.length)  return canDivide && this.div(m) || this
-      return canDivide? PVector.div(this, m, t)
+      return canDivide? this.constructor.div(this, m, t)
                       : t && t.set(this) || this.clone()
     }
 
@@ -152,7 +152,7 @@ namespace pjs.math {
     limit(max: number, t?: PVector | null, magSq?: number) {
       const mSq = magSq || this.magSq(),
             overMax = mSq > max*max
-      t === null && (t = new PVector)
+      t === null && (t = this.new())
       return !t? overMax && this.normalize().mult(max) || this
                : overMax && this.normalize(t, Math.sqrt(mSq)).mult(max) || t.set(this)
     }
@@ -219,44 +219,45 @@ namespace pjs.math {
     fromAngle(ang: rad): this
 
     fromAngle(ang: rad, t?: PVector | null) {
-      return PVector.fromAngle(ang, t || this)
+      return this.constructor.fromAngle(ang, t || this)
     }
 
     random2D(t: PVector | null, p?: PApplet): PVector
     random2D(p?: PApplet): this
 
     random2D(t?: PVector | PApplet | null, p?: PApplet) {
-      return pjsCheck(t) && PVector.random2D(this, t)
-                         || PVector.random2D(t === void 0 && this || t, p)
+      return pjsCheck(t) && this.constructor.random2D(this, t)
+                         || this.constructor.random2D(t === void 0 && this || t, p)
     }
 
     random3D(t: PVector | null, p?: PApplet): PVector
     random3D(p?: PApplet): this
 
     random3D(t?: PVector | PApplet | null, p?: PApplet) {
-      return pjsCheck(t) && PVector.random3D(this, t)
-                         || PVector.random3D(t === void 0 && this || t, p)
+      return pjsCheck(t) && this.constructor.random3D(this, t)
+                         || this.constructor.random3D(t === void 0 && this || t, p)
     }
 
     dist(v1: xyzObj, v2?: xyzObj) {
-      return v2? PVector.dist(v1, v2) : PVector.dist(this, v1)
+      return v2? this.constructor.dist(v1, v2) : this.constructor.dist(this, v1)
     }
 
     distSq(v1: xyzObj, v2?: xyzObj) {
-      return v2? PVector.distSq(v1, v2) : PVector.distSq(this, v1)
+      return v2? this.constructor.distSq(v1, v2) : this.constructor.distSq(this, v1)
     }
 
     dot(v: xyzObj | number, y?: xyzObj | number, z?: number) {
       return typeof v !== 'object'? this.x*v + this.y*+y + this.z*z :
-                    y == void 0? PVector.dot(this, v) : PVector.dot(v, y as xyzObj)
+                    y == void 0? this.constructor.dot(this, v)
+                               : this.constructor.dot(v, y as xyzObj)
     }
 
     cross(v1: xyzObj, v2?: PVector, t?: PVector | null) {
-      return t && PVector.cross(v1, v2!, t) || PVector.cross(this, v1, v2)
+      return t && this.constructor.cross(v1, v2!, t) || this.constructor.cross(this, v1, v2)
     }
 
     angleBetween(v: PVector, magSq1?: number, magSq2?: number, dot?: number) {
-      return PVector.angleBetween(this, v, magSq1, magSq2, dot)
+      return this.constructor.angleBetween(this, v, magSq1, magSq2, dot)
     }
 
     lerp(a: PVector | number, b: number, c?: number, d?: norm): this
@@ -269,7 +270,7 @@ namespace pjs.math {
       if (len === 2) { // given vector and amt
         ({x, y, z} = a as PVector), amt = b as norm
       } else if (len === 3) { // given vector 1, vector 2 and amt
-        return PVector.lerp(a as PVector, b as PVector, c!)
+        return this.constructor.lerp(a as PVector, b as PVector, c!)
       } else { // given x, y, z and amt
         [x, y, z, amt] = arguments
       }
@@ -282,7 +283,7 @@ namespace pjs.math {
 
     add(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number | null) {
       if (y != void 0) {
-        if (typeof y === 'object')       return PVector.add(v as xyzObj, y, z as PVector)
+        if (typeof y === 'object')       return this.constructor.add(v as xyzObj, y, z as PVector)
         this.x += +v, this.y += +y, z != void 0 && (this.z += +z)
       } else if (typeof v === 'object')  this.x += v.x, this.y += v.y, this.z += v.z
         else                             this.x += +v,  this.y += +v,  this.z += +v
@@ -295,7 +296,7 @@ namespace pjs.math {
 
     sub(v: xyzObj | number, y?: xyzObj | number, z?: PVector | number | null) {
       if (y != void 0) {
-        if (typeof y === 'object')       return PVector.sub(v as xyzObj, y, z as PVector)
+        if (typeof y === 'object')       return this.constructor.sub(v as xyzObj, y, z as PVector)
         this.x -= +v, this.y -= y, z != void 0 && (this.z -= +z)
       } else if (typeof v === 'object')  this.x -= v.x, this.y -= v.y, this.z -= v.z
         else                             this.x -= v,   this.y -= v,   this.z -= v
@@ -306,7 +307,7 @@ namespace pjs.math {
     mult(v: xyzObj, n: number, t?: PVector | null): PVector
 
     mult(v: xyzObj | number, n?: number, t?: PVector | null) {
-      if (n != void 0)            return PVector.mult(v as xyzObj, n, t)
+      if (n != void 0)            return this.constructor.mult(v as xyzObj, n, t)
       if (typeof v === 'object')  this.x *= v.x, this.y *= v.y, this.z *= v.z
       else                        this.x *= v,   this.y *= v,   this.z *= v
       return this
@@ -316,7 +317,7 @@ namespace pjs.math {
     div(v: xyzObj, n: number, t?: PVector | null): PVector
 
     div(v: xyzObj | number, n?: number, t?: PVector | null) {
-      if (n != void 0)            return PVector.div(v as xyzObj, n, t)
+      if (n != void 0)            return this.constructor.div(v as xyzObj, n, t)
       if (typeof v === 'object')  this.x /= v.x, this.y /= v.y, this.z /= v.z
       else                        this.x /= v,   this.y /= v,   this.z /= v
       return this
@@ -326,7 +327,7 @@ namespace pjs.math {
     mod(v: xyzObj, n: number, t?: PVector | null): PVector
 
     mod(v: xyzObj | number, n?: number, t?: PVector | null) {
-      if (n != void 0)            return PVector.mod(v as xyzObj, n, t)
+      if (n != void 0)            return this.constructor.mod(v as xyzObj, n, t)
       if (typeof v === 'object')  this.x %= v.x, this.y %= v.y, this.z %= v.z
       else                        this.x %= v,   this.y %= v,   this.z %= v
       return this
@@ -358,6 +359,7 @@ namespace pjs.math {
   }
 
   export interface PVector {
+    constructor: typeof PVector
     copy(): PVector
     heading2D(): rad // @Deprecated
     rotateZ(ang: rad, t: PVector | null): PVector
@@ -368,29 +370,17 @@ namespace pjs.math {
   PVector.prototype.heading2D = PVector.prototype.heading
   PVector.prototype.rotateZ = PVector.prototype.rotate
 
-  export declare class PVectorAlt extends PVector {}
+  export declare class PVectorDeg extends PVector {}
 
-  export function PVectorAltBuilder(p: PApplet) {
-    "use strict"
-
+  export function PVectorDegBuilder(p: PApplet) {
     const {DEG_TO_RAD, RAD_TO_DEG} = PConstants
 
-    return class PVectorAlt extends PVector {
-      clone() { return new PVectorAlt(this.x, this.y, this.z) }
-      new()   { return new PVectorAlt }
-
+    return class PVectorDeg extends PVector {
       static fromAngle(ang: rad, t?: PVector | null) {
         p._degreeIn && (ang *= DEG_TO_RAD)
         return t && t.set(Math.cos(ang), Math.sin(ang))
                  || new this(Math.cos(ang), Math.sin(ang))
       }
-
-      fromAngle(ang: rad, t: PVector | null): PVector
-      fromAngle(ang: rad): this
-
-      fromAngle(ang: rad, t?: PVector | null) {
-        return PVectorAlt.fromAngle(ang, t || this)
-      }
-    } as typeof PVectorAlt
+    } as typeof PVectorDeg
   }
 }

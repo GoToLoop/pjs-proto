@@ -21,14 +21,17 @@ pjs.math.PVector.random2D()
 Processing.PVector.random3D()
 Processing.sq(6)
 
-const pa = new PApplet
+var pa = new PApplet
 pa.random = () => 10
 pa.sq = n => n*n*n
+
+var cn = new (<typeof PApplet>pa.constructor)().random()
+console.warn(cn)
 
 var vec1 = new pa.PVector(+pa.PI, +pa.TAU).fromAngle(90).get(null)
 var vec2 = pa.PVector.fromAngle(180)
 
 console.log(vec1, vec2)
 
-let propr = 'PVector'
+var prop = 'PVector'
 //pa[prop] = Processing.PVector

@@ -12,7 +12,7 @@ namespace pjs.core {
        this.init()
     }
 
-    init() { this.PVector = math.PVectorAltBuilder(this), this._degreeIn = true }
+    init() { this.PVector = math.PVectorDegBuilder(this), this._degreeIn = true }
 
     static readonly PVector: typeof math.PVector
     static readonly AbstractCollection = java.util.AbstractCollection
