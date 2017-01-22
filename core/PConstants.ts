@@ -101,8 +101,8 @@ namespace pjs.core {
     static readonly EIGHTH_PI: rad = Math.PI / 8    // 22.5°
     static readonly TWELFTH_PI: rad = Math.PI / 12  // 15°
 
-    static readonly DEG_TO_RAD: number = Math.PI / 180
-    static readonly RAD_TO_DEG: number = 180 / Math.PI
+    static readonly DEG_TO_RAD = Math.PI / 180
+    static readonly RAD_TO_DEG = 180 / Math.PI
 
     static readonly RADIANS = 0
     static readonly DEGREES = 1

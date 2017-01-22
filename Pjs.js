@@ -425,7 +425,7 @@ var pjs;
         const { lerp, sq, isZero } = math.Maths, TAU = PConstants.TAU, argsErr = (mtd, len, min) => {
             throw `Too few args passed to ${mtd}() [${len} < ${min}].`;
         }, xyzCheck = (obj) => obj != void 0 && 'z' in obj, pjsCheck = (obj) => obj != void 0 && 'lerp' in obj;
-        let PVector_1 = class PVector {
+        let PVector = PVector_1 = class PVector {
             constructor(x = 0, y = 0, z = 0) {
                 this.x = x;
                 this.y = y;
@@ -667,7 +667,6 @@ var pjs;
                     o.x === this.x && o.y === this.y && o.z === this.z;
             }
         };
-        let PVector = PVector_1;
         PVector = PVector_1 = __decorate([
             InjectInto(PApplet)
         ], PVector);
@@ -686,5 +685,6 @@ var pjs;
             };
         }
         math.PVectorDegBuilder = PVectorDegBuilder;
+        var PVector_1;
     })(math = pjs.math || (pjs.math = {}));
 })(pjs || (pjs = {}));

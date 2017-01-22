@@ -1,6 +1,8 @@
 /// <reference path="core/Processing.ts"/>
 /// <reference path="math/PVector.ts"/>
 
+"use strict"
+
 console.log(Processing.random())
 console.log(new Processing().random())
 console.log(new Processing().PVector.random2D(new Processing))

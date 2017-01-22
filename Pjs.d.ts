@@ -543,11 +543,7 @@ declare namespace pjs.math {
         static compare(a: xyz, b: xyz): number;
         compareTo(v: xyz): number;
         array(): [coord, coord, coord];
-        object(): {
-            x: coord;
-            y: coord;
-            z: coord;
-        };
+        object(): xyz;
         clone(): PVector;
         get(): PVector;
         get(t: number[] | null): xyzArr;

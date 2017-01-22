@@ -1,0 +1,20 @@
+--pretty
+--newLine LF
+--removeComments
+--noFallthroughCasesInSwitch
+--noImplicitReturns
+--noImplicitThis
+--noImplicitAny
+--suppressImplicitAnyIndexErrors
+--experimentalDecorators
+--strictNullChecks
+--listFiles
+--diagnostics
+--forceConsistentCasingInFileNames
+--module system
+--moduleResolution node
+--importHelpers
+--traceResolution
+--jsx react
+--out Pjs.js
+-d -t ES6 p5
