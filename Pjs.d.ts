@@ -1,10 +1,15 @@
 declare namespace pjs.utils {
+    const UND = "undefined", OBJ = "object", FNT = "function", SYM = "symbol", STR = "string", NUM = "number", BOL = "boolean", PTY = "prototype", SPC = " ";
+}
+declare namespace pjs.utils {
     function Frozen(clazz: Function | Object, prop?: string | symbol): void;
     function FreezeAll(clazz: Function): void;
     function ProtoAssign(clazz: Function, prop: string | symbol): void;
     function ProtoAssignAll(clazz: Function): void;
-    function ProtoAdditions(props: Object): <TFn extends Function>(clazz: TFn) => void;
-    function InjectInto(target: Function): <TFn extends Function>(clazz: TFn) => void;
+    function ProtoAdditions(props: Object): ClassDecorator;
+    function InjectInto(target: Function): ClassDecorator;
+    function Timeout(millis?: number): MethodDecorator;
+    function Interval(millis?: number): MethodDecorator;
 }
 declare namespace java.lang {
     function Deprecated(clazz: Object, prop?: string | symbol): void;
@@ -175,11 +180,11 @@ declare namespace pjs.core {
         static readonly IMAGE: number;
         static readonly MODEL: number;
         static readonly SHAPE: number;
-        static readonly SQUARE: "butt";
-        static readonly ROUND: "round";
-        static readonly PROJECT: "square";
-        static readonly MITER: "miter";
-        static readonly BEVEL: "bevel";
+        static readonly SQUARE: string;
+        static readonly ROUND: string;
+        static readonly PROJECT: string;
+        static readonly MITER: string;
+        static readonly BEVEL: string;
         static readonly AMBIENT: number;
         static readonly DIRECTIONAL: number;
         static readonly SPOT: number;
@@ -217,12 +222,12 @@ declare namespace pjs.core {
         static readonly NUMLK: number;
         static readonly META: number;
         static readonly INSERT: number;
-        static readonly ARROW: "default";
-        static readonly CROSS: "crosshair";
-        static readonly HAND: "pointer";
-        static readonly MOVE: "move";
-        static readonly TEXT: "text";
-        static readonly WAIT: "wait";
+        static readonly ARROW: string;
+        static readonly CROSS: string;
+        static readonly HAND: string;
+        static readonly MOVE: string;
+        static readonly TEXT: string;
+        static readonly WAIT: string;
         static readonly NOCURSOR: string;
         static readonly DISABLE_OPENGL_2X_SMOOTH: number;
         static readonly ENABLE_OPENGL_2X_SMOOTH: number;
@@ -516,7 +521,7 @@ declare var Processing: typeof PApplet;
 declare namespace pjs.math {
     type Comparable<T> = java.lang.Comparable<T>;
     type Cloneable = java.lang.Cloneable;
-    class PVector implements Comparable<xyzObj>, Cloneable {
+    class PVector implements Comparable<xyz>, Cloneable {
         x: coord;
         y: coord;
         z: coord;
@@ -524,19 +529,19 @@ declare namespace pjs.math {
         static fromAngle(ang: rad, t?: PVector | null): PVector;
         static random2D(t?: PVector | PApplet | null, p?: PApplet | null): PVector;
         static random3D(t?: PVector | PApplet | null, p?: PApplet | null): PVector;
-        static dist(v1: xyzObj, v2: xyzObj): number;
-        static distSq(v1: xyzObj, v2: xyzObj): number;
-        static dot(v1: xyzObj, v2: xyzObj): number;
-        static cross(v1: xyzObj, v2: xyzObj, t?: PVector | null): PVector;
+        static dist(v1: xyz, v2: xyz): number;
+        static distSq(v1: xyz, v2: xyz): number;
+        static dot(v1: xyz, v2: xyz): number;
+        static cross(v1: xyz, v2: xyz, t?: PVector | null): PVector;
         static angleBetween(v1: PVector, v2: PVector, magSq1?: number, magSq2?: number, dot?: number): rad;
         static lerp(v1: PVector, v2: PVector, amt: norm, t?: PVector | null): PVector;
-        static add(v1: xyzObj, v2: xyzObj, t?: PVector | null): PVector;
-        static sub(v1: xyzObj, v2: xyzObj, t?: PVector | null): PVector;
-        static mult(v: xyzObj, n: xyzObj | number, t?: PVector | null): PVector;
-        static div(v: xyzObj, n: xyzObj | number, t?: PVector | null): PVector;
-        static mod(v: xyzObj, n: xyzObj | number, t?: PVector | null): PVector;
-        static compare(a: xyzObj, b: xyzObj): number;
-        compareTo(v: xyzObj): number;
+        static add(v1: xyz, v2: xyz, t?: PVector | null): PVector;
+        static sub(v1: xyz, v2: xyz, t?: PVector | null): PVector;
+        static mult(v: xyz, n: xyz | number, t?: PVector | null): PVector;
+        static div(v: xyz, n: xyz | number, t?: PVector | null): PVector;
+        static mod(v: xyz, n: xyz | number, t?: PVector | null): PVector;
+        static compare(a: xyz, b: xyz): number;
+        compareTo(v: xyz): number;
         array(): [coord, coord, coord];
         object(): {
             x: coord;
@@ -544,13 +549,12 @@ declare namespace pjs.math {
             z: coord;
         };
         clone(): PVector;
-        new(): PVector;
         get(): PVector;
-        get(t: number[] | null): xyz;
+        get(t: number[] | null): xyzArr;
         get(t: TypedArray): TypedArray;
         get(t: ArrayLike<number>): PseudoArray<number>;
-        get(t: xyzObj): xyzObj;
-        set(v: ArrayLike<number> | xyzObj | coord, y?: coord, z?: coord): this;
+        get(t: xyz): xyz;
+        set(v: ArrayLike<number> | xyz | coord, y?: coord, z?: coord): this;
         normalize(t?: PVector | null, mag?: number): PVector;
         normalize(): this;
         limit(max: number, t: PVector | null, magSq?: number): PVector;
@@ -572,25 +576,25 @@ declare namespace pjs.math {
         random2D(p?: PApplet): this;
         random3D(t: PVector | null, p?: PApplet): PVector;
         random3D(p?: PApplet): this;
-        dist(v1: xyzObj, v2?: xyzObj): number;
-        distSq(v1: xyzObj, v2?: xyzObj): number;
-        dot(v: xyzObj | number, y?: xyzObj | number, z?: number): number;
-        cross(v1: xyzObj, v2?: PVector, t?: PVector | null): PVector;
+        dist(v1: xyz, v2?: xyz): number;
+        distSq(v1: xyz, v2?: xyz): number;
+        dot(v: xyz | number, y?: xyz | number, z?: number): number;
+        cross(v1: xyz, v2?: PVector, t?: PVector | null): PVector;
         angleBetween(v: PVector, magSq1?: number, magSq2?: number, dot?: number): rad;
         lerp(a: PVector | number, b: number, c?: number, d?: norm): this;
         lerp(a: PVector, b: PVector, c: norm): PVector;
         add(x: number, y?: number, z?: number): this;
-        add(v: xyzObj): this;
-        add(v1: xyzObj, v2: xyzObj, t?: PVector | null): PVector;
+        add(v: xyz): this;
+        add(v1: xyz, v2: xyz, t?: PVector | null): PVector;
         sub(x: number, y?: number, z?: number): this;
-        sub(v: xyzObj): this;
-        sub(v1: xyzObj, v2: xyzObj, t?: PVector | null): PVector;
-        mult(v: xyzObj | number): this;
-        mult(v: xyzObj, n: number, t?: PVector | null): PVector;
-        div(v: xyzObj | number): this;
-        div(v: xyzObj, n: number, t?: PVector | null): PVector;
-        mod(v: xyzObj | number): this;
-        mod(v: xyzObj, n: number, t?: PVector | null): PVector;
+        sub(v: xyz): this;
+        sub(v1: xyz, v2: xyz, t?: PVector | null): PVector;
+        mult(v: xyz | number): this;
+        mult(v: xyz, n: number, t?: PVector | null): PVector;
+        div(v: xyz | number): this;
+        div(v: xyz, n: number, t?: PVector | null): PVector;
+        mod(v: xyz | number): this;
+        mod(v: xyz, n: number, t?: PVector | null): PVector;
         negate(): this;
         clear(): this;
         isZero(tolerance?: norm): boolean;
@@ -602,6 +606,7 @@ declare namespace pjs.math {
     }
     interface PVector {
         constructor: typeof PVector;
+        __proto__: PVector;
         copy(): PVector;
         heading2D(): rad;
         rotateZ(ang: rad, t: PVector | null): PVector;

@@ -45,7 +45,8 @@
         "p5.d.ts",
         "test.ts",
         "typings/Types.d.ts",
-        "utils/Decorators.ts"
+        "utils/Decorators.ts",
+        "utils/TypeOfs.ts"
     ],
     "exclude": [
         "node_modules",

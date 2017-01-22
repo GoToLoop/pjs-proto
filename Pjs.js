@@ -9,13 +9,21 @@ var pjs;
     var utils;
     (function (utils) {
         "use strict";
+        utils.UND = 'undefined', utils.OBJ = 'object', utils.FNT = 'function', utils.SYM = 'symbol', utils.STR = 'string', utils.NUM = 'number', utils.BOL = 'boolean', utils.PTY = 'prototype', utils.SPC = ' ';
+    })(utils = pjs.utils || (pjs.utils = {}));
+})(pjs || (pjs = {}));
+var pjs;
+(function (pjs) {
+    var utils;
+    (function (utils) {
+        "use strict";
         function Frozen(clazz, prop) {
             if (prop) {
                 const value = clazz[prop];
                 Object.freeze(value) && Object.freeze(value.prototype);
             }
             else
-                Object.freeze(Object.freeze(clazz)['prototype']);
+                Object.freeze(Object.freeze(clazz)[utils.PTY]);
         }
         utils.Frozen = Frozen;
         function FreezeAll(clazz) {
@@ -33,7 +41,7 @@ var pjs;
         function ProtoAssignAll(clazz) {
             for (let prop in clazz) {
                 const value = clazz[prop];
-                typeof value != 'function' && (clazz.prototype[prop] = value);
+                typeof value !== utils.FNT && (clazz.prototype[prop] = value);
             }
         }
         utils.ProtoAssignAll = ProtoAssignAll;
@@ -49,13 +57,35 @@ var pjs;
                 let name = clazz.name;
                 if (!name) {
                     name = clazz.toString();
-                    const start = name.indexOf(' ') + 1, stop = name.indexOf('(', start);
+                    const start = name.indexOf(utils.SPC) + 1, stop = name.indexOf('(', start);
                     name = name.substring(start, ~stop ? stop : name.lastIndexOf(' \x7b')).trim();
                 }
                 name && (target[name] = target.prototype[name] = clazz);
             };
         }
         utils.InjectInto = InjectInto;
+        function Timeout(millis = 0) {
+            return (tgt, key, d) => {
+                if (typeof d.value !== 'function')
+                    return;
+                const originalMethod = d.value;
+                d.value = function () {
+                    setTimeout(() => originalMethod.apply(this, arguments), millis);
+                };
+            };
+        }
+        utils.Timeout = Timeout;
+        function Interval(millis = 0) {
+            return (tgt, key, d) => {
+                if (typeof d.value !== 'function')
+                    return;
+                const originalMethod = d.value;
+                d.value = function () {
+                    setInterval(() => originalMethod.apply(this, arguments), millis);
+                };
+            };
+        }
+        utils.Interval = Interval;
     })(utils = pjs.utils || (pjs.utils = {}));
 })(pjs || (pjs = {}));
 var java;
@@ -394,7 +424,7 @@ var pjs;
         var InjectInto = pjs.utils.InjectInto;
         const { lerp, sq, isZero } = math.Maths, TAU = PConstants.TAU, argsErr = (mtd, len, min) => {
             throw `Too few args passed to ${mtd}() [${len} < ${min}].`;
-        }, xyzObjCheck = (obj) => obj != void 0 && 'z' in obj, pjsCheck = (obj) => obj != void 0 && 'lerp' in obj;
+        }, xyzCheck = (obj) => obj != void 0 && 'z' in obj, pjsCheck = (obj) => obj != void 0 && 'lerp' in obj;
         let PVector_1 = class PVector {
             constructor(x = 0, y = 0, z = 0) {
                 this.x = x;
@@ -402,8 +432,8 @@ var pjs;
                 this.z = z;
             }
             static fromAngle(ang, t) {
-                return t && t.set(Math.cos(ang), Math.sin(ang))
-                    || new this(Math.cos(ang), Math.sin(ang));
+                t || (t = new this);
+                return t.set(Math.cos(ang), Math.sin(ang));
             }
             static random2D(t, p) {
                 const isPjs = pjsCheck(t), rnd = p ? p : isPjs && t || Math;
@@ -438,47 +468,37 @@ var pjs;
                 return (t && t.set(v1) || v1.clone()).lerp(v2, amt);
             }
             static add(v1, v2, t) {
-                return t && t.set(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
-                    || new this(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+                t || (t = new this);
+                return t.set(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
             }
             static sub(v1, v2, t) {
-                return t && t.set(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
-                    || new this(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+                t || (t = new this);
+                return t.set(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
             }
             static mult(v, n, t) {
-                if (typeof n === 'object')
-                    return t && t.set(v.x * n.x, v.y * n.y, v.z * n.z)
-                        || new this(v.x * n.x, v.y * n.y, v.z * n.z);
-                else
-                    return t && t.set(v.x * n, v.y * n, v.z * n)
-                        || new this(v.x * n, v.y * n, v.z * n);
+                t || (t = new this);
+                return typeof n === 'object' ? t.set(v.x * n.x, v.y * n.y, v.z * n.z)
+                    : t.set(v.x * n, v.y * n, v.z * n);
             }
             static div(v, n, t) {
-                if (typeof n === 'object')
-                    return t && t.set(v.x / n.x, v.y / n.y, v.z / n.z)
-                        || new this(v.x / n.x, v.y / n.y, v.z / n.z);
-                else
-                    return t && t.set(v.x / n, v.y / n, v.z / n)
-                        || new this(v.x / n, v.y / n, v.z / n);
+                t || (t = new this);
+                return typeof n === 'object' ? t.set(v.x / n.x, v.y / n.y, v.z / n.z)
+                    : t.set(v.x / n, v.y / n, v.z / n);
             }
             static mod(v, n, t) {
-                if (typeof n === 'object')
-                    return t && t.set(v.x % n.x, v.y % n.y, v.z % n.z)
-                        || new this(v.x % n.x, v.y % n.y, v.z % n.z);
-                else
-                    return t && t.set(v.x % n, v.y % n, v.z % n)
-                        || new this(v.x % n, v.y % n, v.z % n);
+                t || (t = new this);
+                return typeof n === 'object' ? t.set(v.x % n.x, v.y % n.y, v.z % n.z)
+                    : t.set(v.x % n, v.y % n, v.z % n);
             }
             static compare(a, b) { return a.x - b.x || a.y - b.y || a.z - b.z; }
             compareTo(v) { return this.x - v.x || this.y - v.y || this.z - v.z; }
             array() { return [this.x, this.y, this.z]; }
             object() { return { x: this.x, y: this.y, z: this.z }; }
             clone() { return new this.constructor(this.x, this.y, this.z); }
-            new() { return new this.constructor; }
             get(t) {
                 if (!t)
                     return t === void 0 && this.clone() || this.array();
-                else if (xyzObjCheck(t))
+                else if (xyzCheck(t))
                     t.x = this.x, t.y = this.y, t.z = this.z;
                 else
                     t[0] = this.x, t[1] = this.y, t[2] = this.z;
@@ -500,7 +520,7 @@ var pjs;
             }
             limit(max, t, magSq) {
                 const mSq = magSq || this.magSq(), overMax = mSq > max * max;
-                t === null && (t = this.new());
+                t === null && (t = new this.constructor);
                 return !t ? overMax && this.normalize().mult(max) || this
                     : overMax && this.normalize(t, Math.sqrt(mSq)).mult(max) || t.set(this);
             }
@@ -519,17 +539,17 @@ var pjs;
             }
             rotate(ang, t) {
                 const c = Math.cos(ang), s = Math.sin(ang), x = c * this.x - s * this.y, y = s * this.x + c * this.y;
-                t === null && (t = this.new());
+                t === null && (t = new this.constructor);
                 return (t || this).set(x, y);
             }
             rotateX(ang, t) {
                 const c = Math.cos(ang), s = Math.sin(ang), y = c * this.y - s * this.z, z = s * this.y + c * this.z;
-                t === null && (t = this.new());
+                t === null && (t = new this.constructor);
                 return (t || this).set(this.x, y, z);
             }
             rotateY(ang, t) {
                 const c = Math.cos(ang), s = Math.sin(ang), x = s * this.z + c * this.x, z = c * this.z - s * this.x;
-                t === null && (t = this.new());
+                t === null && (t = new this.constructor);
                 return (t || this).set(x, this.y, z);
             }
             fromAngle(ang, t) {
@@ -660,8 +680,8 @@ var pjs;
             return class PVectorDeg extends PVector {
                 static fromAngle(ang, t) {
                     p._degreeIn && (ang *= DEG_TO_RAD);
-                    return t && t.set(Math.cos(ang), Math.sin(ang))
-                        || new this(Math.cos(ang), Math.sin(ang));
+                    t || (t = new this);
+                    return t.set(Math.cos(ang), Math.sin(ang));
                 }
             };
         }

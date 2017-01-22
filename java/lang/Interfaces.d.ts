@@ -1,5 +1,3 @@
-/// <reference path="../../typings/Types"/>
-
 declare namespace java {
   type IterableJS<T> = Iterable<T>
 

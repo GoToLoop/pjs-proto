@@ -1,3 +1,6 @@
+/// <reference path="../typings/Types"/>
+/// <reference path="TypeOfs"/>
+
 namespace pjs.utils {
   "use strict"
 
@@ -5,7 +8,7 @@ namespace pjs.utils {
     if (prop) {
       const value = clazz[prop]
       Object.freeze(value) && Object.freeze(value.prototype)
-    } else Object.freeze(Object.freeze(clazz)['prototype'])
+    } else Object.freeze(Object.freeze(clazz)[PTY])
   }
 
   export function FreezeAll(clazz: Function) { // Class only
@@ -24,28 +27,48 @@ namespace pjs.utils {
     //for (const prop in clazz) { // Not compatible w/ FF!
     for (let prop in clazz) {
       const value = clazz[prop]
-      typeof value != 'function' && (clazz.prototype[prop] = value)
+      typeof value !== FNT && (clazz.prototype[prop] = value)
     }
   }
 
-  export function ProtoAdditions(props: Object) { // Class only
+  export function ProtoAdditions(props: Object): ClassDecorator { // Class only
     return <TFn extends Function>(clazz: TFn) => {
       //for (const prop in props)  clazz.prototype[prop] = props[prop] // Not compatible w/ FF!
       for (let prop in props)  clazz.prototype[prop] = props[prop]
     }
   }
 
-  export function InjectInto(target: Function) { // Class only
+  export function InjectInto(target: Function): ClassDecorator { // Class only
     return <TFn extends Function>(clazz: TFn) => {
       //let name = clazz['name'] as string
       let name = clazz.name
       if (!name) {
         name = clazz.toString()
-        const start = name.indexOf(' ') + 1,
+        const start = name.indexOf(SPC) + 1,
               stop  = name.indexOf('(', start)
         name = name.substring(start, ~stop? stop : name.lastIndexOf(' \x7b')).trim()
       }
       name && (target[name] = target.prototype[name] = clazz)
+    }
+  }
+
+  export function Timeout(millis = 0): MethodDecorator { // Methods only
+    return (tgt: Function | {}, key: string | symbol, d: TypedPropertyDescriptor<Function>) => {
+      if (typeof d.value !== 'function')  return
+      const originalMethod = d.value
+      d.value = function (this: typeof tgt) {
+        setTimeout(() => originalMethod.apply(this, arguments), millis)
+      }
+    }
+  }
+
+  export function Interval(millis = 0): MethodDecorator { // Methods only
+    return (tgt: Function | {}, key: string | symbol, d: TypedPropertyDescriptor<Function>) => {
+      if (typeof d.value !== 'function')  return
+      const originalMethod = d.value
+      d.value = function (this: typeof tgt) {
+        setInterval(() => originalMethod.apply(this, arguments), millis)
+      }
     }
   }
 }

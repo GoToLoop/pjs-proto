@@ -2,3 +2,6 @@
 *.db
 *.js
 !Pjs.js
+data/
+graphics/
+helpers/

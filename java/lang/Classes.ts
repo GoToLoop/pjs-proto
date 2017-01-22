@@ -5,6 +5,7 @@
 
 namespace java {
   "use strict"
+
   import FreezeAll = pjs.utils.FreezeAll
   const Bool = Boolean
 

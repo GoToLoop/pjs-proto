@@ -7,7 +7,8 @@ namespace pjs.core {
   import Frozen = utils.Frozen
   import ProtoAssignAll = utils.ProtoAssignAll
 
-  @Frozen @ProtoAssignAll export abstract class PConstants {
+  @Frozen @ProtoAssignAll
+  export abstract class PConstants {
     static readonly X = 0
     static readonly Y = 1
     static readonly Z = 2
@@ -217,11 +218,11 @@ namespace pjs.core {
     static readonly SHAPE = 5
 
     // Stroke modes
-    static readonly SQUARE: "butt" = 'butt'
-    static readonly ROUND: "round" = 'round'
-    static readonly PROJECT: "square" = 'square'
-    static readonly MITER: "miter" = 'miter'
-    static readonly BEVEL: "bevel" = 'bevel'
+    static readonly SQUARE = 'butt'
+    static readonly ROUND = 'round'
+    static readonly PROJECT = 'square'
+    static readonly MITER = 'miter'
+    static readonly BEVEL = 'bevel'
 
     // Lighting modes
     static readonly AMBIENT = 0
@@ -270,12 +271,12 @@ namespace pjs.core {
     static readonly INSERT = 155
 
     // Cursor types
-    static readonly ARROW: "default" = 'default'
-    static readonly CROSS: "crosshair" = 'crosshair'
-    static readonly HAND: "pointer" = 'pointer'
-    static readonly MOVE: "move" = 'move'
-    static readonly TEXT: "text" = 'text'
-    static readonly WAIT: "wait" = 'wait'
+    static readonly ARROW = 'default'
+    static readonly CROSS = 'crosshair'
+    static readonly HAND = 'pointer'
+    static readonly MOVE = 'move'
+    static readonly TEXT = 'text'
+    static readonly WAIT = 'wait'
     static readonly NOCURSOR =
     "url('data:image/gif;base64R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==') auto"
 

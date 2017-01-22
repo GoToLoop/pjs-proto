@@ -30,8 +30,7 @@ console.warn(cn)
 
 var vec1 = new pa.PVector(+pa.PI, +pa.TAU).fromAngle(90).get(null)
 var vec2 = pa.PVector.fromAngle(180)
-
 console.log(vec1, vec2)
 
-var prop = 'PVector'
-//pa[prop] = Processing.PVector
+vec2.__proto__.rotateZ
+vec2.constructor.compare

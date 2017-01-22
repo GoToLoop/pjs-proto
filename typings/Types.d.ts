@@ -50,15 +50,15 @@ declare const enum deg {}   // Degrees
 
 type ang = rad | deg
 
-type xy  = [coord, coord]
-type xyz = [coord, coord, coord]
-type wh  = [size, size]
-type whd = [size, size, size]
+type xyArr  = [coord, coord]
+type xyzArr = [coord, coord, coord]
+type whArr  = [size, size]
+type whdArr = [size, size, size]
 
-type xyObj  = { x: coord, y: coord }
-type xyzObj = { x: coord, y: coord, z: coord }
-type whObj  = { width: size, height: size }
-type whdObj = { width: size, height: size, depth: size }
+type xy  = { x: coord, y: coord }
+type xyz = { x: coord, y: coord, z: coord }
+type wh  = { width: size, height: size }
+type whd = { width: size, height: size, depth: size }
 
 type callback = () => void
 
