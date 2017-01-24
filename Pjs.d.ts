@@ -574,7 +574,7 @@ declare namespace pjs.math {
         random3D(t: PVector | null, p?: PApplet | null): PVector;
         random3D(p?: PApplet): this;
         dist(v1: xyz, v2?: xyz | null): number;
-        distSq(v1: xyz, v2?: xyz): number;
+        distSq(v1: xyz, v2?: xyz | null): number;
         dot(v: xyz | number, y?: xyz | number | null, z?: number): number;
         cross(v1: xyz, v2?: PVector | null, t?: PVector | null): PVector;
         angleBetween(v: PVector, magSq1?: number, magSq2?: number, dot?: number): rad;

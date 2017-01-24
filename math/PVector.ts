@@ -66,8 +66,8 @@ namespace pjs.math {
                         magSq1?: number, magSq2?: number, dot?: number): rad {
       if (v1.isZero() || v2.isZero())  return 0
       //if (!v1.x && !v1.y && !v1.z || !v2.x && !v2.y && !v2.z)  return 0
-      magSq1 = magSq1 || v1.magSq(), magSq2 = magSq2 || v2.magSq()
-      dot = dot || this.dot(v1, v2)
+      magSq1 || (magSq1 = v1.magSq()), magSq2 || (magSq2 = v2.magSq())
+      dot || (dot = this.dot(v1, v2))
       const amt = dot / Math.sqrt(magSq1 * magSq2)
       return amt <= -1? Math.PI : amt >= 1? 0 : Math.acos(amt)
     }
@@ -240,7 +240,7 @@ namespace pjs.math {
       return v2? this.constructor.dist(v1, v2) : this.constructor.dist(this, v1)
     }
 
-    distSq(v1: xyz, v2?: xyz) {
+    distSq(v1: xyz, v2?: xyz | null) {
       return v2? this.constructor.distSq(v1, v2) : this.constructor.distSq(this, v1)
     }
 

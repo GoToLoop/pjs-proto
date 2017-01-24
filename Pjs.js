@@ -459,8 +459,8 @@ var pjs;
             static angleBetween(v1, v2, magSq1, magSq2, dot) {
                 if (v1.isZero() || v2.isZero())
                     return 0;
-                magSq1 = magSq1 || v1.magSq(), magSq2 = magSq2 || v2.magSq();
-                dot = dot || this.dot(v1, v2);
+                magSq1 || (magSq1 = v1.magSq()), magSq2 || (magSq2 = v2.magSq());
+                dot || (dot = this.dot(v1, v2));
                 const amt = dot / Math.sqrt(magSq1 * magSq2);
                 return amt <= -1 ? Math.PI : amt >= 1 ? 0 : Math.acos(amt);
             }
