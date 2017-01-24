@@ -108,6 +108,7 @@ namespace pjs.math {
     compareTo(v: xyz) { return this.x - v.x || this.y - v.y || this.z - v.z }
 
     array()  { return [ this.x, this.y, this.z ] as xyzArr }
+    floats() { return Float32Array.of(this.x, this.y, this.z) }
     object() { return { x: this.x, y: this.y, z: this.z } as xyz }
     clone()  { return new this.constructor(this.x, this.y, this.z) }
 
@@ -219,23 +220,23 @@ namespace pjs.math {
       return this.constructor.fromAngle(ang, t || this)
     }
 
-    random2D(t: PVector | null, p?: PApplet): PVector
+    random2D(t: PVector | null, p?: PApplet | null): PVector
     random2D(p?: PApplet): this
 
-    random2D(t?: PVector | PApplet | null, p?: PApplet) {
+    random2D(t?: PVector | PApplet | null, p?: PApplet | null) {
       return pjsCheck(t) && this.constructor.random2D(this, t)
                          || this.constructor.random2D(t === void 0 && this || t, p)
     }
 
-    random3D(t: PVector | null, p?: PApplet): PVector
+    random3D(t: PVector | null, p?: PApplet | null): PVector
     random3D(p?: PApplet): this
 
-    random3D(t?: PVector | PApplet | null, p?: PApplet) {
+    random3D(t?: PVector | PApplet | null, p?: PApplet | null) {
       return pjsCheck(t) && this.constructor.random3D(this, t)
                          || this.constructor.random3D(t === void 0 && this || t, p)
     }
 
-    dist(v1: xyz, v2?: xyz) {
+    dist(v1: xyz, v2?: xyz | null) {
       return v2? this.constructor.dist(v1, v2) : this.constructor.dist(this, v1)
     }
 
@@ -243,13 +244,13 @@ namespace pjs.math {
       return v2? this.constructor.distSq(v1, v2) : this.constructor.distSq(this, v1)
     }
 
-    dot(v: xyz | number, y?: xyz | number, z?: number) {
+    dot(v: xyz | number, y?: xyz | number | null, z?: number) {
       return typeof v !== 'object'? this.x*v + this.y*+y + this.z*z :
                     y == void 0? this.constructor.dot(this, v)
                                : this.constructor.dot(v, y as xyz)
     }
 
-    cross(v1: xyz, v2?: PVector, t?: PVector | null) {
+    cross(v1: xyz, v2?: PVector | null, t?: PVector | null) {
       return t && this.constructor.cross(v1, v2!, t) || this.constructor.cross(this, v1, v2)
     }
 
@@ -274,11 +275,11 @@ namespace pjs.math {
       return this.set(lerp(this.x, x, amt), lerp(this.y, y, amt), lerp(this.z, z, amt))
     }
 
-    add(x: number, y?: number, z?: number): this
+    add(x: number, y?: number | null, z?: number): this
     add(v: xyz): this
     add(v1: xyz, v2: xyz, t?: PVector | null): PVector
 
-    add(v: xyz | number, y?: xyz | number, z?: PVector | number | null) {
+    add(v: xyz | number, y?: xyz | number | null, z?: PVector | number | null) {
       if (y != void 0) {
         if (typeof y === 'object')       return this.constructor.add(v as xyz, y, z as PVector)
         this.x += +v, this.y += +y, z != void 0 && (this.z += +z)
@@ -287,11 +288,11 @@ namespace pjs.math {
       return this
     }
 
-    sub(x: number, y?: number, z?: number): this
+    sub(x: number, y?: number | null, z?: number): this
     sub(v: xyz): this
     sub(v1: xyz, v2: xyz, t?: PVector | null): PVector
 
-    sub(v: xyz | number, y?: xyz | number, z?: PVector | number | null) {
+    sub(v: xyz | number, y?: xyz | number | null, z?: PVector | number | null) {
       if (y != void 0) {
         if (typeof y === 'object')       return this.constructor.sub(v as xyz, y, z as PVector)
         this.x -= +v, this.y -= y, z != void 0 && (this.z -= +z)

@@ -53,21 +53,21 @@ namespace pjs.utils {
   }
 
   export function Timeout(millis = 0): MethodDecorator { // Methods only
-    return (tgt: Function | {}, key: string | symbol, d: TypedPropertyDescriptor<Function>) => {
+    return (tgt: Function | {}, prop: string | symbol, d: TypedPropertyDescriptor<Function>) => {
       if (typeof d.value !== 'function')  return
       const originalMethod = d.value
-      d.value = function (this: typeof tgt) {
-        setTimeout(() => originalMethod.apply(this, arguments), millis)
+      d.value = function (this: typeof tgt, ...args: any[]) {
+        setTimeout(() => originalMethod.apply(this, args), millis)
       }
     }
   }
 
   export function Interval(millis = 0): MethodDecorator { // Methods only
-    return (tgt: Function | {}, key: string | symbol, d: TypedPropertyDescriptor<Function>) => {
+    return (tgt: Function | {}, prop: string | symbol, d: TypedPropertyDescriptor<Function>) => {
       if (typeof d.value !== 'function')  return
       const originalMethod = d.value
-      d.value = function (this: typeof tgt) {
-        setInterval(() => originalMethod.apply(this, arguments), millis)
+      d.value = function (this: typeof tgt, ...args: any[]) {
+        setInterval(() => originalMethod.apply(this, args), millis)
       }
     }
   }

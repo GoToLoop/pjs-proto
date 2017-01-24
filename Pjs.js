@@ -65,23 +65,23 @@ var pjs;
         }
         utils.InjectInto = InjectInto;
         function Timeout(millis = 0) {
-            return (tgt, key, d) => {
+            return (tgt, prop, d) => {
                 if (typeof d.value !== 'function')
                     return;
                 const originalMethod = d.value;
-                d.value = function () {
-                    setTimeout(() => originalMethod.apply(this, arguments), millis);
+                d.value = function (...args) {
+                    setTimeout(() => originalMethod.apply(this, args), millis);
                 };
             };
         }
         utils.Timeout = Timeout;
         function Interval(millis = 0) {
-            return (tgt, key, d) => {
+            return (tgt, prop, d) => {
                 if (typeof d.value !== 'function')
                     return;
                 const originalMethod = d.value;
-                d.value = function () {
-                    setInterval(() => originalMethod.apply(this, arguments), millis);
+                d.value = function (...args) {
+                    setInterval(() => originalMethod.apply(this, args), millis);
                 };
             };
         }
@@ -493,6 +493,7 @@ var pjs;
             static compare(a, b) { return a.x - b.x || a.y - b.y || a.z - b.z; }
             compareTo(v) { return this.x - v.x || this.y - v.y || this.z - v.z; }
             array() { return [this.x, this.y, this.z]; }
+            floats() { return Float32Array.of(this.x, this.y, this.z); }
             object() { return { x: this.x, y: this.y, z: this.z }; }
             clone() { return new this.constructor(this.x, this.y, this.z); }
             get(t) {
