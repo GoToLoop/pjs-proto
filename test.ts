@@ -19,7 +19,7 @@ function q(...a: string[]) {
 }
 q('tdfgfdgfd', 'tdfgfdgfd','tdfgfdgfd','tdfgfdgfd')
 
-pjs.math.PVector.random2D()
+new pjs.math.PVector().random2D()
 Processing.PVector.random3D()
 Processing.sq(6)
 

@@ -408,6 +408,7 @@ var pjs;
             }
             init() { this.PVector = pjs.math.PVectorDegBuilder(this), this._degreeIn = true; }
             random(low, high) { return Math.random(); }
+            noLoop() { }
         }
         PApplet.AbstractCollection = java.util.AbstractCollection;
         core.PApplet = PApplet;
@@ -424,7 +425,7 @@ var pjs;
         var InjectInto = pjs.utils.InjectInto;
         const { lerp, sq, isZero } = math.Maths, TAU = PConstants.TAU, argsErr = (mtd, len, min) => {
             throw `Too few args passed to ${mtd}() [${len} < ${min}].`;
-        }, xyzCheck = (obj) => obj != void 0 && 'z' in obj, pjsCheck = (obj) => obj != void 0 && 'lerp' in obj;
+        }, xyzCheck = (obj) => obj != void 0 && 'z' in obj, pjsCheck = (obj) => obj != void 0 && 'noLoop' in obj;
         let PVector = PVector_1 = class PVector {
             constructor(x = 0, y = 0, z = 0) {
                 this.x = x;

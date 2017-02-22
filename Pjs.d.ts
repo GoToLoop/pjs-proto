@@ -506,6 +506,7 @@ declare namespace pjs.core {
         static readonly PVector: typeof math.PVector;
         static readonly AbstractCollection: typeof java.util.AbstractCollection;
         random(low?: number, high?: number): norm;
+        noLoop(): void;
     }
     interface PApplet extends PApplet.prototype {
     }

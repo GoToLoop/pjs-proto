@@ -18,6 +18,8 @@ namespace pjs.core {
     static readonly AbstractCollection = java.util.AbstractCollection
 
     random(low?: number, high?: number) { return Math.random() as norm }
+
+    noLoop() {}
   }
 
   export interface PApplet extends PApplet.prototype {}

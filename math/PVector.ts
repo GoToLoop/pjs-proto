@@ -15,7 +15,7 @@ namespace pjs.math {
           throw `Too few args passed to ${mtd}() [${len} < ${min}].`
         },
         xyzCheck = (obj: {} | none): obj is xyz => obj != void 0 && 'z' in obj,
-        pjsCheck = (obj: {} | none): obj is PApplet => obj != void 0 && 'lerp' in obj
+        pjsCheck = (obj: {} | none): obj is PApplet => obj != void 0 && 'noLoop' in obj
 
   @InjectInto(PApplet)
   export class PVector implements Comparable<xyz>, Cloneable {
@@ -137,7 +137,7 @@ namespace pjs.math {
     normalize(): this
 
     normalize(t?: PVector | null, mag?: number) {
-      const m = +mag || this.mag(),
+      const m = +mag! || this.mag(),
             canDivide = m === m && m !== 0 && m !== 1
       if (!arguments.length)  return canDivide && this.div(m) || this
       return canDivide? this.constructor.div(this, m, t)
@@ -245,7 +245,7 @@ namespace pjs.math {
     }
 
     dot(v: xyz | number, y?: xyz | number | null, z?: number) {
-      return typeof v !== 'object'? this.x*v + this.y*+y + this.z*z :
+      return typeof v !== 'object'? this.x*v + this.y*+y! + this.z*z! :
                     y == void 0? this.constructor.dot(this, v)
                                : this.constructor.dot(v, y as xyz)
     }
