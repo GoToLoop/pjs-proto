@@ -30,7 +30,6 @@ namespace pjs.core {
     static readonly SG = 14
     static readonly SB = 15
     static readonly SA = 16
-
     static readonly SW = 17
 
     // Transformations (2D and 3D)
@@ -66,18 +65,18 @@ namespace pjs.core {
     static readonly VERTEX_FIELD_COUNT = 36
 
     // Renderers
-    static readonly P2D = 1
     static readonly JAVA2D = 1
-    static readonly WEBGL = 2
+    static readonly P2D = PConstants.JAVA2D
     static readonly P3D = 2
-    static readonly OPENGL = 2
+    static readonly OPENGL = PConstants.P3D
+    static readonly WEBGL = PConstants.P3D
     static readonly PDF = 0
-    static readonly DXF = 0
+    static readonly DXF = PConstants.PDF
 
     // Platform IDs
     static readonly OTHER = 0
     static readonly WINDOWS = 1
-    static readonly MAXOSX = 2
+    static readonly MACOSX = 2
     static readonly LINUX = 3
 
     // Math Constants
@@ -90,8 +89,8 @@ namespace pjs.core {
     static readonly MIN_INT = -2147483648
 
     static readonly PI: rad = Math.PI               // 180°
-    static readonly TWO_PI: rad = Math.PI * 2       // 360°
     static readonly TAU: rad = Math.PI * 2          // 360°
+    static readonly TWO_PI: rad = PConstants.TAU    // 360°
     static readonly HALF_PI: rad = Math.PI / 2      // 90°
     static readonly THIRD_PI: rad = Math.PI / 3     // 60°
     static readonly QUARTER_PI: rad = Math.PI / 4   // 45°
@@ -132,20 +131,20 @@ namespace pjs.core {
 
     // Blend modes
     static readonly REPLACE = 0
-    static readonly BLEND = 1 << 0
-    static readonly ADD = 1 << 1
-    static readonly SUBTRACT = 1 << 2
-    static readonly LIGHTEST = 1 << 3
-    static readonly DARKEST = 1 << 4
-    static readonly DIFFERENCE = 1 << 5
-    static readonly EXCLUSION = 1 << 6
-    static readonly MULTIPLY = 1 << 7
-    static readonly SCREEN = 1 << 8
-    static readonly OVERLAY = 1 << 9
-    static readonly HARD_LIGHT = 1 << 10
-    static readonly SOFT_LIGHT = 1 << 11
-    static readonly DODGE = 1 << 12
-    static readonly BURN = 1 << 13
+    static readonly BLEND = 1 << 0        as 1     // 2**0
+    static readonly ADD = 1 << 1          as 2     // 2**1
+    static readonly SUBTRACT = 1 << 2     as 4     // 2**2
+    static readonly LIGHTEST = 1 << 3     as 8     // 2**3
+    static readonly DARKEST = 1 << 4      as 16    // 2**4
+    static readonly DIFFERENCE = 1 << 5   as 32    // 2**5
+    static readonly EXCLUSION = 1 << 6    as 64    // 2**6
+    static readonly MULTIPLY = 1 << 7     as 128   // 2**7
+    static readonly SCREEN = 1 << 8       as 256   // 2**8
+    static readonly OVERLAY = 1 << 9      as 512   // 2**9
+    static readonly HARD_LIGHT = 1 << 10  as 1024  // 2**10
+    static readonly SOFT_LIGHT = 1 << 11  as 2048  // 2**11
+    static readonly DODGE = 1 << 12       as 4096  // 2**12
+    static readonly BURN = 1 << 13        as 8192  // 2**13
 
     // Color component bit masks
     static readonly ALPHA_MASK = 0xff000000
@@ -199,7 +198,7 @@ namespace pjs.core {
     static readonly CORNERS = 1 // Draw mode convention to use (x1 y1) to (x2 y2)
     static readonly RADIUS = 2 // Draw mode from the center and using the radius
     static readonly CENTER = 3 // Draw from center using 2nd pair of values as the diam
-    static readonly DIAMETER = 3 // Synonym for CENTER constant. Draw from the center
+    static readonly DIAMETER = PConstants.CENTER // Alias for CENTER constant.
 
     // Text vertical alignment modes
     static readonly BASELINE = 0 // Default vertical alignment for text placement
@@ -278,31 +277,42 @@ namespace pjs.core {
     static readonly NOCURSOR =
     "url('data:image/gif;base64R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==') auto"
 
-    // Hints
-    static readonly DISABLE_OPENGL_2X_SMOOTH = 1
+    // Hints - hint values are positive for the alternate version,
+    // negative of the same value returns to the normal/default state
     static readonly ENABLE_OPENGL_2X_SMOOTH = -1
+    static readonly DISABLE_OPENGL_2X_SMOOTH = 1
     static readonly ENABLE_OPENGL_4X_SMOOTH = 2
+
+    static readonly DISABLE_NATIVE_FONTS = -3
     static readonly ENABLE_NATIVE_FONTS = 3
-    static readonly DISABLE_DEPTH_TEST = 4
+
     static readonly ENABLE_DEPTH_TEST = -4
-    static readonly ENABLE_DEPTH_SORT = 5
+    static readonly DISABLE_DEPTH_TEST = 4
+
     static readonly DISABLE_DEPTH_SORT = -5
-    static readonly DISABLE_OPENGL_ERROR_REPORT = 6
+    static readonly ENABLE_DEPTH_SORT = 5
+
     static readonly ENABLE_OPENGL_ERROR_REPORT = -6
-    static readonly ENABLE_ACCURATE_TEXTURES = 7
+    static readonly DISABLE_OPENGL_ERROR_REPORT = 6
+
     static readonly DISABLE_ACCURATE_TEXTURES = -7
-    static readonly HINT_COUNT = 10
+    static readonly ENABLE_ACCURATE_TEXTURES = 7
+
+    static readonly HINT_COUNT = 8
 
     // PJS defined constants
     static readonly SINCOS_LENGTH: deg = 720 // every half degree
+
     static readonly PRECISIONB = 15 // fixed point precision is limited to 15 bits!!
-    static readonly PRECISIONF = 1 << 15
-    static readonly PREC_MAXVAL = (1 << 15) - 1
-    static readonly PREC_ALPHA_SHIFT = 24 - 15
-    static readonly PREC_RED_SHIFT = 16 - 15
+    static readonly PRECISIONF = 1 << 15 as 32768
+    static readonly PREC_MAXVAL = (1 << 15) - 1 as 32767
+    static readonly PREC_ALPHA_SHIFT = 24 - 15 as 9
+    static readonly PREC_RED_SHIFT = 16 - 15 as 1
+
     static readonly NORMAL_MODE_AUTO = 0
     static readonly NORMAL_MODE_SHAPE = 1
     static readonly NORMAL_MODE_VERTEX = 2
+
     static readonly MAX_LIGHTS = 8
   }
 
@@ -310,213 +320,213 @@ namespace pjs.core {
 
   export namespace PConstants {
     export interface prototype {
-      readonly X: number
-      readonly Y: number
-      readonly Z: number
+      readonly X: typeof PConstants.X
+      readonly Y: typeof PConstants.Y
+      readonly Z: typeof PConstants.Z
 
-      readonly R: number
-      readonly G: number
-      readonly B: number
-      readonly A: number
+      readonly R: typeof PConstants.R
+      readonly G: typeof PConstants.G
+      readonly B: typeof PConstants.B
+      readonly A: typeof PConstants.A
 
-      readonly U: number
-      readonly V: number
+      readonly U: typeof PConstants.U
+      readonly V: typeof PConstants.V
 
-      readonly NX: number
-      readonly NY: number
-      readonly NZ: number
+      readonly NX: typeof PConstants.NX
+      readonly NY: typeof PConstants.NY
+      readonly NZ: typeof PConstants.NZ
 
-      readonly EDGE: number
+      readonly EDGE: typeof PConstants.EDGE
 
       // Stroke
-      readonly SR: number
-      readonly SG: number
-      readonly SB: number
-      readonly SA: number
+      readonly SR: typeof PConstants.SR
+      readonly SG: typeof PConstants.SG
+      readonly SB: typeof PConstants.SB
+      readonly SA: typeof PConstants.SA
 
-      readonly SW: number
+      readonly SW: typeof PConstants.SW
 
       // Transformations (2D and 3D)
-      readonly TX: number
-      readonly TY: number
-      readonly TZ: number
+      readonly TX: typeof PConstants.TX
+      readonly TY: typeof PConstants.TY
+      readonly TZ: typeof PConstants.TZ
 
-      readonly VX: number
-      readonly VY: number
-      readonly VZ: number
-      readonly VW: number
+      readonly VX: typeof PConstants.VX
+      readonly VY: typeof PConstants.VY
+      readonly VZ: typeof PConstants.VZ
+      readonly VW: typeof PConstants.VW
 
       // Material properties
-      readonly AR: number
-      readonly AG: number
-      readonly AB: number
+      readonly AR: typeof PConstants.AR
+      readonly AG: typeof PConstants.AG
+      readonly AB: typeof PConstants.AB
 
-      readonly DR: number
-      readonly DG: number
-      readonly DB: number
-      readonly DA: number
+      readonly DR: typeof PConstants.DR
+      readonly DG: typeof PConstants.DG
+      readonly DB: typeof PConstants.DB
+      readonly DA: typeof PConstants.DA
 
-      readonly SPR: number
-      readonly SPG: number
-      readonly SPB: number
+      readonly SPR: typeof PConstants.SPR
+      readonly SPG: typeof PConstants.SPG
+      readonly SPB: typeof PConstants.SPB
 
-      readonly ER: number
-      readonly EG: number
-      readonly EB: number
+      readonly ER: typeof PConstants.ER
+      readonly EG: typeof PConstants.EG
+      readonly EB: typeof PConstants.EB
 
-      readonly SHINE: number
-      readonly BEEN_LIT: number
-      readonly VERTEX_FIELD_COUNT: number
+      readonly SHINE: typeof PConstants.SHINE
+      readonly BEEN_LIT: typeof PConstants.BEEN_LIT
+      readonly VERTEX_FIELD_COUNT: typeof PConstants.VERTEX_FIELD_COUNT
 
       // Renderers
-      readonly P2D: number
-      readonly JAVA2D: number
-      readonly WEBGL: number
-      readonly P3D: number
-      readonly OPENGL: number
-      readonly PDF: number
-      readonly DXF: number
+      readonly P2D: typeof PConstants.P2D
+      readonly JAVA2D: typeof PConstants.JAVA2D
+      readonly WEBGL: typeof PConstants.WEBGL
+      readonly P3D: typeof PConstants.P3D
+      readonly OPENGL: typeof PConstants.OPENGL
+      readonly PDF: typeof PConstants.PDF
+      readonly DXF: typeof PConstants.DXF
 
       // Platform IDs
-      readonly OTHER: number
-      readonly WINDOWS: number
-      readonly MAXOSX: number
-      readonly LINUX: number
+      readonly OTHER: typeof PConstants.OTHER
+      readonly WINDOWS: typeof PConstants.WINDOWS
+      readonly MACOSX: typeof PConstants.MACOSX
+      readonly LINUX: typeof PConstants.LINUX
 
       // Math Constants
-      readonly EPSILON: norm
-      readonly EPSILON_ZERO: norm
+      readonly EPSILON: typeof PConstants.EPSILON
+      readonly EPSILON_ZERO: typeof PConstants.EPSILON_ZERO
 
-      readonly MAX_FLOAT: number
-      readonly MIN_FLOAT: number
-      readonly MAX_INT: number
-      readonly MIN_INT: number
+      readonly MAX_FLOAT: typeof PConstants.MAX_FLOAT
+      readonly MIN_FLOAT: typeof PConstants.MIN_FLOAT
+      readonly MAX_INT: typeof PConstants.MAX_INT
+      readonly MIN_INT: typeof PConstants.MIN_INT
 
-      readonly PI: rad           // 180°
-      readonly TWO_PI: rad       // 360°
-      readonly TAU: rad          // 360°
-      readonly HALF_PI: rad      // 90°
-      readonly THIRD_PI: rad     // 60°
-      readonly QUARTER_PI: rad   // 45°
-      readonly SIXTH_PI: rad     // 30°
-      readonly EIGHTH_PI: rad    // 22.5°
-      readonly TWELFTH_PI: rad   // 15°
+      readonly PI: typeof PConstants.PI                 // 180°
+      readonly TAU: typeof PConstants.TAU               // 360°
+      readonly TWO_PI: typeof PConstants.TWO_PI         // 360°
+      readonly HALF_PI: typeof PConstants.HALF_PI       // 90°
+      readonly THIRD_PI: typeof PConstants.THIRD_PI     // 60°
+      readonly QUARTER_PI: typeof PConstants.QUARTER_PI // 45°
+      readonly SIXTH_PI: typeof PConstants.SIXTH_PI     // 30°
+      readonly EIGHTH_PI: typeof PConstants.EIGHTH_PI   // 22.5°
+      readonly TWELFTH_PI: typeof PConstants.TWELFTH_PI // 15°
 
-      readonly DEG_TO_RAD: number
-      readonly RAD_TO_DEG: number
+      readonly DEG_TO_RAD: typeof PConstants.DEG_TO_RAD
+      readonly RAD_TO_DEG: typeof PConstants.RAD_TO_DEG
 
-      readonly RADIANS: number
-      readonly DEGREES: number
+      readonly RADIANS: typeof PConstants.RADIANS
+      readonly DEGREES: typeof PConstants.DEGREES
 
       readonly WHITESPACE: typeof PConstants.WHITESPACE
 
       // Color modes
-      readonly RGB: number
-      readonly ARGB: number
-      readonly HSB: number
-      readonly ALPHA: number
-      readonly CMYK: number
+      readonly RGB: typeof PConstants.RGB
+      readonly ARGB: typeof PConstants.ARGB
+      readonly HSB: typeof PConstants.HSB
+      readonly ALPHA: typeof PConstants.ALPHA
+      readonly CMYK: typeof PConstants.CMYK
 
       // Image file types
-      readonly TIFF: number
-      readonly TARGA: number
-      readonly JPEG: number
-      readonly GIF: number
+      readonly TIFF: typeof PConstants.TIFF
+      readonly TARGA: typeof PConstants.TARGA
+      readonly JPEG: typeof PConstants.JPEG
+      readonly GIF: typeof PConstants.GIF
 
       // Filter/convert types
-      readonly BLUR: number
-      readonly GRAY: number
-      readonly INVERT: number
-      readonly OPAQUE: number
-      readonly POSTERIZE: number
-      readonly THRESHOLD: number
-      readonly ERODE: number
-      readonly DILATE: number
+      readonly BLUR: typeof PConstants.BLUR
+      readonly GRAY: typeof PConstants.GRAY
+      readonly INVERT: typeof PConstants.INVERT
+      readonly OPAQUE: typeof PConstants.OPAQUE
+      readonly POSTERIZE: typeof PConstants.POSTERIZE
+      readonly THRESHOLD: typeof PConstants.THRESHOLD
+      readonly ERODE: typeof PConstants.ERODE
+      readonly DILATE: typeof PConstants.DILATE
 
       // Blend modes
-      readonly REPLACE: number
-      readonly BLEND: number
-      readonly ADD: number
-      readonly SUBTRACT: number
-      readonly LIGHTEST: number
-      readonly DARKEST: number
-      readonly DIFFERENCE: number
-      readonly EXCLUSION: number
-      readonly MULTIPLY: number
-      readonly SCREEN: number
-      readonly OVERLAY: number
-      readonly HARD_LIGHT: number
-      readonly SOFT_LIGHT: number
-      readonly DODGE: number
-      readonly BURN: number
+      readonly REPLACE: typeof PConstants.REPLACE
+      readonly BLEND: typeof PConstants.BLEND
+      readonly ADD: typeof PConstants.ADD
+      readonly SUBTRACT: typeof PConstants.SUBTRACT
+      readonly LIGHTEST: typeof PConstants.LIGHTEST
+      readonly DARKEST: typeof PConstants.DARKEST
+      readonly DIFFERENCE: typeof PConstants.DIFFERENCE
+      readonly EXCLUSION: typeof PConstants.EXCLUSION
+      readonly MULTIPLY: typeof PConstants.MULTIPLY
+      readonly SCREEN: typeof PConstants.SCREEN
+      readonly OVERLAY: typeof PConstants.OVERLAY
+      readonly HARD_LIGHT: typeof PConstants.HARD_LIGHT
+      readonly SOFT_LIGHT: typeof PConstants.SOFT_LIGHT
+      readonly DODGE: typeof PConstants.DODGE
+      readonly BURN: typeof PConstants.BURN
 
       // Color component bit masks
-      readonly ALPHA_MASK: number
-      readonly RED_MASK: number
-      readonly GREEN_MASK: number
-      readonly BLUE_MASK: number
+      readonly ALPHA_MASK: typeof PConstants.ALPHA_MASK
+      readonly RED_MASK: typeof PConstants.RED_MASK
+      readonly GREEN_MASK: typeof PConstants.GREEN_MASK
+      readonly BLUE_MASK: typeof PConstants.BLUE_MASK
 
       // Projection matrices
-      readonly CUSTOM: number
-      readonly ORTHOGRAPHIC: number
-      readonly PERSPECTIVE: number
+      readonly CUSTOM: typeof PConstants.CUSTOM
+      readonly ORTHOGRAPHIC: typeof PConstants.ORTHOGRAPHIC
+      readonly PERSPECTIVE: typeof PConstants.PERSPECTIVE
 
       // Shapes
-      readonly POINT: number
-      readonly POINTS: number
-      readonly LINE: number
-      readonly LINES: number
-      readonly TRIANGLE: number
-      readonly TRIANGLES: number
-      readonly TRIANGLE_STRIP: number
-      readonly TRIANGLE_FAN: number
-      readonly QUAD: number
-      readonly QUADS: number
-      readonly QUAD_STRIP: number
-      readonly POLYGON: number
-      readonly PATH: number
-      readonly RECT: number
-      readonly ELLIPSE: number
-      readonly ARC: number
-      readonly SPHERE: number
-      readonly BOX: number
+      readonly POINT: typeof PConstants.POINT
+      readonly POINTS: typeof PConstants.POINTS
+      readonly LINE: typeof PConstants.LINE
+      readonly LINES: typeof PConstants.LINES
+      readonly TRIANGLE: typeof PConstants.TRIANGLE
+      readonly TRIANGLES: typeof PConstants.TRIANGLES
+      readonly TRIANGLE_STRIP: typeof PConstants.TRIANGLE_STRIP
+      readonly TRIANGLE_FAN: typeof PConstants.TRIANGLE_FAN
+      readonly QUAD: typeof PConstants.QUAD
+      readonly QUADS: typeof PConstants.QUADS
+      readonly QUAD_STRIP: typeof PConstants.QUAD_STRIP
+      readonly POLYGON: typeof PConstants.POLYGON
+      readonly PATH: typeof PConstants.PATH
+      readonly RECT: typeof PConstants.RECT
+      readonly ELLIPSE: typeof PConstants.ELLIPSE
+      readonly ARC: typeof PConstants.ARC
+      readonly SPHERE: typeof PConstants.SPHERE
+      readonly BOX: typeof PConstants.BOX
 
-      readonly GROUP: number
-      readonly PRIMITIVE: number
-      //readonly PATH: number // shared with Shape PATH
-      readonly GEOMETRY: number
+      readonly GROUP: typeof PConstants.GROUP
+      readonly PRIMITIVE: typeof PConstants.PRIMITIVE
+      //readonly PATH: typeof PConstants.PATH // shared with Shape PATH
+      readonly GEOMETRY: typeof PConstants.GEOMETRY
 
       // Shape Vertex
-      readonly VERTEX: number
-      readonly BEZIER_VERTEX: number
-      readonly CURVE_VERTEX: number
-      readonly BREAK: number
-      readonly CLOSESHAPE: number
+      readonly VERTEX: typeof PConstants.VERTEX
+      readonly BEZIER_VERTEX: typeof PConstants.BEZIER_VERTEX
+      readonly CURVE_VERTEX: typeof PConstants.CURVE_VERTEX
+      readonly BREAK: typeof PConstants.BREAK
+      readonly CLOSESHAPE: typeof PConstants.CLOSESHAPE
 
       // Shape closing modes
-      readonly OPEN: number
-      readonly CLOSE: number
+      readonly OPEN: typeof PConstants.OPEN
+      readonly CLOSE: typeof PConstants.CLOSE
 
       // Shape drawing modes
-      readonly CORNER: number // Draw mode convention to use (x y) to (width height)
-      readonly CORNERS: number // Draw mode convention to use (x1 y1) to (x2 y2) coordinates
-      readonly RADIUS: number // Draw mode from the center and using the radius
-      readonly CENTER: number // Draw from the center using second pair of values as the diameter
-      readonly DIAMETER: number // Synonym for the CENTER constant. Draw from the center
+      readonly CORNER: typeof PConstants.CORNER // (x y) to (width height)
+      readonly CORNERS: typeof PConstants.CORNERS // (x1 y1) to (x2 y2) coordinates
+      readonly RADIUS: typeof PConstants.RADIUS // Draw mode from the center and using radius
+      readonly CENTER: typeof PConstants.CENTER // Draw from the center using diameter
+      readonly DIAMETER: typeof PConstants.DIAMETER // Alias for the CENTER constant.
 
       // Text vertical alignment modes
-      readonly BASELINE: number // Default vertical alignment for text placement
-      readonly TOP: number // Align text to the top
-      readonly BOTTOM: number // Align text from the bottom using the baseline
+      readonly BASELINE: typeof PConstants.BASELINE // Default vert. align. for text placement
+      readonly TOP: typeof PConstants.TOP // Align text to the top
+      readonly BOTTOM: typeof PConstants.BOTTOM // Align text from the bottom using baseline
 
       // UV Texture coordinate modes
-      readonly NORMAL: number
-      readonly NORMALIZED: number
-      readonly IMAGE: number
+      readonly NORMAL: typeof PConstants.NORMAL
+      readonly NORMALIZED: typeof PConstants.NORMALIZED
+      readonly IMAGE: typeof PConstants.IMAGE
 
       // Text placement modes
-      readonly MODEL: number
-      readonly SHAPE: number
+      readonly MODEL: typeof PConstants.MODEL
+      readonly SHAPE: typeof PConstants.SHAPE
 
       // Stroke modes
       readonly SQUARE: typeof PConstants.SQUARE
@@ -526,50 +536,50 @@ namespace pjs.core {
       readonly BEVEL: typeof PConstants.BEVEL
 
       // Lighting modes
-      readonly AMBIENT: number
-      readonly DIRECTIONAL: number
-      //readonly POINT: number Shared with Shape constant
-      readonly SPOT: number
+      readonly AMBIENT: typeof PConstants.AMBIENT
+      readonly DIRECTIONAL: typeof PConstants.DIRECTIONAL
+      //readonly POINT: typeof PConstants.POINT // Shared with Shape PATH
+      readonly SPOT: typeof PConstants.SPOT
 
       // Key constants
 
       // Both key and keyCode will be equal to these values
-      readonly BACKSPACE: number
-      readonly TAB: number
-      readonly ENTER: number
-      readonly RETURN: number
-      readonly ESC: number
-      readonly DELETE: number
-      readonly CODED: number
+      readonly BACKSPACE: typeof PConstants.BACKSPACE
+      readonly TAB: typeof PConstants.TAB
+      readonly ENTER: typeof PConstants.ENTER
+      readonly RETURN: typeof PConstants.RETURN
+      readonly ESC: typeof PConstants.ESC
+      readonly DELETE: typeof PConstants.DELETE
+      readonly CODED: typeof PConstants.CODED
 
       // p.key will be CODED and p.keyCode will be this value
-      readonly SHIFT: number
-      readonly CONTROL: number
-      readonly ALT: number
-      readonly CAPSLK: number
-      readonly PGUP: number
-      readonly PGDN: number
-      readonly END: number
-      readonly HOME: number
-      readonly LEFT: number
-      readonly UP: number
-      readonly RIGHT: number
-      readonly DOWN: number
-      readonly F1: number
-      readonly F2: number
-      readonly F3: number
-      readonly F4: number
-      readonly F5: number
-      readonly F6: number
-      readonly F7: number
-      readonly F8: number
-      readonly F9: number
-      readonly F10: number
-      readonly F11: number
-      readonly F12: number
-      readonly NUMLK: number
-      readonly META: number
-      readonly INSERT: number
+      readonly SHIFT: typeof PConstants.SHIFT
+      readonly CONTROL: typeof PConstants.CONTROL
+      readonly ALT: typeof PConstants.ALT
+      readonly CAPSLK: typeof PConstants.CAPSLK
+      readonly PGUP: typeof PConstants.PGUP
+      readonly PGDN: typeof PConstants.PGDN
+      readonly END: typeof PConstants.END
+      readonly HOME: typeof PConstants.HOME
+      readonly LEFT: typeof PConstants.LEFT
+      readonly UP: typeof PConstants.UP
+      readonly RIGHT: typeof PConstants.RIGHT
+      readonly DOWN: typeof PConstants.DOWN
+      readonly F1: typeof PConstants.F1
+      readonly F2: typeof PConstants.F2
+      readonly F3: typeof PConstants.F3
+      readonly F4: typeof PConstants.F4
+      readonly F5: typeof PConstants.F5
+      readonly F6: typeof PConstants.F6
+      readonly F7: typeof PConstants.F7
+      readonly F8: typeof PConstants.F8
+      readonly F9: typeof PConstants.F9
+      readonly F10: typeof PConstants.F10
+      readonly F11: typeof PConstants.F11
+      readonly F12: typeof PConstants.F12
+      readonly NUMLK: typeof PConstants.NUMLK
+      readonly META: typeof PConstants.META
+      readonly INSERT: typeof PConstants.INSERT
 
       // Cursor types
       readonly ARROW: typeof PConstants.ARROW
@@ -580,32 +590,43 @@ namespace pjs.core {
       readonly WAIT: typeof PConstants.WAIT
       readonly NOCURSOR: typeof PConstants.NOCURSOR
 
-      // Hints
-      readonly DISABLE_OPENGL_2X_SMOOTH: number
-      readonly ENABLE_OPENGL_2X_SMOOTH: number
-      readonly ENABLE_OPENGL_4X_SMOOTH: number
-      readonly ENABLE_NATIVE_FONTS: number
-      readonly DISABLE_DEPTH_TEST: number
-      readonly ENABLE_DEPTH_TEST: number
-      readonly ENABLE_DEPTH_SORT: number
-      readonly DISABLE_DEPTH_SORT: number
-      readonly DISABLE_OPENGL_ERROR_REPORT: number
-      readonly ENABLE_OPENGL_ERROR_REPORT: number
-      readonly ENABLE_ACCURATE_TEXTURES: number
-      readonly DISABLE_ACCURATE_TEXTURES: number
-      readonly HINT_COUNT: number
+      // Hints - hint values are positive for the alternate version,
+      // negative of the same value returns to the normal/default state
+      readonly ENABLE_OPENGL_2X_SMOOTH: typeof PConstants.ENABLE_OPENGL_2X_SMOOTH
+      readonly DISABLE_OPENGL_2X_SMOOTH: typeof PConstants.DISABLE_OPENGL_2X_SMOOTH
+      readonly ENABLE_OPENGL_4X_SMOOTH: typeof PConstants.ENABLE_OPENGL_4X_SMOOTH
+
+      readonly DISABLE_NATIVE_FONTS: typeof PConstants.DISABLE_NATIVE_FONTS
+      readonly ENABLE_NATIVE_FONTS: typeof PConstants.ENABLE_NATIVE_FONTS
+
+      readonly ENABLE_DEPTH_TEST: typeof PConstants.ENABLE_DEPTH_TEST
+      readonly DISABLE_DEPTH_TEST: typeof PConstants.DISABLE_DEPTH_TEST
+
+      readonly DISABLE_DEPTH_SORT: typeof PConstants.DISABLE_DEPTH_SORT
+      readonly ENABLE_DEPTH_SORT: typeof PConstants.ENABLE_DEPTH_SORT
+
+      readonly ENABLE_OPENGL_ERROR_REPORT: typeof PConstants.ENABLE_OPENGL_ERROR_REPORT
+      readonly DISABLE_OPENGL_ERROR_REPORT: typeof PConstants.DISABLE_OPENGL_ERROR_REPORT
+
+      readonly DISABLE_ACCURATE_TEXTURES: typeof PConstants.DISABLE_ACCURATE_TEXTURES
+      readonly ENABLE_ACCURATE_TEXTURES: typeof PConstants.ENABLE_ACCURATE_TEXTURES
+
+      readonly HINT_COUNT: typeof PConstants.HINT_COUNT
 
       // PJS defined constants
-      readonly SINCOS_LENGTH: deg // every half degree
-      readonly PRECISIONB: number // fixed point precision is limited to 15 bits!!
-      readonly PRECISIONF: number
-      readonly PREC_MAXVAL: number
-      readonly PREC_ALPHA_SHIFT: number
-      readonly PREC_RED_SHIFT: number
-      readonly NORMAL_MODE_AUTO: number
-      readonly NORMAL_MODE_SHAPE: number
-      readonly NORMAL_MODE_VERTEX: number
-      readonly MAX_LIGHTS: number
+      readonly SINCOS_LENGTH: typeof PConstants.SINCOS_LENGTH // 720°
+
+      readonly PRECISIONB: typeof PConstants.PRECISIONB // 15 bits
+      readonly PRECISIONF: typeof PConstants.PRECISIONF // 1 << 15
+      readonly PREC_MAXVAL: typeof PConstants.PREC_MAXVAL // (1 << 15) - 1
+      readonly PREC_ALPHA_SHIFT: typeof PConstants.PREC_ALPHA_SHIFT // 24 - 15
+      readonly PREC_RED_SHIFT: typeof PConstants.PREC_RED_SHIFT // 16 - 15
+
+      readonly NORMAL_MODE_AUTO: typeof PConstants.NORMAL_MODE_AUTO
+      readonly NORMAL_MODE_SHAPE: typeof PConstants.NORMAL_MODE_SHAPE
+      readonly NORMAL_MODE_VERTEX: typeof PConstants.NORMAL_MODE_VERTEX
+
+      readonly MAX_LIGHTS: typeof PConstants.MAX_LIGHTS
     }
   }
 }
