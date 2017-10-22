@@ -1,11 +1,9 @@
-/// <reference path="../../utils/Decorators"/>
+/// <reference path="../../utils/Decorators.ts"/>
 
-/// <reference path="Interfaces"/>
-/// <reference path="Annotations"/>
+/// <reference path="Interfaces.d.ts"/>
+/// <reference path="Annotations.ts"/>
 
 namespace java {
-  "use strict"
-
   import FreezeAll = pjs.utils.FreezeAll
   const Bool = Boolean
 

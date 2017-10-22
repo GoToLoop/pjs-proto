@@ -1,8 +1,6 @@
-/// <reference path="../math/Maths"/>
+/// <reference path="../math/Maths.ts"/>
 
 namespace pjs.core {
-  "use strict"
-
   export class PApplet extends math.Maths {
     _degreeIn:  boolean
     _degreeOut: boolean

@@ -1,8 +1,6 @@
-/// <reference path="../core/PConstants"/>
+/// <reference path="../core/PConstants.ts"/>
 
 namespace pjs.math {
-  "use strict"
-
   export abstract class Maths extends core.PConstants {
     random(low?: number, high?: number) { return Math.random() as norm }
     static readonly random = Maths.prototype.random

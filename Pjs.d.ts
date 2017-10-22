@@ -1,15 +1,16 @@
+/// <reference path="typings/Types.d.ts" />
+/// <reference path="java/lang/Interfaces.d.ts" />
+/// <reference path="java/util/Interfaces.d.ts" />
 declare namespace pjs.utils {
     const UND = "undefined", OBJ = "object", FNT = "function", SYM = "symbol", STR = "string", NUM = "number", BOL = "boolean", PTY = "prototype", SPC = " ";
 }
 declare namespace pjs.utils {
-    function Frozen(clazz: Function | Object, prop?: string | symbol): void;
+    function Frozen(clazz: Function | object, prop?: string | symbol): void;
     function FreezeAll(clazz: Function): void;
     function ProtoAssign(clazz: Function, prop: string | symbol): void;
     function ProtoAssignAll(clazz: Function): void;
-    function ProtoAdditions(props: Object): ClassDecorator;
+    function ProtoAdditions(props: object): ClassDecorator;
     function InjectInto(target: Function): ClassDecorator;
-    function Timeout(millis?: number): MethodDecorator;
-    function Interval(millis?: number): MethodDecorator;
 }
 declare namespace java.lang {
     function Deprecated(clazz: Object, prop?: string | symbol): void;
@@ -600,7 +601,7 @@ declare namespace pjs.math {
         toString(): string;
         valueOf(): coord;
         hashCode(): number;
-        equals(o: {}): boolean;
+        equals(o: object): boolean;
     }
     interface PVector {
         constructor: typeof PVector;

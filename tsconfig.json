@@ -36,7 +36,7 @@
         "allowUnreachableCode": false,
         "allowSyntheticDefaultImports": false,
         "strictNullChecks": true,
-        "alwaysStrict": false
+        "alwaysStrict": true
     },
     "filesGlob": [
         "**/*.ts",

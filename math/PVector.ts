@@ -1,8 +1,6 @@
-/// <reference path="../core/Processing"/>
+/// <reference path="../core/Processing.ts"/>
 
 namespace pjs.math {
-  "use strict"
-
   import PConstants = core.PConstants
   import InjectInto = utils.InjectInto
 
@@ -14,37 +12,41 @@ namespace pjs.math {
         argsErr = (mtd: string, len: number, min: number) => {
           throw `Too few args passed to ${mtd}() [${len} < ${min}].`
         },
-        xyzCheck = (obj: {} | none): obj is xyz => obj != void 0 && 'z' in obj,
-        pjsCheck = (obj: {} | none): obj is PApplet => obj != void 0 && 'noLoop' in obj
+        xyzProp = 'z', pjsProp = 'noLoop', vecProp = 'magSq',
+        xyzObj = (obj: object | none): obj is xyz => obj != void 0 && xyzProp in obj,
+        pjsObj = (obj: object | none): obj is PApplet => obj != void 0 && pjsProp in obj,
+        vecClass = (c: Function | none): c is typeof PVector => c != void 0 && vecProp in c
 
   @InjectInto(PApplet)
   export class PVector implements Comparable<xyz>, Cloneable {
     constructor (public x: coord = 0, public y: coord = 0, public z: coord = 0) {}
 
     static fromAngle(ang: rad, t?: PVector | null) {
-      t || (t = new this)
+      t || (t = vecClass(this) && new this || new PVector)
       return t.set(Math.cos(ang), Math.sin(ang))
     }
 
     static random2D(t?: PVector | PApplet | null, p?: PApplet | null) {
-      const isPjs = pjsCheck(t),
+      const vec = vecClass(this) && this || PVector,
+            isPjs = pjsObj(t),
             rnd = p? p : isPjs && t as PApplet || Math
-      return this.fromAngle(TAU * rnd.random(), isPjs? void 0 : t as PVector)
+      return vec.fromAngle(TAU * rnd.random(), isPjs? void 0 : t as PVector)
     }
 
     static random3D(t?: PVector | PApplet | null, p?: PApplet | null) {
-      const isPjs = pjsCheck(t),
+      const isPjs = pjsObj(t),
             rnd = p? p : isPjs && t as PApplet || Math,
             ang = TAU * rnd.random(),
             vz  = 2*rnd.random() - 1,
             vzr = Math.sqrt(1 - vz*vz),
             vx  = vzr * Math.cos(ang),
             vy  = vzr * Math.sin(ang)
-      return t && !isPjs? (t as PVector).set(vx, vy, vz) : new this(vx, vy, vz)
+      return t && !isPjs? (t as PVector).set(vx, vy, vz)
+                        : new (vecClass(this) && this || PVector)(vx, vy, vz)
     }
 
     static dist(v1: xyz, v2: xyz) {
-      return Math.sqrt(this.distSq(v1, v2))
+      return Math.sqrt((vecClass(this) && this || PVector).distSq(v1, v2))
     }
 
     static distSq(v1: xyz, v2: xyz) {
@@ -59,7 +61,7 @@ namespace pjs.math {
       const cx: coord = v1.y*v2.z - v2.y*v1.z,
             cy: coord = v1.z*v2.x - v2.z*v1.x,
             cz: coord = v1.x*v2.y - v2.x*v1.y
-      return t && t.set(cx, cy, cz) || new this(cx, cy, cz)
+      return t && t.set(cx, cy, cz) || new (vecClass(this) && this || PVector)(cx, cy, cz)
     }
 
     static angleBetween(v1: PVector, v2: PVector,
@@ -67,7 +69,7 @@ namespace pjs.math {
       if (v1.isZero() || v2.isZero())  return 0
       //if (!v1.x && !v1.y && !v1.z || !v2.x && !v2.y && !v2.z)  return 0
       magSq1 || (magSq1 = v1.magSq()), magSq2 || (magSq2 = v2.magSq())
-      dot || (dot = this.dot(v1, v2))
+      dot || (dot = (vecClass(this) && this || PVector).dot(v1, v2))
       const amt = dot / Math.sqrt(magSq1 * magSq2)
       return amt <= -1? Math.PI : amt >= 1? 0 : Math.acos(amt)
     }
@@ -77,29 +79,29 @@ namespace pjs.math {
     }
 
     static add(v1: xyz, v2: xyz, t?: PVector | null) {
-      t || (t = new this)
+      t || (t = vecClass(this) && new this || new PVector)
       return t.set(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
     }
 
     static sub(v1: xyz, v2: xyz, t?: PVector | null) {
-      t || (t = new this)
+      t || (t = vecClass(this) && new this || new PVector)
       return t.set(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
     }
 
     static mult(v: xyz, n: xyz | number, t?: PVector | null) {
-      t || (t = new this)
+      t || (t = vecClass(this) && new this || new PVector)
       return typeof n === 'object'? t.set(v.x*n.x, v.y*n.y, v.z*n.z)
                                   : t.set(v.x*n, v.y*n, v.z*n)
     }
 
     static div(v: xyz, n: xyz | number, t?: PVector | null) {
-      t || (t = new this)
+      t || (t = vecClass(this) && new this || new PVector)
       return typeof n === 'object'? t.set(v.x/n.x, v.y/n.y, v.z/n.z)
                                   : t.set(v.x/n, v.y/n, v.z/n)
     }
 
     static mod(v: xyz, n: xyz | number, t?: PVector | null) {
-      t || (t = new this)
+      t || (t = vecClass(this) && new this || new PVector)
       return typeof n === 'object'? t.set(v.x%n.x, v.y%n.y, v.z%n.z)
                                   : t.set(v.x%n, v.y%n, v.z%n)
     }
@@ -119,9 +121,9 @@ namespace pjs.math {
     get(t: xyz): xyz
 
     get(t?: PseudoArray<number> | xyz | null) {
-      if      (!t)           return t === void 0 && this.clone() || this.array()
-      else if (xyzCheck(t))  t.x  = this.x, t.y  = this.y, t.z  = this.z
-      else                   t[0] = this.x, t[1] = this.y, t[2] = this.z
+      if      (!t)         return t === void 0 && this.clone() || this.array()
+      else if (xyzObj(t))  t.x  = this.x, t.y  = this.y, t.z  = this.z
+      else                 t[0] = this.x, t[1] = this.y, t[2] = this.z
       return t
     }
 
@@ -224,7 +226,7 @@ namespace pjs.math {
     random2D(p?: PApplet): this
 
     random2D(t?: PVector | PApplet | null, p?: PApplet | null) {
-      return pjsCheck(t) && this.constructor.random2D(this, t)
+      return pjsObj(t) && this.constructor.random2D(this, t)
                          || this.constructor.random2D(t === void 0 && this || t, p)
     }
 
@@ -232,7 +234,7 @@ namespace pjs.math {
     random3D(p?: PApplet): this
 
     random3D(t?: PVector | PApplet | null, p?: PApplet | null) {
-      return pjsCheck(t) && this.constructor.random3D(this, t)
+      return pjsObj(t) && this.constructor.random3D(this, t)
                          || this.constructor.random3D(t === void 0 && this || t, p)
     }
 
@@ -350,7 +352,7 @@ namespace pjs.math {
     valueOf() { return this.x }
 
     hashCode() { return this.x + this.y + this.z }
-    equals(o: {}) {
+    equals(o: object) {
       return o === this? true : o instanceof PVector &&
              o.x === this.x && o.y === this.y && o.z === this.z
     }

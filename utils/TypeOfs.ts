@@ -1,6 +1,4 @@
 namespace pjs.utils {
-  "use strict"
-
   export const UND = 'undefined',
                OBJ = 'object',
                FNT = 'function',

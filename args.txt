@@ -1,3 +1,5 @@
+--strict
+--alwaysStrict
 --pretty
 --newLine LF
 --removeComments

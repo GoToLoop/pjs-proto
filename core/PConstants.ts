@@ -1,9 +1,7 @@
-/// <reference path="../java/lang/Classes"/>
-/// <reference path="../java/util/Classes"/>
+/// <reference path="../java/lang/Classes.ts"/>
+/// <reference path="../java/util/Classes.ts"/>
 
 namespace pjs.core {
-  "use strict"
-
   import Frozen = utils.Frozen
   import ProtoAssignAll = utils.ProtoAssignAll
 

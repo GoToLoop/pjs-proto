@@ -1,8 +1,6 @@
-/// <reference path="Interfaces"/>
+/// <reference path="Interfaces.d.ts"/>
 
 namespace java.util {
-  "use strict"
-
   import FreezeAll = pjs.utils.FreezeAll
 
   @FreezeAll export abstract class AbstractCollection<E> implements Collection<E> {

@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +9,6 @@ var pjs;
 (function (pjs) {
     var utils;
     (function (utils) {
-        "use strict";
         utils.UND = 'undefined', utils.OBJ = 'object', utils.FNT = 'function', utils.SYM = 'symbol', utils.STR = 'string', utils.NUM = 'number', utils.BOL = 'boolean', utils.PTY = 'prototype', utils.SPC = ' ';
     })(utils = pjs.utils || (pjs.utils = {}));
 })(pjs || (pjs = {}));
@@ -16,7 +16,6 @@ var pjs;
 (function (pjs) {
     var utils;
     (function (utils) {
-        "use strict";
         function Frozen(clazz, prop) {
             if (prop) {
                 const value = clazz[prop];
@@ -28,9 +27,9 @@ var pjs;
         utils.Frozen = Frozen;
         function FreezeAll(clazz) {
             const proto = clazz.prototype;
-            for (let prop in Object.freeze(clazz))
+            for (const prop in Object.freeze(clazz))
                 Object.freeze(clazz[prop].prototype);
-            for (let prop in Object.freeze(proto))
+            for (const prop in Object.freeze(proto))
                 Object.freeze(proto[prop].prototype);
         }
         utils.FreezeAll = FreezeAll;
@@ -39,7 +38,7 @@ var pjs;
         }
         utils.ProtoAssign = ProtoAssign;
         function ProtoAssignAll(clazz) {
-            for (let prop in clazz) {
+            for (const prop in clazz) {
                 const value = clazz[prop];
                 typeof value !== utils.FNT && (clazz.prototype[prop] = value);
             }
@@ -47,7 +46,7 @@ var pjs;
         utils.ProtoAssignAll = ProtoAssignAll;
         function ProtoAdditions(props) {
             return (clazz) => {
-                for (let prop in props)
+                for (const prop in props)
                     clazz.prototype[prop] = props[prop];
             };
         }
@@ -64,35 +63,12 @@ var pjs;
             };
         }
         utils.InjectInto = InjectInto;
-        function Timeout(millis = 0) {
-            return (tgt, prop, d) => {
-                if (typeof d.value !== 'function')
-                    return;
-                const originalMethod = d.value;
-                d.value = function (...args) {
-                    setTimeout(() => originalMethod.apply(this, args), millis);
-                };
-            };
-        }
-        utils.Timeout = Timeout;
-        function Interval(millis = 0) {
-            return (tgt, prop, d) => {
-                if (typeof d.value !== 'function')
-                    return;
-                const originalMethod = d.value;
-                d.value = function (...args) {
-                    setInterval(() => originalMethod.apply(this, args), millis);
-                };
-            };
-        }
-        utils.Interval = Interval;
     })(utils = pjs.utils || (pjs.utils = {}));
 })(pjs || (pjs = {}));
 var java;
 (function (java) {
     var lang;
     (function (lang) {
-        "use strict";
         function Deprecated(clazz, prop) { }
         lang.Deprecated = Deprecated;
         function FunctionalInterface(clazz) { }
@@ -109,10 +85,9 @@ var java;
 })(java || (java = {}));
 var java;
 (function (java) {
-    "use strict";
     var FreezeAll = pjs.utils.FreezeAll;
     const Bool = Boolean;
-    var lang;
+    let lang;
     (function (lang) {
         let Boolean = class Boolean extends Bool {
         };
@@ -126,7 +101,6 @@ var java;
 (function (java) {
     var util;
     (function (util) {
-        "use strict";
         var FreezeAll = pjs.utils.FreezeAll;
         let AbstractCollection = class AbstractCollection {
         };
@@ -140,7 +114,6 @@ var pjs;
 (function (pjs) {
     var core;
     (function (core) {
-        "use strict";
         var Frozen = pjs.utils.Frozen;
         var ProtoAssignAll = pjs.utils.ProtoAssignAll;
         let PConstants = class PConstants {
@@ -379,7 +352,6 @@ var pjs;
 (function (pjs) {
     var math;
     (function (math) {
-        "use strict";
         class Maths extends pjs.core.PConstants {
             random(low, high) { return Math.random(); }
             lerp(start, stop, amt) { return +start + amt * (stop - start); }
@@ -400,7 +372,6 @@ var pjs;
 (function (pjs) {
     var core;
     (function (core) {
-        "use strict";
         class PApplet extends pjs.math.Maths {
             constructor() {
                 super();
@@ -420,12 +391,11 @@ var pjs;
 (function (pjs) {
     var math;
     (function (math) {
-        "use strict";
         var PConstants = pjs.core.PConstants;
         var InjectInto = pjs.utils.InjectInto;
         const { lerp, sq, isZero } = math.Maths, TAU = PConstants.TAU, argsErr = (mtd, len, min) => {
             throw `Too few args passed to ${mtd}() [${len} < ${min}].`;
-        }, xyzCheck = (obj) => obj != void 0 && 'z' in obj, pjsCheck = (obj) => obj != void 0 && 'noLoop' in obj;
+        }, xyzProp = 'z', pjsProp = 'noLoop', vecProp = 'magSq', xyzObj = (obj) => obj != void 0 && xyzProp in obj, pjsObj = (obj) => obj != void 0 && pjsProp in obj, vecClass = (c) => c != void 0 && vecProp in c;
         let PVector = PVector_1 = class PVector {
             constructor(x = 0, y = 0, z = 0) {
                 this.x = x;
@@ -433,19 +403,20 @@ var pjs;
                 this.z = z;
             }
             static fromAngle(ang, t) {
-                t || (t = new this);
+                t || (t = vecClass(this) && new this || new PVector_1);
                 return t.set(Math.cos(ang), Math.sin(ang));
             }
             static random2D(t, p) {
-                const isPjs = pjsCheck(t), rnd = p ? p : isPjs && t || Math;
-                return this.fromAngle(TAU * rnd.random(), isPjs ? void 0 : t);
+                const vec = vecClass(this) && this || PVector_1, isPjs = pjsObj(t), rnd = p ? p : isPjs && t || Math;
+                return vec.fromAngle(TAU * rnd.random(), isPjs ? void 0 : t);
             }
             static random3D(t, p) {
-                const isPjs = pjsCheck(t), rnd = p ? p : isPjs && t || Math, ang = TAU * rnd.random(), vz = 2 * rnd.random() - 1, vzr = Math.sqrt(1 - vz * vz), vx = vzr * Math.cos(ang), vy = vzr * Math.sin(ang);
-                return t && !isPjs ? t.set(vx, vy, vz) : new this(vx, vy, vz);
+                const isPjs = pjsObj(t), rnd = p ? p : isPjs && t || Math, ang = TAU * rnd.random(), vz = 2 * rnd.random() - 1, vzr = Math.sqrt(1 - vz * vz), vx = vzr * Math.cos(ang), vy = vzr * Math.sin(ang);
+                return t && !isPjs ? t.set(vx, vy, vz)
+                    : new (vecClass(this) && this || PVector_1)(vx, vy, vz);
             }
             static dist(v1, v2) {
-                return Math.sqrt(this.distSq(v1, v2));
+                return Math.sqrt((vecClass(this) && this || PVector_1).distSq(v1, v2));
             }
             static distSq(v1, v2) {
                 return sq(v1.x - v2.x) + sq(v1.y - v2.y) + sq(v1.z - v2.z);
@@ -455,13 +426,13 @@ var pjs;
             }
             static cross(v1, v2, t) {
                 const cx = v1.y * v2.z - v2.y * v1.z, cy = v1.z * v2.x - v2.z * v1.x, cz = v1.x * v2.y - v2.x * v1.y;
-                return t && t.set(cx, cy, cz) || new this(cx, cy, cz);
+                return t && t.set(cx, cy, cz) || new (vecClass(this) && this || PVector_1)(cx, cy, cz);
             }
             static angleBetween(v1, v2, magSq1, magSq2, dot) {
                 if (v1.isZero() || v2.isZero())
                     return 0;
                 magSq1 || (magSq1 = v1.magSq()), magSq2 || (magSq2 = v2.magSq());
-                dot || (dot = this.dot(v1, v2));
+                dot || (dot = (vecClass(this) && this || PVector_1).dot(v1, v2));
                 const amt = dot / Math.sqrt(magSq1 * magSq2);
                 return amt <= -1 ? Math.PI : amt >= 1 ? 0 : Math.acos(amt);
             }
@@ -469,25 +440,25 @@ var pjs;
                 return (t && t.set(v1) || v1.clone()).lerp(v2, amt);
             }
             static add(v1, v2, t) {
-                t || (t = new this);
+                t || (t = vecClass(this) && new this || new PVector_1);
                 return t.set(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
             }
             static sub(v1, v2, t) {
-                t || (t = new this);
+                t || (t = vecClass(this) && new this || new PVector_1);
                 return t.set(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
             }
             static mult(v, n, t) {
-                t || (t = new this);
+                t || (t = vecClass(this) && new this || new PVector_1);
                 return typeof n === 'object' ? t.set(v.x * n.x, v.y * n.y, v.z * n.z)
                     : t.set(v.x * n, v.y * n, v.z * n);
             }
             static div(v, n, t) {
-                t || (t = new this);
+                t || (t = vecClass(this) && new this || new PVector_1);
                 return typeof n === 'object' ? t.set(v.x / n.x, v.y / n.y, v.z / n.z)
                     : t.set(v.x / n, v.y / n, v.z / n);
             }
             static mod(v, n, t) {
-                t || (t = new this);
+                t || (t = vecClass(this) && new this || new PVector_1);
                 return typeof n === 'object' ? t.set(v.x % n.x, v.y % n.y, v.z % n.z)
                     : t.set(v.x % n, v.y % n, v.z % n);
             }
@@ -500,7 +471,7 @@ var pjs;
             get(t) {
                 if (!t)
                     return t === void 0 && this.clone() || this.array();
-                else if (xyzCheck(t))
+                else if (xyzObj(t))
                     t.x = this.x, t.y = this.y, t.z = this.z;
                 else
                     t[0] = this.x, t[1] = this.y, t[2] = this.z;
@@ -558,11 +529,11 @@ var pjs;
                 return this.constructor.fromAngle(ang, t || this);
             }
             random2D(t, p) {
-                return pjsCheck(t) && this.constructor.random2D(this, t)
+                return pjsObj(t) && this.constructor.random2D(this, t)
                     || this.constructor.random2D(t === void 0 && this || t, p);
             }
             random3D(t, p) {
-                return pjsCheck(t) && this.constructor.random3D(this, t)
+                return pjsObj(t) && this.constructor.random3D(this, t)
                     || this.constructor.random3D(t === void 0 && this || t, p);
             }
             dist(v1, v2) {
