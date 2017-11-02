@@ -106,7 +106,7 @@ namespace pjs.math {
                                   : t.set(v.x%n, v.y%n, v.z%n)
     }
 
-    static exp(v: xyz, n: xyz | number, t?: PVector | null) {
+    static pow(v: xyz, n: xyz | number, t?: PVector | null) {
       t || (t = vecClass(this) && new this || new PVector)
       return typeof n === 'object'? t.set(v.x**n.x, v.y**n.y, v.z**n.z)
                                   : t.set(v.x**n, v.y**n, v.z**n)
@@ -340,11 +340,11 @@ namespace pjs.math {
       return this
     }
 
-    exp(v: xyz | number): this
-    exp(v: xyz, n: number, t?: PVector | null): PVector
+    pow(v: xyz | number): this
+    pow(v: xyz, n: number, t?: PVector | null): PVector
 
-    exp(v: xyz | number, n?: number, t?: PVector | null) {
-      if (n != void 0)            return this.constructor.exp(v as xyz, n, t)
+    pow(v: xyz | number, n?: number, t?: PVector | null) {
+      if (n != void 0)            return this.constructor.pow(v as xyz, n, t)
       if (typeof v === 'object')  this.x **= v.x, this.y **= v.y, this.z **= v.z
       else                        this.x **= v,   this.y **= v,   this.z **= v
       return this
