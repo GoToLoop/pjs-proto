@@ -106,6 +106,12 @@ namespace pjs.math {
                                   : t.set(v.x%n, v.y%n, v.z%n)
     }
 
+    static exp(v: xyz, n: xyz | number, t?: PVector | null) {
+      t || (t = vecClass(this) && new this || new PVector)
+      return typeof n === 'object'? t.set(v.x**n.x, v.y**n.y, v.z**n.z)
+                                  : t.set(v.x**n, v.y**n, v.z**n)
+    }
+
     static compare(a: xyz, b: xyz) { return a.x - b.x || a.y - b.y || a.z - b.z }
     compareTo(v: xyz) { return this.x - v.x || this.y - v.y || this.z - v.z }
 
@@ -169,6 +175,7 @@ namespace pjs.math {
     magSq() {
       //return sq(this.x) + sq(this.y) + sq(this.z)
       return this.x*this.x + this.y*this.y + this.z*this.z
+      //return this.x**2 + this.y**2 + this.z**2
     }
 
     setMag(t: PVector | null, len: number, mag?: number): PVector
@@ -227,7 +234,7 @@ namespace pjs.math {
 
     random2D(t?: PVector | PApplet | null, p?: PApplet | null) {
       return pjsObj(t) && this.constructor.random2D(this, t)
-                         || this.constructor.random2D(t === void 0 && this || t, p)
+                       || this.constructor.random2D(t === void 0 && this || t, p)
     }
 
     random3D(t: PVector | null, p?: PApplet | null): PVector
@@ -235,7 +242,7 @@ namespace pjs.math {
 
     random3D(t?: PVector | PApplet | null, p?: PApplet | null) {
       return pjsObj(t) && this.constructor.random3D(this, t)
-                         || this.constructor.random3D(t === void 0 && this || t, p)
+                       || this.constructor.random3D(t === void 0 && this || t, p)
     }
 
     dist(v1: xyz, v2?: xyz | null) {
@@ -330,6 +337,16 @@ namespace pjs.math {
       if (n != void 0)            return this.constructor.mod(v as xyz, n, t)
       if (typeof v === 'object')  this.x %= v.x, this.y %= v.y, this.z %= v.z
       else                        this.x %= v,   this.y %= v,   this.z %= v
+      return this
+    }
+
+    exp(v: xyz | number): this
+    exp(v: xyz, n: number, t?: PVector | null): PVector
+
+    exp(v: xyz | number, n?: number, t?: PVector | null) {
+      if (n != void 0)            return this.constructor.exp(v as xyz, n, t)
+      if (typeof v === 'object')  this.x **= v.x, this.y **= v.y, this.z **= v.z
+      else                        this.x **= v,   this.y **= v,   this.z **= v
       return this
     }
 
