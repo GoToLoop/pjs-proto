@@ -15,19 +15,21 @@ namespace pjs.math {
         xyzProp = 'z', pjsProp = 'noLoop', vecProp = 'magSq',
         xyzObj = (obj: object | none): obj is xyz => obj != void 0 && xyzProp in obj,
         pjsObj = (obj: object | none): obj is PApplet => obj != void 0 && pjsProp in obj,
-        vecClass = (c: Function | none): c is typeof PVector => c != void 0 && vecProp in c
+        vecClass = (c: Function | none): c is typeof PVector => c != void 0 && vecProp in c,
+        getVec = (c: Function | none) => vecClass(c) && c || PVector,
+        newVec = (c: Function | none) => vecClass(c) && new c || new PVector
 
   @InjectInto(PApplet)
   export class PVector implements Comparable<xyz>, Cloneable {
     constructor (public x: coord = 0, public y: coord = 0, public z: coord = 0) {}
 
     static fromAngle(ang: rad, t?: PVector | null) {
-      t || (t = vecClass(this) && new this || new PVector)
+      t || (t = newVec(this))
       return t.set(Math.cos(ang), Math.sin(ang))
     }
 
     static random2D(t?: PVector | PApplet | null, p?: PApplet | null) {
-      const vec = vecClass(this) && this || PVector,
+      const vec = getVec(this),
             isPjs = pjsObj(t),
             rnd = p? p : isPjs && t as PApplet || Math
       return vec.fromAngle(TAU * rnd.random(), isPjs? void 0 : t as PVector)
@@ -42,11 +44,11 @@ namespace pjs.math {
             vx  = vzr * Math.cos(ang),
             vy  = vzr * Math.sin(ang)
       return t && !isPjs? (t as PVector).set(vx, vy, vz)
-                        : new (vecClass(this) && this || PVector)(vx, vy, vz)
+                        : new (getVec(this))(vx, vy, vz)
     }
 
     static dist(v1: xyz, v2: xyz) {
-      return Math.sqrt((vecClass(this) && this || PVector).distSq(v1, v2))
+      return Math.sqrt(newVec(this).distSq(v1, v2))
     }
 
     static distSq(v1: xyz, v2: xyz) {
@@ -61,7 +63,7 @@ namespace pjs.math {
       const cx: coord = v1.y*v2.z - v2.y*v1.z,
             cy: coord = v1.z*v2.x - v2.z*v1.x,
             cz: coord = v1.x*v2.y - v2.x*v1.y
-      return t && t.set(cx, cy, cz) || new (vecClass(this) && this || PVector)(cx, cy, cz)
+      return t && t.set(cx, cy, cz) || new (getVec(this))(cx, cy, cz)
     }
 
     static angleBetween(v1: PVector, v2: PVector,
@@ -69,7 +71,7 @@ namespace pjs.math {
       if (v1.isZero() || v2.isZero())  return 0
       //if (!v1.x && !v1.y && !v1.z || !v2.x && !v2.y && !v2.z)  return 0
       magSq1 || (magSq1 = v1.magSq()), magSq2 || (magSq2 = v2.magSq())
-      dot || (dot = (vecClass(this) && this || PVector).dot(v1, v2))
+      dot || (dot = getVec(this).dot(v1, v2))
       const amt = dot / Math.sqrt(magSq1 * magSq2)
       return amt <= -1? Math.PI : amt >= 1? 0 : Math.acos(amt)
     }
@@ -79,35 +81,35 @@ namespace pjs.math {
     }
 
     static add(v1: xyz, v2: xyz, t?: PVector | null) {
-      t || (t = vecClass(this) && new this || new PVector)
+      t || (t = newVec(this))
       return t.set(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
     }
 
     static sub(v1: xyz, v2: xyz, t?: PVector | null) {
-      t || (t = vecClass(this) && new this || new PVector)
+      t || (t = newVec(this))
       return t.set(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
     }
 
     static mult(v: xyz, n: xyz | number, t?: PVector | null) {
-      t || (t = vecClass(this) && new this || new PVector)
+      t || (t = newVec(this))
       return typeof n === 'object'? t.set(v.x*n.x, v.y*n.y, v.z*n.z)
                                   : t.set(v.x*n, v.y*n, v.z*n)
     }
 
     static div(v: xyz, n: xyz | number, t?: PVector | null) {
-      t || (t = vecClass(this) && new this || new PVector)
+      t || (t = newVec(this))
       return typeof n === 'object'? t.set(v.x/n.x, v.y/n.y, v.z/n.z)
                                   : t.set(v.x/n, v.y/n, v.z/n)
     }
 
     static mod(v: xyz, n: xyz | number, t?: PVector | null) {
-      t || (t = vecClass(this) && new this || new PVector)
+      t || (t = newVec(this))
       return typeof n === 'object'? t.set(v.x%n.x, v.y%n.y, v.z%n.z)
                                   : t.set(v.x%n, v.y%n, v.z%n)
     }
 
     static pow(v: xyz, n: xyz | number, t?: PVector | null) {
-      t || (t = vecClass(this) && new this || new PVector)
+      t || (t = newVec(this))
       return typeof n === 'object'? t.set(v.x**n.x, v.y**n.y, v.z**n.z)
                                   : t.set(v.x**n, v.y**n, v.z**n)
     }
